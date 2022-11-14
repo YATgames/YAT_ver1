@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -21,7 +18,11 @@ namespace YAT
         private Button btn_Business;
         /// <summary> 의뢰버튼 </summary>
         private Button btn_Request;
-
+    
+        
+        // TextObject
+        private Text txt_FriendShip;
+        private Text txt_Imtinancy;
         
         
         // objectPrefab
@@ -41,7 +42,7 @@ namespace YAT
         private Image img_Black;
         
         
-        float _duration = 0.4f; // 화면 전환할 때 사용할 전환 대기시간.
+        float _duration = 0.6f; // 화면 전환할 때 사용할 전환 대기시간.
 
         private void Awake()
         {
@@ -55,9 +56,9 @@ namespace YAT
             tf_SocialObject = GameObject.Find("scene_Social").GetComponent<Transform>();
             tf_BusinessObject = GameObject.Find("scene_Business").GetComponent<Transform>();
             tf_RequestObject = GameObject.Find("scene_Request").GetComponent<Transform>();
-
-
-            img_Black = GameObject.Find("img_Black").GetComponent<Image>();
+            txt_Imtinancy = GameObject.Find("value_Imtinancy").GetComponent<Text>();
+            txt_FriendShip = GameObject.Find("value_Friendship").GetComponent<Text>();
+            img_Black = GameObject.Find("img_Black_SceneConversion").GetComponent<Image>();
             
             
             // TODO : 적용
@@ -66,9 +67,35 @@ namespace YAT
             btn_Business.onClick.AddListener(btnFunc_Business);
             btn_Request.onClick.AddListener(btnFunc_Request);
 
+
+
+            txt_Imtinancy.text = GameManager.instance.proper_Imtinancy.ToString();
+            txt_FriendShip.text = GameManager.instance.proper_Friend.ToString();
             businessObject = null;
             btnRoutine = null;
             init();
+        }
+
+        private void Update()
+        {
+            
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log("Q");
+                txt_Imtinancy.text = GameManager.instance.proper_Imtinancy.ToString();
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+//                Friendship -= 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+  //              Imtinancy += 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+    //            Imtinancy -= 1;
+            }
         }
 
 
