@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/#HAM_Programming/Scenes/TEST_Main.unity
+    path: Assets/01.Scene/Main.unity
     guid: 0f06039bd6683c94da6782ba81803621
   - enabled: 1
-    path: Assets/#HAM_Programming/Scenes/Test_Select.unity
+    path: Assets/01.Scene/Select.unity
     guid: 6be20614736626f47a7df037dc485b9d
   - enabled: 1
-    path: Assets/#HAM_Programming/Scenes/TEST_Social.unity
+    path: Assets/01.Scene/TEST_Social.unity
     guid: a51489c6556979d48b6677970bb22446
   - enabled: 1
-    path: Assets/#HAM_Programming/Scenes/TEST_Business.unity
+    path: Assets/01.Scene/TEST_Business.unity
     guid: 89b2384312aa06249bfcfe7138eee8df
   m_configObjects: {}
