@@ -92,11 +92,11 @@ namespace YAT
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {
-//                Friendship -= 1;
+                //Friendship -= 1;
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-  //              Imtinancy += 1;
+                //Imtinancy += 1;
             }
             else if (Input.GetKeyDown(KeyCode.R))
             {
@@ -111,17 +111,11 @@ namespace YAT
         /// </summary>
         void init()
         {
-            // 일단 파괴가 아니라 활성/ 비활성화로 가자
-            /*
-            if(tf_BusinessObject.transform.GetChild(0)!= null)
-                Destroy(tf_BusinessObject.transform.GetChild(0).gameObject);
-            */
             if(tf_BusinessObject.transform.GetChild(0)!= null)
                 tf_BusinessObject.transform.GetChild(0).gameObject.SetActive(false);
             if(tf_RequestObject.transform.GetChild(0)!= null)
                 tf_RequestObject.transform.GetChild(0).gameObject.SetActive(false);
         }
-        
         
         /// <summary>
         /// 버튼 액션이 활성화, 화면 전화 연출

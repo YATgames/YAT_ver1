@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using System.IO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -35,11 +33,6 @@ public class GameManager : MonoBehaviour
             Imtinancy += value;
         }
     }
-
-    
-    
-    
-    
     
     private static GameManager _instance;
     public static GameManager instance
