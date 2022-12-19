@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using UnityEngine.SceneManagement;
 using Button = UnityEngine.UI.Button;
 using Debug = UnityEngine.Debug;
 using Image = UnityEngine.UI.Image;
@@ -26,14 +26,8 @@ namespace YAT
         private Text txt_FriendShip;
         private Text txt_Imtinancy;
         
-        
-        // Prefab들 코드상으로 받아오게 해야댐
-        // objectPrefab
-        public GameObject go_BusinessPrefab;
-        // businessPrefab  
-        public GameObject businessObject;
-
-        [Header("Test용도")] 
+        [Header("Test용도")]
+        public GameObject test_Social;
         public GameObject test_Business;
         public GameObject test_Request;
 
@@ -41,19 +35,19 @@ namespace YAT
         private Transform tf_SocialObject;
         private Transform tf_BusinessObject;
         private Transform tf_RequestObject;
-
         private IEnumerator btnRoutine;
-        
-        // Images
-        private Image img_Black;
-        
         
         float _duration = 0.6f; // 화면 전환할 때 사용할 전환 대기시간.
 
+
+
+        /// <summary> Social 객체 할당시키기 </summary>
+        [SerializeField]
+        private Button btn_StoryOn;
+        
         private void Awake()
         {
             // TODO : 찾기
-
             go_RECT_Button = GameObject.Find("RECT_Button").GetComponent<RectTransform>();
             btn_Social = GameObject.Find("btn_Social").GetComponent<Button>();
             btn_Business = GameObject.Find("btn_Business").GetComponent<Button>();
@@ -64,27 +58,31 @@ namespace YAT
             tf_RequestObject = GameObject.Find("scene_Request").GetComponent<Transform>();
             txt_Imtinancy = GameObject.Find("value_Imtinancy").GetComponent<Text>();
             txt_FriendShip = GameObject.Find("value_Friendship").GetComponent<Text>();
-            img_Black = GameObject.Find("img_Black_SceneConversion").GetComponent<Image>();
+
+            //SocialObject
+            //btn_StoryOn = GameObject.Find("btn_SC_Story").GetComponent<Button>();
+            btn_StoryOn = test_Social.transform.GetChild(2).GetComponent<Button>();
+            btn_StoryOn.onClick.AddListener(btnFunc_StoryOn);
             
             
             // TODO : 적용
-
             btn_Social.onClick.AddListener(btnFunc_Social);
             btn_Business.onClick.AddListener(btnFunc_Business);
             btn_Request.onClick.AddListener(btnFunc_Request);
 
-
-
-            txt_Imtinancy.text = GameManager.instance.proper_Imtinancy.ToString();
-            txt_FriendShip.text = GameManager.instance.proper_Friend.ToString();
-            businessObject = null;
+            if (GameManager.instance != null)
+            {
+                txt_Imtinancy.text = GameManager.instance.proper_Imtinancy.ToString();
+                txt_FriendShip.text = GameManager.instance.proper_Friend.ToString();    
+            }
+            //businessObject = null;
             btnRoutine = null;
             init();
         }
-
+        
+        
         private void Update()
         {
-            
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 Debug.Log("Q");
@@ -100,7 +98,7 @@ namespace YAT
             }
             else if (Input.GetKeyDown(KeyCode.R))
             {
-    //            Imtinancy -= 1;
+                //Imtinancy -= 1;
             }
         }
 
@@ -115,6 +113,8 @@ namespace YAT
                 tf_BusinessObject.transform.GetChild(0).gameObject.SetActive(false);
             if(tf_RequestObject.transform.GetChild(0)!= null)
                 tf_RequestObject.transform.GetChild(0).gameObject.SetActive(false);
+            if(tf_SocialObject.transform.GetChild(0)!= null)
+                tf_SocialObject.transform.GetChild(0).gameObject.SetActive(false);
         }
         
         /// <summary>
@@ -128,65 +128,54 @@ namespace YAT
             yield return new WaitForSeconds(0.2f);
             
             // TODO : 화면 닫히기 연출 
-            img_Black.DOFade(1f, _duration).SetEase(Ease.Linear);
-            yield return new WaitForSeconds(0.5f);
+            //img_Black.DOFade(1f, _duration).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(0.3f);
             
             // TODO : 화면 열리기 연출
             // 로딩 후에 열리도록
             yield break;
         }
-
+        
         void btnFunc_Social()
         {
-            //SceneChanger.instance.changer_Social();
+            btnRoutine = btnRoutine_HowType("Social");
+            StartCoroutine(btnRoutine);
         }
-
-
         void btnFunc_Business()
         {
-            //btnRoutine = btnRoutine_Business();
             btnRoutine = btnRoutine_HowType("Request");
             StartCoroutine(btnRoutine);
         }
         void btnFunc_Request()
         {
-            //EVENT_Click();
             btnRoutine = btnRoutine_HowType("Business");
             StartCoroutine(btnRoutine);
         }
 
+
         IEnumerator btnRoutine_HowType(string _Type)
         {
             yield return EVENT_Click(); // 화면 전환 애니메이션
+            yield return new WaitForSeconds(0.3f);
             switch (_Type)
             {
                 case "Business":
                     test_Business.gameObject.SetActive(true);
-                    img_Black.DOFade(0f, _duration).SetEase(Ease.Linear);
                     break;
                 case "Request":
                     test_Request.gameObject.SetActive(true);
-                    img_Black.DOFade(0f, _duration).SetEase(Ease.Linear);
+                    break;
+                case "Social":
+                    test_Social.gameObject.SetActive(true);
+                    // 이 과정을 
                     break;
             }
         }
-        IEnumerator btnRoutine_Business()
-        {
-            //SceneChanger.instance.changer_Business();
-            yield return EVENT_Click();
-            Debug.Log("화면 전환");
-            if (businessObject == null) // 생성이 안되있으므로 생성
-            {
-                businessObject = Instantiate(go_BusinessPrefab, tf_BusinessObject);
-                // pos, rot 값을 안주면 0에 잘 생성되네? 왜인지는 모르겠음 허헣
-            }
-            else // on off 시켜줘야함 
-            {
-                businessObject.gameObject.SetActive(true);
-            }
-            img_Black.DOFade(0f, _duration).SetEase(Ease.Linear);
-            yield break;
-        }
 
+
+        void btnFunc_StoryOn()
+        {
+            SceneChanger.instance.changer_Story();
+        }
     }
 }

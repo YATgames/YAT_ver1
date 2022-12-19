@@ -63,9 +63,15 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(this);
+            GetPlayerInfo();
         }
     }
-
+    public void GetPlayerInfo()
+    {
+        Imtinancy = 10;
+        Friendship = 20;
+        name = "메스가키";
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
