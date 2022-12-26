@@ -14,5 +14,4 @@ public class ContentObject : MonoBehaviour
         text_Number = this.transform.GetChild(0).GetChild(0).GetComponent<Text>();
         text_Number.text = canvasControl.instance.Get_objNumber().ToString();
     }
-
 }
