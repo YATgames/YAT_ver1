@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YAT
-{
     public class BaseEnemy : MonoBehaviour
     {
         /// <summary>
@@ -19,4 +17,3 @@ namespace YAT
         
         
     }
-}

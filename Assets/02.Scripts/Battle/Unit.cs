@@ -4,6 +4,5 @@ public interface Unit
     
     public void I_Attack();
     public void I_Damaged();
-    
 }
 

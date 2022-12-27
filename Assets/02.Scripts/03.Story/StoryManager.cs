@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor;
 
 public class StoryManager : MonoBehaviour
@@ -21,6 +20,8 @@ public class StoryManager : MonoBehaviour
     private Image[] img_Characters;
     private Text text_Name;
     private Text text_Contents;
+    
+    
     private void Awake()
     {
         // 할당
@@ -28,8 +29,6 @@ public class StoryManager : MonoBehaviour
         dialogueBase = GameObject.Find("[BASE]Dialogue").gameObject;
 
         // 설정
-        
-
         text_Name = dialogueBase.transform.GetChild(0).GetComponent<Text>();
         text_Contents = dialogueBase.transform.GetChild(1).GetComponent<Text>();
 
@@ -62,10 +61,11 @@ public class StoryManager : MonoBehaviour
         {
             characterBase.SetActive(true);
             dialogueBase.SetActive(true);
+            Debug.Log("최대 카운트 : " + dia_Story.Count);
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            StartCoroutine(dialogueRoutine());
+            Dialogue();
             //dialogueRoutine_Func();
         }
         else if (Input.GetKeyDown(KeyCode.E))
@@ -75,31 +75,73 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 대사 재생
+    /// </summary>
+    void Dialogue()
+    { 
+        if(count >= dia_Story.Count) // 대사 개수 제한하기
+            return;
+        if (isPlayingDialogue) // 대사가 진행중인 상태
+        {
+            StopCoroutine(PlayDialogue);
+            text_Contents.text = curDialogue;
+            isPlayingDialogue = false;
+        }
+        else // 대사가 진행중이 아닌 상태
+        {
+            PlayDialogue = dialogueRoutine();
+            StartCoroutine(PlayDialogue);
+            count++;
+        }
+        
+    }
 
     void dialogueRoutine_Func()
     {
-        
         curDialogue = dia_Story[count]["Contents"].ToString();
         //text_Contents.text = curDialogue;
         text_Contents.DOText(curDialogue, 0.5f, false, 
             ScrambleMode.None, null);
     }
-    private string curDialogue = null; // 현재 대사로 출력될 내용 저장
-    private string string_sightDialogue;
-    private string curCharacter = null;
-    private WaitForSeconds perTime = new WaitForSeconds(0.1f);
-    private int count =0; // curDialogue의 대사중 count 번째의 단어를 대사창에 출력 
+    
+    
+    // 캐릭터
+    private string curCharacter = null; //  캐릭터명
+
+
+    private string curDialogue = null; // 대사 내용 저장
+    private string string_sightDialogue; // 보여질 대사 (한글자씩 보여짐)
+    private int count =0; // curDialogue의 대사중 count 번째의 단어를 대사창에 출력
+
+
+    private bool isPlayingDialogue;
+    
+    private IEnumerator PlayDialogue;
+    private WaitForSeconds perTime = new WaitForSeconds(0.03f);
     IEnumerator dialogueRoutine()
     {
         curDialogue = dia_Story[count]["Contents"].ToString();
-        int _curNum = 0; 
-        int _length = curDialogue.Length;
-        while (_curNum <= count)
+        int _curNum = 0;
+        int length = curDialogue.Length;
+        isPlayingDialogue = true;
+        // curNum : 한글자씩 보여지는 부분의 
+        // count : 대사 번호
+        // length : 대사의 길이
+        while (_curNum < length) // curNum을 처음에 더하지 않으니까 < 식으로 해야 끝까지 대사를 한다.
         {
             text_Contents.text = string_sightDialogue;
-            string_sightDialogue = curDialogue.Substring(count);
+            string_sightDialogue = curDialogue.Substring(0,_curNum);
             yield return perTime;
-            count++;
+            _curNum++;
         }
+        // 대사 재생 끝난 부분
+        DialogueEnd();
+    }
+
+    void DialogueEnd()
+    {
+        isPlayingDialogue = false;
+        text_Contents.text += "☆끝☆";
     }
 }
