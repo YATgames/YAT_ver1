@@ -128,6 +128,6 @@ public class BattleManager : MonoBehaviour
     void SetTarget()
     {
         // TODO : 캐릭터 타겟 설정
-        curCharacterList[0].proper_Target = curEnemyList[0];
+        curCharacterList[0].p_Target = curEnemyList[0];
     }
 }

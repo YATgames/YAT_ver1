@@ -13,7 +13,7 @@ public class BaseCharacter : MonoBehaviour
     private float duration = 0.15f;
     private BoxCollider2D collider;
 
-    public Animator proper_Anim
+    public Animator p_Anim
     {
         get { return base_animator; }
         set
@@ -29,7 +29,7 @@ public class BaseCharacter : MonoBehaviour
     /// <summary>
     /// 타겟 설정 과정
     /// </summary>
-    public BaseEnemy proper_Target
+    public BaseEnemy p_Target
     {
         get { return Target; }
         set

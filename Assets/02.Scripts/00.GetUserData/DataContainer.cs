@@ -8,8 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-    public List<string> data_A = new List<string>();
+    //public List<string> data_A = new List<string>();
     public List<int> list_FriendShip = new List<int>();
-
     public int gold;
 }
