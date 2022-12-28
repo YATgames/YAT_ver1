@@ -72,8 +72,8 @@ namespace YAT
 
             if (GameManager.instance != null)
             {
-                txt_Imtinancy.text = GameManager.instance.proper_Imtinancy.ToString();
-                txt_FriendShip.text = GameManager.instance.proper_Friend.ToString();    
+                txt_Imtinancy.text = GameManager.instance.p_imtinancy.ToString();
+                txt_FriendShip.text = GameManager.instance.p_friendShip.ToString();    
             }
             //businessObject = null;
             btnRoutine = null;
@@ -86,7 +86,7 @@ namespace YAT
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 Debug.Log("Q");
-                txt_Imtinancy.text = GameManager.instance.proper_Imtinancy.ToString();
+                txt_Imtinancy.text = GameManager.instance.p_imtinancy.ToString();
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {

@@ -8,30 +8,29 @@ public class GameManager : MonoBehaviour
     // 친밀도, 우정도 기타등등 값 정의해줘야함
     private int Imtinancy; // 친밀도
     private int Friendship; // 우정도
+    
+    // 재화
+    private int Gold;
     /// <summary> 우정도 가져오기 </summary>
-    public int proper_Friend
+    public int p_friendShip
     {
-        get
-        {
-            return Friendship;
-        }
-        set
-        {
-            Friendship += value;
-        }
+        get {  return Friendship; }
+        set { Friendship += value; }
     }
     /// <summary> 친밀도 가져오기 </summary>
-    public int proper_Imtinancy
+    public int p_imtinancy
     {
-        get
-        {
-            return Imtinancy;
-        }
-        set
-        {
-            Imtinancy += value;
-        }
+        get { return Imtinancy; }
+        set { Imtinancy += value; }
     }
+    
+    /// <summary> 친밀도 가져오기 </summary>
+    public int p_gold
+    {
+        get { return Imtinancy; }
+        set { Imtinancy += value; }
+    }
+    
     
     private static GameManager _instance;
     public static GameManager instance
