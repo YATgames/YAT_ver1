@@ -9,7 +9,7 @@ public class Character_Mesu : BaseCharacter, Unit
 
     private void Awake()
     {
-        proper_Anim = this.GetComponent<Animator>();
+        p_Anim = this.GetComponent<Animator>();
     }
 
     public void I_Attack()

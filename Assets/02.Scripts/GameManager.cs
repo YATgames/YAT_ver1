@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         Imtinancy = 10;
         Friendship = 20;
-        name = "메스가키";
+        //name = "메스가키";
     }
     private void Update()
     {

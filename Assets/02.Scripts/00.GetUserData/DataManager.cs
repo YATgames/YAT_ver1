@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Resources;
 using UnityEngine;
 
 
@@ -24,8 +25,9 @@ public class DataManager : MonoBehaviour
 
         instance = this;
         
-        // TODO:  path 관련해서 PC용(Resources.Load)작업 해야함
-        path = Path.Combine(Application.dataPath, "UserData.json");
+        // TODO:  json 파일이 저장될 위치를 path 에 저장
+        // path = Path.Combine(Application.dataPath, "UserData.json"); // Android 타입
+        path = Path.Combine(Application.dataPath, "Resources/", "UserData.json");
         LoadJson();
     }
     public List<int> list_FriendShip = new List<int>();
@@ -35,14 +37,18 @@ public class DataManager : MonoBehaviour
 
         if (!File.Exists(path)) // path에 지정된 파일이 있을경우
         {
-            Debug.Log("json파일 있음");
+            Debug.Log("json파일 없음");
+            // TODO : 초기값
             DataManager.instance.p_gold = 100;
             DataManager.instance.p_friendShip = 100;
             DataManager.instance.p_imtinancy = 20;
+            SaveJson();
         }
         else
         {
-            Debug.Log("json파일 없음");
+            Debug.Log("json파일 있음");
+            // json 파일이 있다면 ReadAllText로 불러와 string 형식의 loadJson 에 담아두고,
+            // JsonUtility 를 사용해 loadJson을 SaveData 형식의 직렬화 모델로 변환한다.
             string loadJson = File.ReadAllText(path);
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
@@ -52,16 +58,36 @@ public class DataManager : MonoBehaviour
                 {
                     DataManager.instance.list_FriendShip.Add(saveData.list_FriendShip[i]);
                 }
+                DataManager.instance.p_gold = saveData.gold;
             }
         }
     }
 
     
     
-    public void SaveJson(string _data)
+    public void SaveJson()
     {
+        // new 할당을 외부에 하게되면 같은  Json 데이터가 계속 쌓이게 됨
+        // json 파일이 없는 경우라면 새로 생성시킴
+        SaveData saveData = new SaveData(); 
+        
+        Debug.Log("친밀도 데이터 저장");
+        // 저장할 데이터를 saveData로 보내 직렬화 시켜줌.
+        saveData.list_FriendShip.Add(1);
+        saveData.gold = DataManager.instance.p_gold;
+        
+        // 직렬화된 saveData를 ToJson을 이용해서 stringJson에 저장
+        // prettyPrint를 해야 줄내림이 적용됨.
+        string json = JsonUtility.ToJson(saveData, true);
+        // Json 파일로 저장
+        File.WriteAllText(path,json);
+
+        
+/*        
+        // 이 하단은 조건문 이후과정
         try
         {
+        
             if (_data.Equals("{}"))
             {
                 Debug.Log("json이 없다?");
@@ -90,7 +116,7 @@ public class DataManager : MonoBehaviour
             {
                 Debug.Log("데이터 콘테이너 비어있음");
             }
-        }
+        }*/
     }
     
     
@@ -111,7 +137,7 @@ public class DataManager : MonoBehaviour
     // 스토리
     private int data_curStage; // 깬 스테이지 정보
     // 인게임
-    // private in
+    
     
     // 캐릭터
     private int data_EXP; // 경험치 
