@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -75,6 +76,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Imtinancy += 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            DataManager.instance.SaveJson();
         }
     }
 
