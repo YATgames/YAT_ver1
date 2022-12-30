@@ -24,7 +24,7 @@ namespace YAT
         
         // TextObject
         private Text txt_FriendShip;
-        private Text txt_Imtinancy;
+        private Text txt_Imtimate;
         
         [Header("Test용도")]
         public GameObject test_Social;
@@ -56,7 +56,7 @@ namespace YAT
             tf_SocialObject = GameObject.Find("scene_Social").GetComponent<Transform>();
             tf_BusinessObject = GameObject.Find("scene_Business").GetComponent<Transform>();
             tf_RequestObject = GameObject.Find("scene_Request").GetComponent<Transform>();
-            txt_Imtinancy = GameObject.Find("value_Imtinancy").GetComponent<Text>();
+            txt_Imtimate = GameObject.Find("value_Imtinancy").GetComponent<Text>();
             txt_FriendShip = GameObject.Find("value_Friendship").GetComponent<Text>();
 
             //SocialObject
@@ -70,39 +70,16 @@ namespace YAT
             btn_Business.onClick.AddListener(btnFunc_Business);
             btn_Request.onClick.AddListener(btnFunc_Request);
 
-            if (GameManager.instance != null)
+            if (DataManager.instance != null)
             {
-                txt_Imtinancy.text = GameManager.instance.p_imtinancy.ToString();
-                txt_FriendShip.text = GameManager.instance.p_friendShip.ToString();    
+                txt_Imtimate.text = DataManager.instance.p_Imtimate.ToString();
+                txt_FriendShip.text = DataManager.instance.p_friendShip.ToString();
+                //txt_FriendShip.text = GameManager.instance.p_friendShip.ToString();    
             }
             //businessObject = null;
             btnRoutine = null;
             init();
         }
-        
-        
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Debug.Log("Q");
-                txt_Imtinancy.text = GameManager.instance.p_imtinancy.ToString();
-            }
-            else if (Input.GetKeyDown(KeyCode.W))
-            {
-                //Friendship -= 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                //Imtinancy += 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                //Imtinancy -= 1;
-            }
-        }
-
-
         /// <summary>
         /// tf_~Obejct 들의 자식이 비어있지 않다면 비워줌.
         /// 혹시 테스트하다가 까먹었을 때 대비용

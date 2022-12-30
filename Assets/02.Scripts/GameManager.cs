@@ -6,33 +6,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // 친밀도, 우정도 기타등등 값 정의해줘야함
-    private int Imtinancy; // 친밀도
-    private int Friendship; // 우정도
-    
-    // 재화
-    private int Gold;
-    /// <summary> 우정도 가져오기 </summary>
-    public int p_friendShip
-    {
-        get {  return Friendship; }
-        set { Friendship += value; }
-    }
-    /// <summary> 친밀도 가져오기 </summary>
-    public int p_imtinancy
-    {
-        get { return Imtinancy; }
-        set { Imtinancy += value; }
-    }
-    
-    /// <summary> 친밀도 가져오기 </summary>
-    public int p_gold
-    {
-        get { return Imtinancy; }
-        set { Imtinancy += value; }
-    }
-    
-    
     private static GameManager _instance;
     public static GameManager instance
     {
@@ -52,6 +25,7 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
         {
             Debug.Log("<color=yellow> UNITY_EDITOR </color>");
+            
         }
         #else
         {
@@ -62,30 +36,25 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(this);
-            GetPlayerInfo();
         }
-    }
-    public void GetPlayerInfo()
-    {
-        Imtinancy = 10;
-        Friendship = 20;
-        //name = "메스가키";
+
+        Debug.Log("<color=green> Q : gold 증가, S : 데이터 저장");
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Imtinancy += 1;
+            DataManager.instance.p_gold = 1;
+            Debug.Log("골드 증가함 : "  + DataManager.instance.p_gold);
         }
 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            DataManager.instance.Set_partyMember(1,1);
+        }
         if (Input.GetKeyDown(KeyCode.S))
         {
             DataManager.instance.SaveJson();
         }
-    }
-
-    public void ChangeValue(int value)
-    {
-        Imtinancy += value;
     }
 }

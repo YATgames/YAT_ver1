@@ -10,8 +10,10 @@ public class SaveData
 {
     // 네이밍 타입 : SD = SaveData
     // DataManager의 데이터 컨테이너와 같은 구조를 가져야함
-    public int local_Friendship;
+    public int local_friendship;
+    public int local_imtimate;
     public int local_gold;
+    public List<int> local_curParty;
 
     /*
     public void GetData(int _gold, int _friendship)

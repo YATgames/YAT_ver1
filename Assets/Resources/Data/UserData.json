@@ -1,4 +1,10 @@
 {
-    "local_Friendship": 200,
-    "local_gold": 200
+    "local_friendship": 200,
+    "local_imtimate": 300,
+    "local_gold": 30,
+    "local_curParty": [
+        0,
+        1,
+        0
+    ]
 }

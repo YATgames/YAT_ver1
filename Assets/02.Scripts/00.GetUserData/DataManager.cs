@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Resources;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 [System.Serializable]
-//[RequireComponent((typeof(SaveData)))]
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
     private List<Dictionary<string, object>> json_userData;
-    private SaveData _dataContainer;
-    private string jsonName;
+    private SaveData _saveData;
+    private string _jsonName;
 
     private string data; // 내용이 저장되는 string 타입
     
@@ -32,8 +31,8 @@ public class DataManager : MonoBehaviour
         // TODO:  json 파일이 저장될 위치를 path 에 저장
         //path = Path.Combine(Application.persistentDataPath, "UserData.json"); // Android 타입
         path = Path.Combine(Application.dataPath, "Resources/Data", "UserData.json");
-        Debug.Log("path : " + path);
         //ta_path = Resources.Load<TextAsset>("UserData");
+        _saveData = new SaveData();
         LoadJson();
     }
 
@@ -65,10 +64,10 @@ public class DataManager : MonoBehaviour
         {
             Debug.Log("<color=red>json파일 없음</color>");
 
-            // TODO : 초기값
+            // TODO : 초기값설정 ( 실질적으로 안씀 )
             DataManager.instance.p_gold = 0;
             DataManager.instance.p_friendShip = 0;
-            //DataManager.instance.p_imtinancy = 20;
+            //DataManager.instance.p_imtimacy = 20;
             //SaveJson(); // saveJson에서 새로운 파일 생성도 함.?
             return;
         }
@@ -89,45 +88,30 @@ public class DataManager : MonoBehaviour
             {
                 //   for (int i = 0; i < saveData.list_FriendShip.Count; i++)
                 // DataManager.instance.list_FriendShip.Add(saveData.list_FriendShip[i]);
-
                 p_gold = saveData.local_gold;
-                p_friendShip = saveData.local_Friendship;
+                p_friendShip = saveData.local_friendship;
+                p_Imtimate = saveData.local_imtimate;
+                p_curParty = saveData.local_curParty;
             }
             PrintInfo();
         }
-        
-
     }
 
     public void SaveJson()
     {
         // new 할당을 외부에 하게되면 같은  Json 데이터가 계속 쌓이게 됨
         // json 파일이 없는 경우라면 새로 생성시킴
-        SaveData saveData = new SaveData();
-        Debug.Log("데이터 저장");
-        // 저장할 데이터를 saveData로 보내 직렬화 시켜줌.
-        //saveData.list_FriendShip.Add(1);
-
-        saveData.local_Friendship += 200;
-        saveData.local_gold += 200;
+        //SaveData saveData = new SaveData();
+        Debug.Log("데이터 저장!");
         
-        // 직렬화된 saveData를 ToJson을 이용해서 stringJson에 저장
-        // prettyPrint를 해야 줄내림이 적용됨.
-        string json = JsonUtility.ToJson(saveData, true);
-        // Json 파일로 저장
-        File.WriteAllText(path, json);
-
-
-/*        
+        
         // 이 하단은 조건문 이후과정
         try
         {
-        
-            if (_data.Equals("{}"))
-            {
-                Debug.Log("json이 없다?");
-                return;
-            }
+            Debug.Log("dm : try");
+            _saveData.local_friendship = DataManager.instance.p_friendShip;
+            _saveData.local_gold = DataManager.instance.p_gold;
+            _saveData.local_curParty = DataManager.instance.p_curParty;
         }
         catch (FileNotFoundException e)
         {
@@ -143,21 +127,31 @@ public class DataManager : MonoBehaviour
         }
         finally
         {
-            if (_dataContainer != null)
+            if (_saveData != null)
             {
-                Debug.Log("먼가 마지막에 실행? or 꼭 실행?");
+                // 저장할 데이터를 saveData로 보내 직렬화 시켜줌.
+                // 직렬화된 saveData를 ToJson을 이용해서 stringJson에 저장
+                // prettyPrint를 해야 줄내림이 적용됨.
+                string json = JsonUtility.ToJson(_saveData, true);
+                // Json 파일로 저장
+                File.WriteAllText(path, json);
             }
             else
             {
-                Debug.Log("데이터 콘테이너 비어있음");
+                Debug.LogWarning("<color=red> 데이터 저장 오류 </color>");
             }
-        }*/
+        }
     }
 
     void PrintInfo()
     {
         text_Friendship.text = DataManager.instance.p_friendShip.ToString();
         text_Gold.text = DataManager.instance.p_gold.ToString();
+        /*
+        for (int i = 0; i < data_curParty.Count; i++)
+        {
+            Debug.Log("데이터 " +i+ "번째는 " + data_curParty[i]);
+        }*/
     }
 
 
@@ -168,10 +162,10 @@ public class DataManager : MonoBehaviour
     //  파티관련 : 개방한 파티 멤버
 
     // 스토리
+    private int data_curStory;
     private int data_curStage; // 깬 스테이지 정보
     // 인게임
-
-
+    
     // 캐릭터
     private int data_EXP; // 경험치 
 
@@ -180,13 +174,24 @@ public class DataManager : MonoBehaviour
 
 
     // 친밀도, 우정도 기타등등 값 정의해줘야함
-    private int data_Imtinancy; // 친밀도
+    private int data_Imtimate; // 친밀도
     private int data_FriendShip; // 우정도
 
     // 재화
     private int data_Gold;
 
-
+    /// <summary>
+    /// 파티에 멤버 넣기
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="isActive">1 : 활성화, 0 : 비활성화 </param>
+    /// <returns></returns>
+    public void Set_partyMember(int index, int isActive)
+    {
+        if (! (isActive == 0 || isActive == 1))
+            Debug.LogError("파티 할당 잘못함");
+        else data_curParty[index] = isActive;
+    }
     public List<int> p_curParty
     {
         get {return data_curParty;}
@@ -203,10 +208,10 @@ public class DataManager : MonoBehaviour
     }
 
     /// <summary> 친밀도 가져오기 </summary>
-    public int p_imtinancy
+    public int p_Imtimate
     {
-        get { return data_Imtinancy; }
-        set { data_Imtinancy += value; }
+        get { return data_Imtimate; }
+        set { data_Imtimate += value; }
     }
 
     /// <summary> 골드 가져오기 </summary>
