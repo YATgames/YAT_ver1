@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             DataManager.instance.p_gold = 1;
-            Debug.Log("골드 증가함 : "  + DataManager.instance.p_gold);
         }
 
         if (Input.GetKeyDown(KeyCode.W))
