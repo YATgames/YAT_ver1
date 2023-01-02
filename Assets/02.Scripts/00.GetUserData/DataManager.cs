@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Resources;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,10 +17,6 @@ public class DataManager : MonoBehaviour
     private string data; // 내용이 저장되는 string 타입
     
     private string path;
-    //private TextAsset m_ta_path;
-
-    public Text text_Gold;
-    public Text text_Friendship;
 
     private void Awake()
     {
@@ -31,14 +26,10 @@ public class DataManager : MonoBehaviour
         // TODO:  json 파일이 저장될 위치를 path 에 저장
         //path = Path.Combine(Application.persistentDataPath, "UserData.json"); // Android 타입
         path = Path.Combine(Application.dataPath, "Resources/Data", "UserData.json");
-        //ta_path = Resources.Load<TextAsset>("UserData");
         _saveData = new SaveData();
         LoadJson();
     }
-
-    public List<int> list_FriendShip = new List<int>();
-
-
+    
     string jsonExample;
     void makeJson() // 만약 json 파일 제작부터 시작하면
     {
@@ -58,8 +49,6 @@ public class DataManager : MonoBehaviour
     }
     public void LoadJson()
     {
-        //var taPath = Resources.Load<TextAsset>("/UserData/UserData");
-        //m_ta_path = taPath;
         if (!File.Exists(path)) // path에 지정된 파일이 없는경우
         {
             Debug.Log("<color=red>json파일 없음</color>");
@@ -67,7 +56,6 @@ public class DataManager : MonoBehaviour
             // TODO : 초기값설정 ( 실질적으로 안씀 )
             DataManager.instance.p_gold = 0;
             DataManager.instance.p_friendShip = 0;
-            //DataManager.instance.p_imtimacy = 20;
             //SaveJson(); // saveJson에서 새로운 파일 생성도 함.?
             return;
         }
@@ -86,14 +74,11 @@ public class DataManager : MonoBehaviour
             SaveData saveData = JsonUtility.FromJson<SaveData>(loadjson.ToString());
             if (saveData != null)
             {
-                //   for (int i = 0; i < saveData.list_FriendShip.Count; i++)
-                // DataManager.instance.list_FriendShip.Add(saveData.list_FriendShip[i]);
                 p_gold = saveData.local_gold;
                 p_friendShip = saveData.local_friendship;
                 p_Imtimate = saveData.local_imtimate;
                 p_curParty = saveData.local_curParty;
             }
-            PrintInfo();
         }
     }
 
@@ -102,13 +87,10 @@ public class DataManager : MonoBehaviour
         // new 할당을 외부에 하게되면 같은  Json 데이터가 계속 쌓이게 됨
         // json 파일이 없는 경우라면 새로 생성시킴
         //SaveData saveData = new SaveData();
-        Debug.Log("데이터 저장!");
-        
         
         // 이 하단은 조건문 이후과정
         try
         {
-            Debug.Log("dm : try");
             _saveData.local_friendship = DataManager.instance.p_friendShip;
             _saveData.local_gold = DataManager.instance.p_gold;
             _saveData.local_curParty = DataManager.instance.p_curParty;
@@ -133,7 +115,9 @@ public class DataManager : MonoBehaviour
                 // 직렬화된 saveData를 ToJson을 이용해서 stringJson에 저장
                 // prettyPrint를 해야 줄내림이 적용됨.
                 string json = JsonUtility.ToJson(_saveData, true);
+                
                 // Json 파일로 저장
+                Debug.Log("<color=aqua> 데이터 저장성공! < /color>");
                 File.WriteAllText(path, json);
             }
             else
@@ -142,19 +126,7 @@ public class DataManager : MonoBehaviour
             }
         }
     }
-
-    void PrintInfo()
-    {
-        text_Friendship.text = DataManager.instance.p_friendShip.ToString();
-        text_Gold.text = DataManager.instance.p_gold.ToString();
-        /*
-        for (int i = 0; i < data_curParty.Count; i++)
-        {
-            Debug.Log("데이터 " +i+ "번째는 " + data_curParty[i]);
-        }*/
-    }
-
-
+    
     // @@@@@가져와야하는 정보@@@@@
     // 스토리관련 : 스테이지 정보, 
     // 인게임관련 : 보유중인 아이템 리스트

@@ -1,7 +1,7 @@
 {
     "local_friendship": 200,
-    "local_imtimate": 300,
-    "local_gold": 30,
+    "local_imtimate": 0,
+    "local_gold": 46,
     "local_curParty": [
         0,
         1,
