@@ -1,18 +1,15 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class novel_01 : NovelBase
+public class Novel_01 : NovelBase
 {
+    
     private int dialogueCount;
-    
-    
     public void NovelSetting()
     {
-           
+        
     }
     // novel_01_Intro 에서 각 터치 분기에서 어떤 행동을 해야하는지 정의가 되어야함.
     // NovelBase에서 각 액션을 정의해두고, 각 novel_number 에서는 플로우만 설정함.
@@ -30,10 +27,7 @@ public class novel_01 : NovelBase
     // 0	첫번째 스토리 대사가 끝났다 캐릭터들 사라지는 효과 주고 화면 전환 효과까지
 
 
-    IEnumerator novelroutine()
-    {
-        
-    }
+    IEnumerator novelroutine;
     public IEnumerator novelRoutine_01()
     {
         yield return new WaitForSeconds(1f);

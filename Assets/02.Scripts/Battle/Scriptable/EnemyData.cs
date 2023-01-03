@@ -10,6 +10,4 @@ public class EnemyData : EnemyBase
     public GameObject data_model;
     public int data_hp;
     public int data_attackDamage;
-    
-    
 }
