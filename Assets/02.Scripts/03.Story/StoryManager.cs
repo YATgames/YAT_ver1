@@ -9,8 +9,10 @@ using UnityEditor;
 
 public class StoryManager : MonoBehaviour
 {
-    private List<Dictionary<string, object>> dia_Story = new List<Dictionary<string, object>>();
-    // Dialogue 매니저도 같은 컴포넌트가 가지고 있도록 해야함
+    // TODO :  CSV데이터 받아와서 할당시키기
+    
+    private List<Dictionary<string, object>> dia_novel_01;  // = new List<Dictionary<string, object>>();
+
 
     // 오브젝트 부모
     [SerializeField] private GameObject characterBase; // 캐릭터
@@ -25,7 +27,6 @@ public class StoryManager : MonoBehaviour
     
     // 상태
     private bool canIput;
-    
     private void Awake()
     {
         // 할당
@@ -37,12 +38,8 @@ public class StoryManager : MonoBehaviour
         text_Contents = dialogueBase.transform.GetChild(1).GetComponent<Text>();
 
         text_Contents.text = null;
-        dia_Story = CSVReader.Read("CSV/0.dia_Intro");
-
-        
+        //dia_novel_01 = CSVReader.Read("CSV/Dialogue_00");
         Initialize();
-
-
     }
 
     
@@ -56,8 +53,6 @@ public class StoryManager : MonoBehaviour
             img_Characters[i] = characterBase.transform.GetChild(i).GetComponent<Image>();
             img_Characters[i].color = Color.clear;
         }
-
-
         characterBase.gameObject.SetActive(false);
         dialogueBase.gameObject.SetActive(false);
     }
@@ -73,12 +68,14 @@ public class StoryManager : MonoBehaviour
         {
             characterBase.SetActive(true);
             dialogueBase.SetActive(true);
-            Debug.Log("최대 카운트 : " + dia_Story.Count);
+            //Debug.Log("최대 카운트 : " + dia_novel_01.Count);
+            //Debug.Log("대사 : " + dia_novel_01[count]["Contents"].ToString());
         }
+        /*
         else if (Input.GetKeyDown(KeyCode.W))
         {
             Dialogue();
-        }
+        }*/
         else if (Input.GetKeyDown(KeyCode.E)) // 초기화 테스트
         {
             count = 0;
@@ -99,22 +96,25 @@ public class StoryManager : MonoBehaviour
     /// </summary>
     void Dialogue()
     {
-        
-        if (dia_Story[count]["Contents"] == null)
-            return;
-
-        if (isPlayingDialogue) // 대사가 진행중인 상태
+        if (dia_novel_01[count]["Contents"] != null)
         {
-            StopCoroutine(PlayDialogue);
-            text_Contents.text = curDialogue;
-            isPlayingDialogue = false;
-            DialogueEnd();
+            if (_isPlayingDialogue) // 대사가 진행중인 상태
+            {
+                StopCoroutine(PlayDialogue);
+                text_Contents.text = curDialogue;
+                _isPlayingDialogue = false;
+                DialogueEnd();
+            }
+            else // 대사가 진행중이 아닌 상태
+            {
+                PlayDialogue = dialogueRoutine();
+                StartCoroutine(PlayDialogue);
+                count++;
+            }
         }
-        else // 대사가 진행중이 아닌 상태
+        else
         {
-            PlayDialogue = dialogueRoutine();
-            StartCoroutine(PlayDialogue);
-            count++;
+            Debug.Log("아무것도 안하기!");
         }
     }
 
@@ -126,36 +126,36 @@ public class StoryManager : MonoBehaviour
     private string curDialogue = null; // 대사 내용 저장
     private string string_sightDialogue; // 보여질 대사 (한글자씩 보여짐)
     private int count =0; // curDialogue의 대사중 count 번째의 단어를 대사창에 출력
-    private int maxCount = 10; // 현재 대사 분기의 총 개수
-    private bool isPlayingDialogue;
+    private int _maxCount = 10; // 현재 대사 분기의 총 개수
+    private bool _isPlayingDialogue;
     private IEnumerator PlayDialogue;
-    private WaitForSeconds perTime = new WaitForSeconds(0.03f);
+    private WaitForSeconds _perTime = new WaitForSeconds(0.02f);
     IEnumerator dialogueRoutine()
     {
-        curDialogue = dia_Story[count]["Contents"].ToString();
-
-        int _curNum = 0;
-        isPlayingDialogue = true;
-        // curNum : 한글자씩 보여지는 부분의 
-        // count : 대사 번호
-        // length : 대사의 길이
-         Debug.Log("대사 : " + curDialogue  + " " + curDialogue.Length);
-        // curNum을 처음에 더하지 않으니까 < 식으로 해야 끝까지 대사를 한다.
-        while (_curNum <= curDialogue.Length) 
+        curDialogue = dia_novel_01[count]["Contents"].ToString();
+        
+        text_Name.text = 
+            dia_novel_01[count]["Character"].ToString() == "NONE" ?
+                ""  : dia_novel_01[count]["Character"].ToString();
+        
+        int wordNum = 0;
+        _isPlayingDialogue = true;
+        // word : 한글자씩 보여지는 부분의 단어, count : 대사 번호, length : 대사의 길이
+        while (wordNum <= curDialogue.Length) 
         {
-            string_sightDialogue = curDialogue.Substring(0,_curNum);
+            string_sightDialogue = curDialogue.Substring(0,wordNum);
             text_Contents.text = string_sightDialogue;
-            yield return perTime;
-            _curNum++;
+            yield return _perTime;
+            wordNum++;
         }
-        Debug.Log("최종 대사 길이 : " + text_Contents.text.Length);
-        // 대사 재생 끝난 부분
+        
+        //Debug.Log("최종 대사 길이 : " + text_Contents.text.Lengt
         DialogueEnd();
     }
 
     void DialogueEnd()
     {
-        isPlayingDialogue = false;
+        _isPlayingDialogue = false;
         text_Contents.text += "☆";
     }
 }

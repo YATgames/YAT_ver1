@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Unity.Collections.LowLevel.Unsafe;
 
 public class NovelBase : MonoBehaviour
 {
     // 이 스크립트에는 모션 기능만 제작해놓기
-    // State
+    
     
     [HideInInspector] public int curDiaCount;
     ///protected Image[] img_Characters;
@@ -56,5 +55,8 @@ public class NovelBase : MonoBehaviour
             texts[i].text = "";
         }
     }
-    
+
+    protected virtual void DialoguePlay()
+    {
+    }
 }
