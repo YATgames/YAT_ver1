@@ -16,20 +16,11 @@ public class Novel_01 : NovelBase
     {
         base.OnEnable();
         dia_novel_01 = CSVReader.Read("CSV/Dialogue_00");
-        //Debug.Log("novel_01의 onenable");
-        
-        Setting();
     }
     
 
     // novel_01_Intro 에서 각 터치 분기에서 어떤 행동을 해야하는지 정의가 되어야함.
     // NovelBase에서 각 액션을 정의해두고, 각 novel_number 에서는 플로우만 설정함.
-    
-    void Setting()
-    {
-        routine = "novelRoutine_"+ _count.ToString();
-        Debug.Log("루틴명 : " + routine);
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
@@ -55,16 +46,16 @@ public class Novel_01 : NovelBase
     protected override void DialoguePlay()
     {
         base.DialoguePlay();
-        //novelroutine=- 
+        
+        routine = "novelRoutine_"+ _count.ToString();
+        Debug.Log("루틴명 : " + routine);
         
         StartCoroutine(routine);
         _count++;
     }
 
-
     
     protected override void defaultSetting()
     {
-        
     }
 }

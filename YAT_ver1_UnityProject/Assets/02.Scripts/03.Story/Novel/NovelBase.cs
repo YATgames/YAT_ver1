@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,12 +9,39 @@ using DG.Tweening;
 
 public class NovelBase : MonoBehaviour
 {
-    // 이 스크립트에는 기능만 적용
+    // 대사 관련기능을 담아둔 스크립트
+    private GameObject base_CharacterBase; // [BASE]Character
+    private GameObject base_DialogueBase; // [BASE]Dialogue
     
-    ///protected Image[] img_Characters;
-    
-    //private float _showDuration= 0.5f; // 등장 딜레이시간
-    //private float _moveDuration = 0.2f;
+    protected Image[] m_Character;
+    protected Text[] m_Dialogue;
+
+
+    private Text m_dialogueChaName;
+    private Text m_diaContents;
+
+    protected virtual void OnEnable()
+    {
+        Initialize();
+    }
+    private void Initialize()
+    {
+        base_CharacterBase = this.transform.GetChild(1).gameObject;
+        base_DialogueBase = this.transform.GetChild(2).gameObject;
+
+        m_Character = new Image[base_CharacterBase.transform.childCount];
+        m_Dialogue = new Text[base_DialogueBase.transform.childCount];
+        
+        for (int i = 0; i < m_Character.Length; i++)
+        {
+            m_Character[i].color = Color.clear;
+        }
+
+        for (int i = 0; i < m_Dialogue.Length; i++)
+        {
+            m_Dialogue[i].text = "";
+        }
+    }
     protected void cha_Show(Image obj, float duration)
     {
         obj.DOFade(1f, duration).SetEase(Ease.Linear)
@@ -32,7 +60,6 @@ public class NovelBase : MonoBehaviour
                     .SetEase(Ease.Linear);
             });
     }
-
     protected void cha_Movement(Image obj, float duration, float destination)
     {
         //RectTransform obj = img_Characters[num].GetComponent<RectTransform>();
@@ -41,35 +68,60 @@ public class NovelBase : MonoBehaviour
             
         });
     }
-
-    protected virtual void OnEnable()
-    {
-        Initialize();
-    }
-
-    private GameObject base_CharacterBase;
-    private GameObject base_TextBase;
-
-    protected Image[] m_Character;
-    protected Text[] m_Text;
+    protected List<Dictionary<string, object>> list_Dialouge;
     
+    protected string curDialogue = null; // 대사 내용 저장
+    protected string showDialogue; // 보여질 대사 (한글자씩 보여짐)
+    protected int count =0; // curDialogue의 대사중 count 번째의 단어를 대사창에 출력
+    protected int _maxCount = 10; // 현재 대사 분기의 총 개수
     
-    private void Initialize()
+    // 대사가 진행중인지 true : 스킵  / false : 다음 대사 진행 
+    private bool _isPlayingDialogue; 
+    private IEnumerator PlayDialogue;
+    private WaitForSeconds _perTime = new WaitForSeconds(0.02f);
+
+    void DialogueRoutine()
     {
-        base_CharacterBase = this.transform.GetChild(1).gameObject;
-        base_TextBase = this.transform.GetChild(2).gameObject;
-        
-        
-        /*
-        for (int i = 0; i < images.Length; i++)
+        if (list_Dialouge[count]["Contents"] != null)
         {
-            images[i].color= Color.clear;
+            if (_isPlayingDialogue) // 대사 진행 중 ( 스킵 )
+            {
+                StopCoroutine(PlayDialogue);
+                
+            }
+            else // 다음 대사 진행
+            {
+                PlayDialogue = dialogueRoutine();
+                StartCoroutine(PlayDialogue);
+                count++;
+            }
         }
+        
+    }
+    private IEnumerator dialogueRoutine()
+    {
+        curDialogue = list_Dialouge[count]["Contents"].ToString();
 
-        for (int i = 0; i < texts.Length; i++)
+        m_dialogueChaName.text =
+            list_Dialouge[count]["Character"].ToString() == 
+            "NONE" ? "" : list_Dialouge[count]["Character"].ToString();
+        
+        int wordNum = 0;
+        _isPlayingDialogue = true;
+        // word : 한글자씩 보여지는 부분의 단어, count : 대사 번호, length : 대사의 길이
+        while (wordNum <= curDialogue.Length)
         {
-            texts[i].text = "";
-        }*/
+            showDialogue = curDialogue.Substring(0, wordNum);
+            m_diaContents.text = showDialogue;
+            yield return _perTime;
+            wordNum++;
+        }
+        DialogueEnd();
+    }
+    void DialogueEnd()
+    {
+        _isPlayingDialogue = false;
+        m_diaContents.text += "☆";
     }
 
     protected virtual void DialoguePlay()

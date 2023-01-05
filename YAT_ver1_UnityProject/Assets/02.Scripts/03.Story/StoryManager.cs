@@ -128,6 +128,7 @@ public class StoryManager : MonoBehaviour
     private int count =0; // curDialogue의 대사중 count 번째의 단어를 대사창에 출력
     private int _maxCount = 10; // 현재 대사 분기의 총 개수
     private bool _isPlayingDialogue;
+    
     private IEnumerator PlayDialogue;
     private WaitForSeconds _perTime = new WaitForSeconds(0.02f);
     IEnumerator dialogueRoutine()
