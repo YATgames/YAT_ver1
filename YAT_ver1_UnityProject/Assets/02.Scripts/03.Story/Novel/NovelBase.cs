@@ -1,16 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
 public class NovelBase : MonoBehaviour
 {
-    // 이 스크립트에는 모션 기능만 제작해놓기
+    // 이 스크립트에는 기능만 적용
     
-    
-    [HideInInspector] public int curDiaCount;
     ///protected Image[] img_Characters;
     
     //private float _showDuration= 0.5f; // 등장 딜레이시간
@@ -42,9 +41,26 @@ public class NovelBase : MonoBehaviour
             
         });
     }
-    
-    protected void Initialize(Image[] images, Text[] texts)
+
+    protected virtual void OnEnable()
     {
+        Initialize();
+    }
+
+    private GameObject base_CharacterBase;
+    private GameObject base_TextBase;
+
+    protected Image[] m_Character;
+    protected Text[] m_Text;
+    
+    
+    private void Initialize()
+    {
+        base_CharacterBase = this.transform.GetChild(1).gameObject;
+        base_TextBase = this.transform.GetChild(2).gameObject;
+        
+        
+        /*
         for (int i = 0; i < images.Length; i++)
         {
             images[i].color= Color.clear;
@@ -53,10 +69,13 @@ public class NovelBase : MonoBehaviour
         for (int i = 0; i < texts.Length; i++)
         {
             texts[i].text = "";
-        }
+        }*/
     }
 
     protected virtual void DialoguePlay()
     {
+        Debug.Log("DialoguePlay");
     }
+
+    protected virtual void defaultSetting() {}
 }

@@ -17,7 +17,7 @@ public class StoryCharacter : MonoBehaviour
         string strName = this.gameObject.name.Replace("CHA_", "");
         
         _Echaracter = (E_Character)(int)Enum.Parse(typeof(E_Character), strName);
-        Debug.Log("활성화 된 캐릭터 이름 : " + _Echaracter);
+         Debug.Log("활성화 된 캐릭터 이름 : " + _Echaracter);
         //Debug.Log("enum 카운트 : " +Enum.GetValues(typeof(E_Character)).Length);
     }
 }
