@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEditor.Rendering;
 
 public class NovelBase : MonoBehaviour
 {
@@ -38,7 +39,6 @@ public class NovelBase : MonoBehaviour
     }
     protected void cha_Show(Image obj, float duration)
     {
-        Debug.Log("cha_Show");
         obj.DOFade(1f, duration * 0.5f).SetEase(Ease.Linear)
             .OnComplete(() =>
             {
@@ -58,7 +58,6 @@ public class NovelBase : MonoBehaviour
     
     protected void cha_Interact(Image obj, float duration) // 위아래로 살짝 움직이는 그거
     {
-        //obj = img_Characters[num].GetComponent<RectTransform>();
         obj.GetComponent<RectTransform>() .DOAnchorPosY(45f, duration * 0.5f).SetRelative(true)
             .SetEase(Ease.InQuad).OnComplete(() =>
             {
@@ -66,6 +65,7 @@ public class NovelBase : MonoBehaviour
                     .SetEase(Ease.Linear);
             });
     }
+    
     protected void cha_Movement(Image obj, float duration, float destination)
     {
         obj.GetComponent<RectTransform>().DOAnchorPosX(destination, duration).SetEase(Ease.InQuad).OnComplete(() =>
@@ -115,9 +115,7 @@ public class NovelBase : MonoBehaviour
     {
         curDialogue = list_Dialogue[count]["Contents"].ToString();
 
-        m_dialogueChaName.text =
-            list_Dialogue[count]["Character"].ToString() == 
-            "NONE" ? "" : list_Dialogue[count]["Character"].ToString();
+        chaNameSetting();
         
         int wordNum = 0;
         _isPlayingDialogue = true;
@@ -138,6 +136,13 @@ public class NovelBase : MonoBehaviour
         m_diaContents.text += "☆";
     }
 
+    private void chaNameSetting()
+    {
+        // 대사 세팅 관련
+        m_dialogueChaName.text =
+            list_Dialogue[count]["Character"].ToString() == 
+            "NONE" ? "" : list_Dialogue[count]["Character"].ToString();
+    }
     protected virtual void DialoguePlay()
     {
         dialogueFunc();
