@@ -87,14 +87,11 @@ public class Novel_01 : NovelBase
     {
         yield return defaultActoinRoutine();
     }
-
-    private string routine;
-
     protected override void DialoguePlay()
     {
         base.DialoguePlay(); // 대사 진행 부분
         playAction();
-        //if (_isPlayingAction) // 스킵되는 상황에서는 실행되면 안됨
+        if (_isPlayingAction) // 스킵되는 상황에서는 실행되면 안됨
         {
 
         }

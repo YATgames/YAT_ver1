@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEditor.Rendering;
+using UnityEditor.ShaderGraph.Internal;
 
 public class NovelBase : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class NovelBase : MonoBehaviour
     
    [SerializeField] protected Image[] m_Character;
    [SerializeField] protected Text m_dialogueChaName, m_diaContents;
-       
+    
+   // 입력(터치) 관련 정보
+   protected Button m_inputField;
     protected virtual void OnEnable()
     {
         Initialize();
@@ -25,17 +28,19 @@ public class NovelBase : MonoBehaviour
     {
         base_CharacterBase = this.transform.GetChild(1).gameObject;
         base_DialogueBase = this.transform.GetChild(2).gameObject;
-
+        m_inputField = this.transform.GetChild(3).gameObject.GetComponent<Button>();
+        
         m_Character = new Image[base_CharacterBase.transform.childCount];
         m_dialogueChaName = base_DialogueBase.transform.GetChild(0).GetComponent<Text>();
         m_diaContents = base_DialogueBase.transform.GetChild(1).GetComponent<Text>();
-        
         
         for (int i = 0; i < m_Character.Length; i++)
         {
             m_Character[i] = base_CharacterBase.transform.GetChild(i).GetComponent<Image>();
             m_Character[i].color = Color.clear;
         }
+
+        m_inputField.image.color = Color.clear;
     }
     protected void cha_Show(Image obj, float duration)
     {
@@ -152,6 +157,6 @@ public class NovelBase : MonoBehaviour
     protected IEnumerator defaultActoinRoutine()
     {
         yield return dotTime; 
-        _isPlayingDialogue = false;
+        _isPlayingAction= false;
     }
 }
