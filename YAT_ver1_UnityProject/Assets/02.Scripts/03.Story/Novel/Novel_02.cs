@@ -51,59 +51,59 @@ public class Novel_02 : NovelBase
     IEnumerator novelRoutine_00()
     {
         cha_Show(_MIKA,1f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_01()
     {
         cha_Show(_ARU,1f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_02()
     {
         cha_Interact(_MIKA,0.4f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_03()
     {
         //cha_Show(_MIKA,0.6f);
         cha_Interact(_ARU, 0.4f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_04()
     {
         cha_Hide(_MIKA,0.6f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_05()
     {
         cha_Hide(_ARU,0.6f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_06()
     {
         
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_08()
     {
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_09()
     {
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_10()
     {
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     private string routine;
@@ -112,7 +112,7 @@ public class Novel_02 : NovelBase
     {
         base.DialoguePlay(); // 대사 진행 부분
         
-        if (_isPlayingAction) // 스킵되는 상황에서는 실행되면 안됨
+        if (_isPlayingDialogue) // 스킵되는 상황에서는 실행되면 안됨
         {
             playAction();
         }

@@ -19,7 +19,7 @@ public class NovelBase : MonoBehaviour
    [SerializeField] protected Text m_dialogueChaName, m_diaContents;
     
    // 입력(터치) 관련 정보
-   protected Button m_inputField;
+   [SerializeField] protected Button m_inputField;
     protected virtual void OnEnable()
     {
         Initialize();
@@ -40,7 +40,8 @@ public class NovelBase : MonoBehaviour
             m_Character[i].color = Color.clear;
         }
 
-        m_inputField.image.color = Color.clear;
+        //m_inputField.image.color = Color.clear;
+        m_inputField.onClick.AddListener(DialoguePlay);
     }
     protected void cha_Show(Image obj, float duration)
     {
@@ -87,21 +88,20 @@ public class NovelBase : MonoBehaviour
     protected int _maxCount = 10; // 현재 대사 분기의 총 개수
     
     // 대사가 진행중인지 true : 스킵  / false : 다음 대사 진행 
-    protected bool _isPlayingDialogue = false; 
-    
+    protected bool _isPlayingDialogue = false;
+    protected bool canPlayingAction = true;
     
     // 루틴(각 Novel_num의 액션) 이 끝났는지 여부
-    protected bool _isPlayingAction = false; 
+    protected bool canInput = true;
     
     
     private IEnumerator PlayDialogue;
     private WaitForSeconds _perTime = new WaitForSeconds(0.02f);
-
     void dialogueFunc()
     {
         if (list_Dialogue[count]["Contents"] != null)
         {
-            if (_isPlayingDialogue && _isPlayingAction) // 대사 진행 중 ( 스킵 )
+            if (_isPlayingDialogue) // 대사 진행 중 ( 스킵 )
             {
                 StopCoroutine(PlayDialogue);
                 m_diaContents.text = curDialogue;
@@ -114,17 +114,19 @@ public class NovelBase : MonoBehaviour
                 count++;
             }
         }
-        
+        else
+        {
+            Debug.Log("아무것도 안하기");
+        }
     }
     private IEnumerator dialogueRoutine()
     {
         curDialogue = list_Dialogue[count]["Contents"].ToString();
 
-        chaNameSetting();
+        CharacterNameSetting();
         
         int wordNum = 0;
         _isPlayingDialogue = true;
-        _isPlayingAction = true;
         // word : 한글자씩 보여지는 부분의 단어, count : 대사 번호, length : 대사의 길이
         while (wordNum <= curDialogue.Length)
         {
@@ -137,11 +139,11 @@ public class NovelBase : MonoBehaviour
     }
     void DialogueEnd()
     {
+        canInput = true;
         _isPlayingDialogue = false;
         m_diaContents.text += "☆";
     }
-
-    private void chaNameSetting()
+    private void CharacterNameSetting()
     {
         // 대사 세팅 관련
         m_dialogueChaName.text =
@@ -154,9 +156,10 @@ public class NovelBase : MonoBehaviour
     }
 
     private WaitForSeconds dotTime = new WaitForSeconds(0.3f);
-    protected IEnumerator defaultActoinRoutine()
+    protected IEnumerator DefaultActionRoutine()
     {
-        yield return dotTime; 
-        _isPlayingAction= false;
+        yield return dotTime;
+        //canInput = true;
+        canPlayingAction= true;
     }
 }

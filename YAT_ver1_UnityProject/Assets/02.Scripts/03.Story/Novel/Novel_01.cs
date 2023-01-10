@@ -18,82 +18,89 @@ public class Novel_01 : NovelBase
 
     IEnumerator Initialize()
     {
-        yield return new WaitUntil(() => m_Character[0] != null); 
+        yield return new WaitUntil(() => m_Character[0] != null); // 안전하게 합시다 
         _MIKA = m_Character[0];
         _ARU = m_Character[1];
+        
     }
-    
     // novel_01_Intro 에서 각 터치 분기에서 어떤 행동을 해야하는지 정의가 되어야함.
     // NovelBase에서 각 액션을 정의해두고, 각 novel_number 에서는 플로우만 설정함.
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.W))
         {
             DialoguePlay();
-        }
+        }*/
     }
-
+    
     IEnumerator novelRoutine;
-
     IEnumerator novelRoutine_00()
     {
         cha_Show(_MIKA,1f);
-        yield return defaultActoinRoutine();
+        yield return new WaitForSeconds(1f);
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_01()
     {
         cha_Show(_ARU,1f);
-        yield return defaultActoinRoutine();
+        yield return new WaitForSeconds(1f);
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_02()
     {
         cha_Interact(_MIKA,0.2f);
-        yield return defaultActoinRoutine();
+        yield return new WaitForSeconds(1f);
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_03()
     {
         //cha_Show(_MIKA,0.6f);
         cha_Interact(_ARU, 0.2f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_04()
     {
         cha_Hide(_MIKA,0.6f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_05()
     {
         cha_Hide(_ARU,0.6f);
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_06()
     {
         
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
-
+    IEnumerator novelRoutine_07()
+    {
+        
+        yield return DefaultActionRoutine();
+    }
     IEnumerator novelRoutine_08()
     {
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
 
     IEnumerator novelRoutine_09()
     {
-        yield return defaultActoinRoutine();
+        yield return DefaultActionRoutine();
     }
     protected override void DialoguePlay()
     {
         base.DialoguePlay(); // 대사 진행 부분
-        playAction();
-        if (_isPlayingAction) // 스킵되는 상황에서는 실행되면 안됨
+        if (canPlayingAction) // 스킵되는 상황에서는 실행되면 안됨
         {
-
+            canPlayingAction = false;
+            playAction();
         }
     }
     

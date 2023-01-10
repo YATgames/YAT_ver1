@@ -5,15 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
-using Button = UnityEngine.UI.Button;
-using Debug = UnityEngine.Debug;
-using Image = UnityEngine.UI.Image;
-
-namespace YAT
-{
-    public class Scene_Select : MonoBehaviour
+public class Scene_Select : MonoBehaviour
     {
         private RectTransform go_RECT_Button;
+        
         /// <summary> 사교버튼 </summary>
         private Button btn_Social;
         /// <summary> 거래버튼 </summary>
@@ -38,9 +33,7 @@ namespace YAT
         private IEnumerator btnRoutine;
         
         float _duration = 0.6f; // 화면 전환할 때 사용할 전환 대기시간.
-
-
-
+        
         /// <summary> Social 객체 할당시키기 </summary>
         [SerializeField]
         private Button btn_StoryOn;
@@ -56,11 +49,11 @@ namespace YAT
             tf_SocialObject = GameObject.Find("scene_Social").GetComponent<Transform>();
             tf_BusinessObject = GameObject.Find("scene_Business").GetComponent<Transform>();
             tf_RequestObject = GameObject.Find("scene_Request").GetComponent<Transform>();
+            
             txt_Imtimate = GameObject.Find("value_Imtinancy").GetComponent<Text>();
             txt_FriendShip = GameObject.Find("value_Friendship").GetComponent<Text>();
 
             //SocialObject
-            //btn_StoryOn = GameObject.Find("btn_SC_Story").GetComponent<Button>();
             btn_StoryOn = test_Social.transform.GetChild(2).GetComponent<Button>();
             btn_StoryOn.onClick.AddListener(btnFunc_StoryOn);
             
@@ -155,4 +148,3 @@ namespace YAT
             SceneChanger.instance.changer_Story();
         }
     }
-}

@@ -53,44 +53,9 @@ public class StoryManager : MonoBehaviour
             img_Characters[i] = characterBase.transform.GetChild(i).GetComponent<Image>();
             img_Characters[i].color = Color.clear;
         }
-        characterBase.gameObject.SetActive(false);
-        dialogueBase.gameObject.SetActive(false);
+        characterBase.gameObject.SetActive(true);
+        dialogueBase.gameObject.SetActive(true);
     }
-
-    private void Update()
-    {
-        Input_Touch();
-    }
-    
-    void Input_Touch()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            characterBase.SetActive(true);
-            dialogueBase.SetActive(true);
-            //Debug.Log("최대 카운트 : " + dia_novel_01.Count);
-            //Debug.Log("대사 : " + dia_novel_01[count]["Contents"].ToString());
-        }
-        /*
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            Dialogue();
-        }*/
-        else if (Input.GetKeyDown(KeyCode.E)) // 초기화 테스트
-        {
-            count = 0;
-            text_Contents.text =  "";
-        }
-        else if(Input.GetKeyDown(KeyCode.Z)) // 등장 테스트
-        {
-            //cha_Show(0, 0.3f);
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            //cha_Movement(0, 0.15f);
-        }
-    }
-
     /// <summary>
     /// 대사 재생
     /// </summary>
