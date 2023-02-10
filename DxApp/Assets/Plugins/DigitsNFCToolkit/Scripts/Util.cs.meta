@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 937b607c8f166284e875ab0adc43edb5
+labels:
+- android
+- ios
+- nfc
+- read
+- write
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

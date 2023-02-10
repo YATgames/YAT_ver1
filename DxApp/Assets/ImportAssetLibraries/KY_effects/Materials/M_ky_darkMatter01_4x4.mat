@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_ky_darkMatter01_4x4
+  m_Shader: {fileID: 4800000, guid: 5c395f29f960f4e779526475004a02f4, type: 3}
+  m_ShaderKeywords: _NOTUSEDEPTHBLEND_ON
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 1cab78ef28252496987440df8f451833, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Cutoff: 0.5
+    - _alphaDensity: 3
+    - _alphaPower: 2
+    - _depthBlend: 1
+    - _emissive: 1.8
+    - _haveAlpha: 0
+    - _notUseDepthBlend: 1
+    - _pickupCh: 0
+    - _texDensity: 1
+    - _useB: 0
+    - _useG: 0
+    - _useR: 0
+    - _uvDynCorrect: 47
+    - _uvNumber: 0
+    - _vertColorDensity: 1
+    m_Colors:
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _color: {r: 0.65192705, g: 0.5147059, b: 1, a: 1}

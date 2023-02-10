@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: d2b3373346f535a43816944b43ff5c7c
+labels:
+- android
+- nfc
+- read
+- write
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

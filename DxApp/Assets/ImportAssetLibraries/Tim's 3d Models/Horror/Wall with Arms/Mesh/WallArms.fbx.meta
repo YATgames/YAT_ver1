@@ -1,0 +1,1266 @@
+fileFormatVersion: 2
+guid: 054f355684288be429ef991db822bc47
+timeCreated: 1466249666
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Arm_001
+    100002: Arm_002
+    100004: Arm_003
+    100006: Arm_004
+    100008: Arm_005
+    100010: Arm_006
+    100012: Arm_007
+    100014: Arm_008
+    100016: Arm_009
+    100018: arm_root
+    100020: arm_root 1
+    100022: arm_root 2
+    100024: arm_root 3
+    100026: arm_root 4
+    100028: arm_root 5
+    100030: arm_root 6
+    100032: arm_root 7
+    100034: arm_root 8
+    100036: ArmComplete_001
+    100038: ArmComplete_002
+    100040: ArmComplete_003
+    100042: ArmComplete_004
+    100044: ArmComplete_005
+    100046: ArmComplete_006
+    100048: ArmComplete_007
+    100050: ArmComplete_008
+    100052: ArmComplete_009
+    100054: Arms
+    100056: Eye_001
+    100058: Eye_002
+    100060: Eye_003
+    100062: Eye_004
+    100064: Eye_005
+    100066: Eye_006
+    100068: eye_socket_001
+    100070: eye_socket_005
+    100072: eyeball_001
+    100074: eyeball_002
+    100076: eyeball_003
+    100078: eyeball_004
+    100080: eyeball_005
+    100082: eyeball_006
+    100084: eyeball_joint1
+    100086: eyeball_joint2
+    100088: eyeball_joint3
+    100090: eyeball_joint4
+    100092: eyeball_joint5
+    100094: eyeball_joint6
+    100096: eyeball_jointcontainer_001
+    100098: eyeball_jointcontainer_002
+    100100: eyeball_jointcontainer_003
+    100102: eyeball_jointcontainer_004
+    100104: eyeball_jointcontainer_005
+    100106: eyeball_jointcontainer_006
+    100108: Eyes
+    100110: eyesocket_002
+    100112: eyesocket_003
+    100114: eyesocket_004
+    100116: eyesocket_006
+    100118: Hand
+    100120: Hand 1
+    100122: Hand 2
+    100124: Hand 3
+    100126: Hand 4
+    100128: Hand 5
+    100130: Hand 6
+    100132: Hand 7
+    100134: Hand 8
+    100136: index_001
+    100138: index_001 1
+    100140: index_001 2
+    100142: index_001 3
+    100144: index_001 4
+    100146: index_001 5
+    100148: index_001 6
+    100150: index_001 7
+    100152: index_001 8
+    100154: index_002
+    100156: index_002 1
+    100158: index_002 2
+    100160: index_002 3
+    100162: index_002 4
+    100164: index_002 5
+    100166: index_002 6
+    100168: index_002 7
+    100170: index_002 8
+    100172: index_003
+    100174: index_003 1
+    100176: index_003 2
+    100178: index_003 3
+    100180: index_003 4
+    100182: index_003 5
+    100184: index_003 6
+    100186: index_003 7
+    100188: index_003 8
+    100190: index_004
+    100192: index_004 1
+    100194: index_004 2
+    100196: index_004 3
+    100198: index_004 4
+    100200: index_004 5
+    100202: index_004 6
+    100204: index_004 7
+    100206: index_004 8
+    100208: lower_arm
+    100210: lower_arm 1
+    100212: lower_arm 2
+    100214: lower_arm 3
+    100216: lower_arm 4
+    100218: lower_arm 5
+    100220: lower_arm 6
+    100222: lower_arm 7
+    100224: lower_arm 8
+    100226: middlefinger_001
+    100228: middlefinger_001 1
+    100230: middlefinger_001 2
+    100232: middlefinger_001 3
+    100234: middlefinger_001 4
+    100236: middlefinger_001 5
+    100238: middlefinger_001 6
+    100240: middlefinger_001 7
+    100242: middlefinger_001 8
+    100244: middlefinger_002
+    100246: middlefinger_002 1
+    100248: middlefinger_002 2
+    100250: middlefinger_002 3
+    100252: middlefinger_002 4
+    100254: middlefinger_002 5
+    100256: middlefinger_002 6
+    100258: middlefinger_002 7
+    100260: middlefinger_002 8
+    100262: middlefinger_003
+    100264: middlefinger_003 1
+    100266: middlefinger_003 2
+    100268: middlefinger_003 3
+    100270: middlefinger_003 4
+    100272: middlefinger_003 5
+    100274: middlefinger_003 6
+    100276: middlefinger_003 7
+    100278: middlefinger_003 8
+    100280: middlefinger_004
+    100282: middlefinger_004 1
+    100284: middlefinger_004 2
+    100286: middlefinger_004 3
+    100288: middlefinger_004 4
+    100290: middlefinger_004 5
+    100292: middlefinger_004 6
+    100294: middlefinger_004 7
+    100296: middlefinger_004 8
+    100298: pinkie_001
+    100300: pinkie_001 1
+    100302: pinkie_001 2
+    100304: pinkie_001 3
+    100306: pinkie_001 4
+    100308: pinkie_001 5
+    100310: pinkie_001 6
+    100312: pinkie_001 7
+    100314: pinkie_001 8
+    100316: pinkie_002
+    100318: pinkie_002 1
+    100320: pinkie_002 2
+    100322: pinkie_002 3
+    100324: pinkie_002 4
+    100326: pinkie_002 5
+    100328: pinkie_002 6
+    100330: pinkie_002 7
+    100332: pinkie_002 8
+    100334: pinkie_003
+    100336: pinkie_003 1
+    100338: pinkie_003 2
+    100340: pinkie_003 3
+    100342: pinkie_003 4
+    100344: pinkie_003 5
+    100346: pinkie_003 6
+    100348: pinkie_003 7
+    100350: pinkie_003 8
+    100352: ringfinger_001
+    100354: ringfinger_001 1
+    100356: ringfinger_001 2
+    100358: ringfinger_001 3
+    100360: ringfinger_001 4
+    100362: ringfinger_001 5
+    100364: ringfinger_001 6
+    100366: ringfinger_001 7
+    100368: ringfinger_001 8
+    100370: ringfinger_002
+    100372: ringfinger_002 1
+    100374: ringfinger_002 2
+    100376: ringfinger_002 3
+    100378: ringfinger_002 4
+    100380: ringfinger_002 5
+    100382: ringfinger_002 6
+    100384: ringfinger_002 7
+    100386: ringfinger_002 8
+    100388: ringfinger_003
+    100390: ringfinger_003 1
+    100392: ringfinger_003 2
+    100394: ringfinger_003 3
+    100396: ringfinger_003 4
+    100398: ringfinger_003 5
+    100400: ringfinger_003 6
+    100402: ringfinger_003 7
+    100404: ringfinger_003 8
+    100406: ringfinger_004
+    100408: ringfinger_004 1
+    100410: ringfinger_004 2
+    100412: ringfinger_004 3
+    100414: ringfinger_004 4
+    100416: ringfinger_004 5
+    100418: ringfinger_004 6
+    100420: ringfinger_004 7
+    100422: ringfinger_004 8
+    100424: thumb_001
+    100426: thumb_001 1
+    100428: thumb_001 2
+    100430: thumb_001 3
+    100432: thumb_001 4
+    100434: thumb_001 5
+    100436: thumb_001 6
+    100438: thumb_001 7
+    100440: thumb_001 8
+    100442: thumb_002
+    100444: thumb_002 1
+    100446: thumb_002 2
+    100448: thumb_002 3
+    100450: thumb_002 4
+    100452: thumb_002 5
+    100454: thumb_002 6
+    100456: thumb_002 7
+    100458: thumb_002 8
+    100460: thumb_003
+    100462: thumb_003 1
+    100464: thumb_003 2
+    100466: thumb_003 3
+    100468: thumb_003 4
+    100470: thumb_003 5
+    100472: thumb_003 6
+    100474: thumb_003 7
+    100476: thumb_003 8
+    100478: thumb_004
+    100480: thumb_004 1
+    100482: thumb_004 2
+    100484: thumb_004 3
+    100486: thumb_004 4
+    100488: thumb_004 5
+    100490: thumb_004 6
+    100492: thumb_004 7
+    100494: thumb_004 8
+    100496: Wall_001
+    100498: //RootNode
+    400000: Arm_001
+    400002: Arm_002
+    400004: Arm_003
+    400006: Arm_004
+    400008: Arm_005
+    400010: Arm_006
+    400012: Arm_007
+    400014: Arm_008
+    400016: Arm_009
+    400018: arm_root
+    400020: arm_root 1
+    400022: arm_root 2
+    400024: arm_root 3
+    400026: arm_root 4
+    400028: arm_root 5
+    400030: arm_root 6
+    400032: arm_root 7
+    400034: arm_root 8
+    400036: ArmComplete_001
+    400038: ArmComplete_002
+    400040: ArmComplete_003
+    400042: ArmComplete_004
+    400044: ArmComplete_005
+    400046: ArmComplete_006
+    400048: ArmComplete_007
+    400050: ArmComplete_008
+    400052: ArmComplete_009
+    400054: Arms
+    400056: Eye_001
+    400058: Eye_002
+    400060: Eye_003
+    400062: Eye_004
+    400064: Eye_005
+    400066: Eye_006
+    400068: eye_socket_001
+    400070: eye_socket_005
+    400072: eyeball_001
+    400074: eyeball_002
+    400076: eyeball_003
+    400078: eyeball_004
+    400080: eyeball_005
+    400082: eyeball_006
+    400084: eyeball_joint1
+    400086: eyeball_joint2
+    400088: eyeball_joint3
+    400090: eyeball_joint4
+    400092: eyeball_joint5
+    400094: eyeball_joint6
+    400096: eyeball_jointcontainer_001
+    400098: eyeball_jointcontainer_002
+    400100: eyeball_jointcontainer_003
+    400102: eyeball_jointcontainer_004
+    400104: eyeball_jointcontainer_005
+    400106: eyeball_jointcontainer_006
+    400108: Eyes
+    400110: eyesocket_002
+    400112: eyesocket_003
+    400114: eyesocket_004
+    400116: eyesocket_006
+    400118: Hand
+    400120: Hand 1
+    400122: Hand 2
+    400124: Hand 3
+    400126: Hand 4
+    400128: Hand 5
+    400130: Hand 6
+    400132: Hand 7
+    400134: Hand 8
+    400136: index_001
+    400138: index_001 1
+    400140: index_001 2
+    400142: index_001 3
+    400144: index_001 4
+    400146: index_001 5
+    400148: index_001 6
+    400150: index_001 7
+    400152: index_001 8
+    400154: index_002
+    400156: index_002 1
+    400158: index_002 2
+    400160: index_002 3
+    400162: index_002 4
+    400164: index_002 5
+    400166: index_002 6
+    400168: index_002 7
+    400170: index_002 8
+    400172: index_003
+    400174: index_003 1
+    400176: index_003 2
+    400178: index_003 3
+    400180: index_003 4
+    400182: index_003 5
+    400184: index_003 6
+    400186: index_003 7
+    400188: index_003 8
+    400190: index_004
+    400192: index_004 1
+    400194: index_004 2
+    400196: index_004 3
+    400198: index_004 4
+    400200: index_004 5
+    400202: index_004 6
+    400204: index_004 7
+    400206: index_004 8
+    400208: lower_arm
+    400210: lower_arm 1
+    400212: lower_arm 2
+    400214: lower_arm 3
+    400216: lower_arm 4
+    400218: lower_arm 5
+    400220: lower_arm 6
+    400222: lower_arm 7
+    400224: lower_arm 8
+    400226: middlefinger_001
+    400228: middlefinger_001 1
+    400230: middlefinger_001 2
+    400232: middlefinger_001 3
+    400234: middlefinger_001 4
+    400236: middlefinger_001 5
+    400238: middlefinger_001 6
+    400240: middlefinger_001 7
+    400242: middlefinger_001 8
+    400244: middlefinger_002
+    400246: middlefinger_002 1
+    400248: middlefinger_002 2
+    400250: middlefinger_002 3
+    400252: middlefinger_002 4
+    400254: middlefinger_002 5
+    400256: middlefinger_002 6
+    400258: middlefinger_002 7
+    400260: middlefinger_002 8
+    400262: middlefinger_003
+    400264: middlefinger_003 1
+    400266: middlefinger_003 2
+    400268: middlefinger_003 3
+    400270: middlefinger_003 4
+    400272: middlefinger_003 5
+    400274: middlefinger_003 6
+    400276: middlefinger_003 7
+    400278: middlefinger_003 8
+    400280: middlefinger_004
+    400282: middlefinger_004 1
+    400284: middlefinger_004 2
+    400286: middlefinger_004 3
+    400288: middlefinger_004 4
+    400290: middlefinger_004 5
+    400292: middlefinger_004 6
+    400294: middlefinger_004 7
+    400296: middlefinger_004 8
+    400298: pinkie_001
+    400300: pinkie_001 1
+    400302: pinkie_001 2
+    400304: pinkie_001 3
+    400306: pinkie_001 4
+    400308: pinkie_001 5
+    400310: pinkie_001 6
+    400312: pinkie_001 7
+    400314: pinkie_001 8
+    400316: pinkie_002
+    400318: pinkie_002 1
+    400320: pinkie_002 2
+    400322: pinkie_002 3
+    400324: pinkie_002 4
+    400326: pinkie_002 5
+    400328: pinkie_002 6
+    400330: pinkie_002 7
+    400332: pinkie_002 8
+    400334: pinkie_003
+    400336: pinkie_003 1
+    400338: pinkie_003 2
+    400340: pinkie_003 3
+    400342: pinkie_003 4
+    400344: pinkie_003 5
+    400346: pinkie_003 6
+    400348: pinkie_003 7
+    400350: pinkie_003 8
+    400352: ringfinger_001
+    400354: ringfinger_001 1
+    400356: ringfinger_001 2
+    400358: ringfinger_001 3
+    400360: ringfinger_001 4
+    400362: ringfinger_001 5
+    400364: ringfinger_001 6
+    400366: ringfinger_001 7
+    400368: ringfinger_001 8
+    400370: ringfinger_002
+    400372: ringfinger_002 1
+    400374: ringfinger_002 2
+    400376: ringfinger_002 3
+    400378: ringfinger_002 4
+    400380: ringfinger_002 5
+    400382: ringfinger_002 6
+    400384: ringfinger_002 7
+    400386: ringfinger_002 8
+    400388: ringfinger_003
+    400390: ringfinger_003 1
+    400392: ringfinger_003 2
+    400394: ringfinger_003 3
+    400396: ringfinger_003 4
+    400398: ringfinger_003 5
+    400400: ringfinger_003 6
+    400402: ringfinger_003 7
+    400404: ringfinger_003 8
+    400406: ringfinger_004
+    400408: ringfinger_004 1
+    400410: ringfinger_004 2
+    400412: ringfinger_004 3
+    400414: ringfinger_004 4
+    400416: ringfinger_004 5
+    400418: ringfinger_004 6
+    400420: ringfinger_004 7
+    400422: ringfinger_004 8
+    400424: thumb_001
+    400426: thumb_001 1
+    400428: thumb_001 2
+    400430: thumb_001 3
+    400432: thumb_001 4
+    400434: thumb_001 5
+    400436: thumb_001 6
+    400438: thumb_001 7
+    400440: thumb_001 8
+    400442: thumb_002
+    400444: thumb_002 1
+    400446: thumb_002 2
+    400448: thumb_002 3
+    400450: thumb_002 4
+    400452: thumb_002 5
+    400454: thumb_002 6
+    400456: thumb_002 7
+    400458: thumb_002 8
+    400460: thumb_003
+    400462: thumb_003 1
+    400464: thumb_003 2
+    400466: thumb_003 3
+    400468: thumb_003 4
+    400470: thumb_003 5
+    400472: thumb_003 6
+    400474: thumb_003 7
+    400476: thumb_003 8
+    400478: thumb_004
+    400480: thumb_004 1
+    400482: thumb_004 2
+    400484: thumb_004 3
+    400486: thumb_004 4
+    400488: thumb_004 5
+    400490: thumb_004 6
+    400492: thumb_004 7
+    400494: thumb_004 8
+    400496: Wall_001
+    400498: //RootNode
+    2300000: Wall_001
+    3300000: Wall_001
+    4300000: Wall_001
+    4300002: Arm_001
+    4300004: Arm_002
+    4300006: Arm_003
+    4300008: Arm_004
+    4300010: Arm_005
+    4300012: Arm_006
+    4300014: Arm_007
+    4300016: Arm_008
+    4300018: Arm_009
+    4300020: eyesocket_004
+    4300022: eyeball_004
+    4300024: eyeball_002
+    4300026: eyesocket_002
+    4300028: eye_socket_001
+    4300030: eyeball_001
+    4300032: eyesocket_003
+    4300034: eyeball_003
+    4300036: eye_socket_005
+    4300038: eyeball_005
+    4300040: eyesocket_006
+    4300042: eyeball_006
+    7400000: Idle
+    9500000: //RootNode
+    13700000: Arm_001
+    13700002: Arm_002
+    13700004: Arm_003
+    13700006: Arm_004
+    13700008: Arm_005
+    13700010: Arm_006
+    13700012: Arm_007
+    13700014: Arm_008
+    13700016: Arm_009
+    13700018: eye_socket_001
+    13700020: eye_socket_005
+    13700022: eyeball_001
+    13700024: eyeball_002
+    13700026: eyeball_003
+    13700028: eyeball_004
+    13700030: eyeball_005
+    13700032: eyeball_006
+    13700034: eyesocket_002
+    13700036: eyesocket_003
+    13700038: eyesocket_004
+    13700040: eyesocket_006
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: wallofHandssanim_finalunity
+      firstFrame: 1
+      lastFrame: 90
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Arms
+        weight: 1
+      - path: Arms/ArmComplete_001
+        weight: 1
+      - path: Arms/ArmComplete_001/Arm_001
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/index_001
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/index_001/index_002
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/index_001/index_002/index_003
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/index_001/index_002/index_003/index_004
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/middlefinger_001
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/middlefinger_001/middlefinger_002
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/middlefinger_001/middlefinger_002/middlefinger_003
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/middlefinger_001/middlefinger_002/middlefinger_003/middlefinger_004
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/pinkie_001
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/pinkie_001/pinkie_002
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/pinkie_001/pinkie_002/pinkie_003
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/ringfinger_001
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/ringfinger_001/ringfinger_002
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/ringfinger_001/ringfinger_002/ringfinger_003
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/ringfinger_001/ringfinger_002/ringfinger_003/ringfinger_004
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/thumb_001
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/thumb_001/thumb_002
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/thumb_001/thumb_002/thumb_003
+        weight: 1
+      - path: Arms/ArmComplete_001/arm_root/lower_arm/Hand/thumb_001/thumb_002/thumb_003/thumb_004
+        weight: 1
+      - path: Arms/ArmComplete_002
+        weight: 1
+      - path: Arms/ArmComplete_002/Arm_002
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/index_001 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/index_001 1/index_002
+          1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/index_001 1/index_002
+          1/index_003 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/index_001 1/index_002
+          1/index_003 1/index_004 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/middlefinger_001
+          1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/middlefinger_001
+          1/middlefinger_002 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/middlefinger_001
+          1/middlefinger_002 1/middlefinger_003 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/middlefinger_001
+          1/middlefinger_002 1/middlefinger_003 1/middlefinger_004 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/pinkie_001 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/pinkie_001 1/pinkie_002
+          1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/pinkie_001 1/pinkie_002
+          1/pinkie_003 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/ringfinger_001 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/ringfinger_001 1/ringfinger_002
+          1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/ringfinger_001 1/ringfinger_002
+          1/ringfinger_003 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/ringfinger_001 1/ringfinger_002
+          1/ringfinger_003 1/ringfinger_004 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/thumb_001 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/thumb_001 1/thumb_002
+          1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/thumb_001 1/thumb_002
+          1/thumb_003 1
+        weight: 1
+      - path: Arms/ArmComplete_002/arm_root 1/lower_arm 1/Hand 1/thumb_001 1/thumb_002
+          1/thumb_003 1/thumb_004 1
+        weight: 1
+      - path: Arms/ArmComplete_003
+        weight: 1
+      - path: Arms/ArmComplete_003/Arm_003
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/index_001 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/index_001 2/index_002
+          2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/index_001 2/index_002
+          2/index_003 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/index_001 2/index_002
+          2/index_003 2/index_004 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/middlefinger_001
+          2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/middlefinger_001
+          2/middlefinger_002 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/middlefinger_001
+          2/middlefinger_002 2/middlefinger_003 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/middlefinger_001
+          2/middlefinger_002 2/middlefinger_003 2/middlefinger_004 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/pinkie_001 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/pinkie_001 2/pinkie_002
+          2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/pinkie_001 2/pinkie_002
+          2/pinkie_003 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/ringfinger_001 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/ringfinger_001 2/ringfinger_002
+          2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/ringfinger_001 2/ringfinger_002
+          2/ringfinger_003 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/ringfinger_001 2/ringfinger_002
+          2/ringfinger_003 2/ringfinger_004 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/thumb_001 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/thumb_001 2/thumb_002
+          2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/thumb_001 2/thumb_002
+          2/thumb_003 2
+        weight: 1
+      - path: Arms/ArmComplete_003/arm_root 2/lower_arm 2/Hand 2/thumb_001 2/thumb_002
+          2/thumb_003 2/thumb_004 2
+        weight: 1
+      - path: Arms/ArmComplete_004
+        weight: 1
+      - path: Arms/ArmComplete_004/Arm_004
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/index_001 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/index_001 3/index_002
+          3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/index_001 3/index_002
+          3/index_003 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/index_001 3/index_002
+          3/index_003 3/index_004 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/middlefinger_001
+          3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/middlefinger_001
+          3/middlefinger_002 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/middlefinger_001
+          3/middlefinger_002 3/middlefinger_003 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/middlefinger_001
+          3/middlefinger_002 3/middlefinger_003 3/middlefinger_004 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/pinkie_001 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/pinkie_001 3/pinkie_002
+          3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/pinkie_001 3/pinkie_002
+          3/pinkie_003 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/ringfinger_001 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/ringfinger_001 3/ringfinger_002
+          3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/ringfinger_001 3/ringfinger_002
+          3/ringfinger_003 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/ringfinger_001 3/ringfinger_002
+          3/ringfinger_003 3/ringfinger_004 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/thumb_001 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/thumb_001 3/thumb_002
+          3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/thumb_001 3/thumb_002
+          3/thumb_003 3
+        weight: 1
+      - path: Arms/ArmComplete_004/arm_root 3/lower_arm 3/Hand 3/thumb_001 3/thumb_002
+          3/thumb_003 3/thumb_004 3
+        weight: 1
+      - path: Arms/ArmComplete_005
+        weight: 1
+      - path: Arms/ArmComplete_005/Arm_005
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/index_001 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/index_001 4/index_002
+          4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/index_001 4/index_002
+          4/index_003 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/index_001 4/index_002
+          4/index_003 4/index_004 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/middlefinger_001
+          4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/middlefinger_001
+          4/middlefinger_002 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/middlefinger_001
+          4/middlefinger_002 4/middlefinger_003 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/middlefinger_001
+          4/middlefinger_002 4/middlefinger_003 4/middlefinger_004 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/pinkie_001 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/pinkie_001 4/pinkie_002
+          4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/pinkie_001 4/pinkie_002
+          4/pinkie_003 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/ringfinger_001 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/ringfinger_001 4/ringfinger_002
+          4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/ringfinger_001 4/ringfinger_002
+          4/ringfinger_003 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/ringfinger_001 4/ringfinger_002
+          4/ringfinger_003 4/ringfinger_004 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/thumb_001 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/thumb_001 4/thumb_002
+          4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/thumb_001 4/thumb_002
+          4/thumb_003 4
+        weight: 1
+      - path: Arms/ArmComplete_005/arm_root 4/lower_arm 4/Hand 4/thumb_001 4/thumb_002
+          4/thumb_003 4/thumb_004 4
+        weight: 1
+      - path: Arms/ArmComplete_006
+        weight: 1
+      - path: Arms/ArmComplete_006/Arm_006
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/index_001 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/index_001 5/index_002
+          5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/index_001 5/index_002
+          5/index_003 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/index_001 5/index_002
+          5/index_003 5/index_004 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/middlefinger_001
+          5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/middlefinger_001
+          5/middlefinger_002 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/middlefinger_001
+          5/middlefinger_002 5/middlefinger_003 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/middlefinger_001
+          5/middlefinger_002 5/middlefinger_003 5/middlefinger_004 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/pinkie_001 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/pinkie_001 5/pinkie_002
+          5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/pinkie_001 5/pinkie_002
+          5/pinkie_003 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/ringfinger_001 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/ringfinger_001 5/ringfinger_002
+          5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/ringfinger_001 5/ringfinger_002
+          5/ringfinger_003 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/ringfinger_001 5/ringfinger_002
+          5/ringfinger_003 5/ringfinger_004 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/thumb_001 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/thumb_001 5/thumb_002
+          5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/thumb_001 5/thumb_002
+          5/thumb_003 5
+        weight: 1
+      - path: Arms/ArmComplete_006/arm_root 5/lower_arm 5/Hand 5/thumb_001 5/thumb_002
+          5/thumb_003 5/thumb_004 5
+        weight: 1
+      - path: Arms/ArmComplete_007
+        weight: 1
+      - path: Arms/ArmComplete_007/Arm_007
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/index_001 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/index_001 6/index_002
+          6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/index_001 6/index_002
+          6/index_003 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/index_001 6/index_002
+          6/index_003 6/index_004 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/middlefinger_001
+          6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/middlefinger_001
+          6/middlefinger_002 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/middlefinger_001
+          6/middlefinger_002 6/middlefinger_003 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/middlefinger_001
+          6/middlefinger_002 6/middlefinger_003 6/middlefinger_004 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/pinkie_001 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/pinkie_001 6/pinkie_002
+          6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/pinkie_001 6/pinkie_002
+          6/pinkie_003 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/ringfinger_001 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/ringfinger_001 6/ringfinger_002
+          6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/ringfinger_001 6/ringfinger_002
+          6/ringfinger_003 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/ringfinger_001 6/ringfinger_002
+          6/ringfinger_003 6/ringfinger_004 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/thumb_001 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/thumb_001 6/thumb_002
+          6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/thumb_001 6/thumb_002
+          6/thumb_003 6
+        weight: 1
+      - path: Arms/ArmComplete_007/arm_root 6/lower_arm 6/Hand 6/thumb_001 6/thumb_002
+          6/thumb_003 6/thumb_004 6
+        weight: 1
+      - path: Arms/ArmComplete_008
+        weight: 1
+      - path: Arms/ArmComplete_008/Arm_008
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/index_001 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/index_001 7/index_002
+          7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/index_001 7/index_002
+          7/index_003 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/index_001 7/index_002
+          7/index_003 7/index_004 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/middlefinger_001
+          7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/middlefinger_001
+          7/middlefinger_002 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/middlefinger_001
+          7/middlefinger_002 7/middlefinger_003 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/middlefinger_001
+          7/middlefinger_002 7/middlefinger_003 7/middlefinger_004 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/pinkie_001 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/pinkie_001 7/pinkie_002
+          7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/pinkie_001 7/pinkie_002
+          7/pinkie_003 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/ringfinger_001 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/ringfinger_001 7/ringfinger_002
+          7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/ringfinger_001 7/ringfinger_002
+          7/ringfinger_003 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/ringfinger_001 7/ringfinger_002
+          7/ringfinger_003 7/ringfinger_004 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/thumb_001 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/thumb_001 7/thumb_002
+          7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/thumb_001 7/thumb_002
+          7/thumb_003 7
+        weight: 1
+      - path: Arms/ArmComplete_008/arm_root 7/lower_arm 7/Hand 7/thumb_001 7/thumb_002
+          7/thumb_003 7/thumb_004 7
+        weight: 1
+      - path: Arms/ArmComplete_009
+        weight: 1
+      - path: Arms/ArmComplete_009/Arm_009
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/index_001 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/index_001 8/index_002
+          8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/index_001 8/index_002
+          8/index_003 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/index_001 8/index_002
+          8/index_003 8/index_004 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/middlefinger_001
+          8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/middlefinger_001
+          8/middlefinger_002 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/middlefinger_001
+          8/middlefinger_002 8/middlefinger_003 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/middlefinger_001
+          8/middlefinger_002 8/middlefinger_003 8/middlefinger_004 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/pinkie_001 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/pinkie_001 8/pinkie_002
+          8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/pinkie_001 8/pinkie_002
+          8/pinkie_003 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/ringfinger_001 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/ringfinger_001 8/ringfinger_002
+          8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/ringfinger_001 8/ringfinger_002
+          8/ringfinger_003 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/ringfinger_001 8/ringfinger_002
+          8/ringfinger_003 8/ringfinger_004 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/thumb_001 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/thumb_001 8/thumb_002
+          8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/thumb_001 8/thumb_002
+          8/thumb_003 8
+        weight: 1
+      - path: Arms/ArmComplete_009/arm_root 8/lower_arm 8/Hand 8/thumb_001 8/thumb_002
+          8/thumb_003 8/thumb_004 8
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Eyes/Eye_001
+        weight: 1
+      - path: Eyes/Eye_001/eye_socket_001
+        weight: 1
+      - path: Eyes/Eye_001/eyeball_001
+        weight: 1
+      - path: Eyes/Eye_001/eyeball_jointcontainer_001
+        weight: 1
+      - path: Eyes/Eye_001/eyeball_jointcontainer_001/eyeball_joint1
+        weight: 1
+      - path: Eyes/Eye_002
+        weight: 1
+      - path: Eyes/Eye_002/eyeball_002
+        weight: 1
+      - path: Eyes/Eye_002/eyeball_jointcontainer_002
+        weight: 1
+      - path: Eyes/Eye_002/eyeball_jointcontainer_002/eyeball_joint2
+        weight: 1
+      - path: Eyes/Eye_002/eyesocket_002
+        weight: 1
+      - path: Eyes/Eye_003
+        weight: 1
+      - path: Eyes/Eye_003/eyeball_003
+        weight: 1
+      - path: Eyes/Eye_003/eyeball_jointcontainer_003
+        weight: 1
+      - path: Eyes/Eye_003/eyeball_jointcontainer_003/eyeball_joint3
+        weight: 1
+      - path: Eyes/Eye_003/eyesocket_003
+        weight: 1
+      - path: Eyes/Eye_004
+        weight: 1
+      - path: Eyes/Eye_004/eyeball_004
+        weight: 1
+      - path: Eyes/Eye_004/eyeball_jointcontainer_004
+        weight: 1
+      - path: Eyes/Eye_004/eyeball_jointcontainer_004/eyeball_joint4
+        weight: 1
+      - path: Eyes/Eye_004/eyesocket_004
+        weight: 1
+      - path: Eyes/Eye_005
+        weight: 1
+      - path: Eyes/Eye_005/eye_socket_005
+        weight: 1
+      - path: Eyes/Eye_005/eyeball_005
+        weight: 1
+      - path: Eyes/Eye_005/eyeball_jointcontainer_005
+        weight: 1
+      - path: Eyes/Eye_005/eyeball_jointcontainer_005/eyeball_joint5
+        weight: 1
+      - path: Eyes/Eye_006
+        weight: 1
+      - path: Eyes/Eye_006/eyeball_006
+        weight: 1
+      - path: Eyes/Eye_006/eyeball_jointcontainer_006
+        weight: 1
+      - path: Eyes/Eye_006/eyeball_jointcontainer_006/eyeball_joint6
+        weight: 1
+      - path: Eyes/Eye_006/eyesocket_006
+        weight: 1
+      - path: Wall_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 50
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

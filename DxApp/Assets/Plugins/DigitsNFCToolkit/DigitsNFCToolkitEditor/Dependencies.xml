@@ -1,0 +1,9 @@
+<dependencies>
+	<androidPackages>
+		<androidPackage spec="com.google.guava:guava:29.0-android">
+			<androidSdkPackageIds>
+				<androidSdkPackageId>extra-google-m2repository</androidSdkPackageId>
+			</androidSdkPackageIds>
+		</androidPackage>
+	</androidPackages>
+</dependencies>
