@@ -17,7 +17,7 @@ namespace Assets.Scripts.Common
             {
                 const string objectName = "UnitySingletons";
                 _singletonObjet = ObjectFinder.Find(objectName) ?? new GameObject { name = objectName };
-                UnityEngine.Object.DontDestroyOnLoad(_singletonObjet);
+                UnityEngine.Object.DontDestroyOnLoad(_singletonObjet); // 여기서 생성시키는구나
             }
             return _singletonObjet.transform;
         }
@@ -68,9 +68,6 @@ namespace Assets.Scripts.Common
         {
             _applicationIsQuitting = true;
         }
-
-
-
 
 
         public class Singleton<T> : ScriptableObject, ISingleton where T : Singleton<T>

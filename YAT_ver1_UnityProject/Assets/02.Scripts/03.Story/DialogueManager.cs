@@ -1,32 +1,26 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Common;
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+namespace Assets.Scripts.Managers
 {
-    // TODO : Novel_{num} 타입의 프리팹을 불러와서 대사 상황을 진행시킴
-    public Novel_01 novel_01;
-    public Novel_02 novel_02;
-    
-    private void Awake()
+    public class DialogueManager : UnitySingleton<DialogueManager>
     {
-        
-    }
+        // TODO : Novel_{num} 타입의 프리팹을 불러와서 대사 상황을 진행시킴
+        public Novel_01 novel_01;
+        public Novel_02 novel_02;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+        public override void UnInitialize()
+        {
+            base.UnInitialize();
+        }
+        public void CreatePrefab(int num)
+        {
+            novel_01.gameObject.SetActive(false);
+        }
 
-    public void CreatePrefab(int num)
-    {
-        novel_01.gameObject.SetActive(false);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

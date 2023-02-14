@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character_Mesu : BaseCharacter, Unit
+public class Character_Mesu : BaseCharacter, Unit__Yat
 {
     private BaseEnemy Target = null;
 

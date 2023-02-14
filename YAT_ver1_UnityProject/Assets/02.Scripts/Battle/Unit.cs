@@ -1,4 +1,4 @@
-public interface Unit
+public interface Unit__Yat
 {
     // 유닛에게 할당되는 유닛 인터페이스.
     

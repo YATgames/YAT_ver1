@@ -1,23 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 
 namespace Assets.Scripts.Common.Models
 {
     public class PlayerViewModel : UnitySingleton<PlayerViewModel>
     {
-        
-        // Start is called before the first frame update
-        void Start()
+        public override void Initialize()
         {
-
+            base.Initialize();
+        }
+        public override void UnInitialize()
+        {
+            base.UnInitialize();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
 
-        }
     }
 }

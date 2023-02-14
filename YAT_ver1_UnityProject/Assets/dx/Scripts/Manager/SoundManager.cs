@@ -18,7 +18,7 @@ namespace Assets.Scripts.Managers
         public override void Initialize()
         {
             base.Initialize();
-
+            /*
             var data = Resources.Load("Tables/sound_table") as TextAsset;
             var csvFile = CSVReader.Read(data.text);
             for (int i = 0; i < csvFile.Count; i++)
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Managers
                 }
 
                 _soundTable.Add(key, fileName);
-            }
+            }*/
         }
 
         public void SetVolume(float value)

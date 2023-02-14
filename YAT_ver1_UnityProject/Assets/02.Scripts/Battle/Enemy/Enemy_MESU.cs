@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YAT;
 
-public class Enemy_MESU : BaseEnemy, Unit
+public class Enemy_MESU : BaseEnemy, Unit__Yat
 {
     // Start is called before the first frame update
     void Start()
