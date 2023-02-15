@@ -5,18 +5,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UniRx;
+
 
 namespace Assets.Scripts.UI.Popup.Base
 {
-    public class UIPopupLobby : PopupBase
+    public class UIPopupMain : PopupBase
     {
+        [DependuncyInjection(typeof(FlowManager))]
+        private FlowManager _flowManager;
+        
         [DependuncyInjection(typeof(SoundManager))]
         private SoundManager _soundManager;
 
         [DependuncyInjection(typeof(ResourcesManager))]
         private ResourcesManager _resourcesManager;
 
-        [SerializeField] private LobbyView _lobbyView;
+        [SerializeField] private MainView _lobbyView;
 
 
         public override void Initialize()

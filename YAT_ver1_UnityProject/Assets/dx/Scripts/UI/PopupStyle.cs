@@ -7,10 +7,11 @@ namespace Assets.Scripts.UI
 
         // PopupBase  - Scene°³³ä
         Splash,
-        Lobby,
+        Main,
         Login,
         CreateUser,
         Inventory,
+        Test,
         
 
 

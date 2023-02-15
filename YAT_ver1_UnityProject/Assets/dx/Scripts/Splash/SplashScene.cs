@@ -10,6 +10,7 @@ using UnityEditor.Rendering;
 using Assets.Scripts.Common.Models;
 using Assets.Scripts.ManageObject;
 using Assets.Scripts.Common;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Splash
 {
@@ -18,6 +19,8 @@ namespace Assets.Scripts.Splash
         
         [DependuncyInjection(typeof(SoundManager))]
         private SoundManager _soundManager;
+        [DependuncyInjection(typeof(FlowManager))]
+        private FlowManager _flowManager;
 
         [SerializeField] private InputField _idField;
         [SerializeField] private Button _loginButton;
@@ -54,6 +57,8 @@ namespace Assets.Scripts.Splash
                 _idField.text = "idField";
                 Debug.Log("Splash 에서 시작버튼 누름");
                 GameManager.Instance.LoadScene(SceneName.MainScene);
+                SystemLoading.Show(SystemLoading.LoadingSize.Big, this); // 씬 객체에 생성되는 큰 로딩
+                _flowManager.AddSubPopup(PopupStyle.Main, 1);
             }).AddTo(gameObject);
             //GameManager.Instance
         }
