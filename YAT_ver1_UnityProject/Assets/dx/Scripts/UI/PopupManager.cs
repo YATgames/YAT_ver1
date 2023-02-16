@@ -5,9 +5,11 @@ using UniRx;
 using Assets.Scripts.Common;
 using Assets.Scripts.Util;
 using Assets.Scripts.Common.DI;
-using Assets.Scripts.Managers;
 using System.Threading;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine.UIElements;
+using Assets.Scripts.Manager;
 
 namespace Assets.Scripts.UI
 {
@@ -21,7 +23,11 @@ namespace Assets.Scripts.UI
         // = Field
         public readonly List<PopupBase> PopupList = new List<PopupBase>();
 
-        // 카메라 매니저 정보 가져오기
+        [DependuncyInjection(typeof(CameraManager))]
+        private CameraManager _cameraManager;
+
+        public readonly OnEventTrigger<PopupBase> LoadCompletePopup 
+            = new OnEventTrigger<PopupBase>();
 
         public override void Initialize()
         {
@@ -47,10 +53,12 @@ namespace Assets.Scripts.UI
         private IEnumerator Get<T>(CancellationToken cancelltationToken, PopupStyle style) where T : PopupBase
         {
             var popupName = GetPopupName(style); // 팝업 이름을 style로 가져와?
+            // Splash , 
             var popupBase = PopupList.Find(child => child.PopupStyle.Equals(style));
             if(popupBase == null) // 리스트에 해당하는 PopupStyle이 없음)
             {
                 // 그럼 추가해줘야지
+                Debug.Log("프리팹 로드단계");
                 var resource = Resources.LoadAsync<GameObject>(popupName);
 
                 while(!resource.isDone)
@@ -71,7 +79,7 @@ namespace Assets.Scripts.UI
                 else
                 {
                     Debug.Log("캔버스생성 else - camera");
-                    //popupCanvas.worldCamera = _
+                    popupCanvas.worldCamera = _cameraManager.Camera; // 카메라매니저에서 설정한 카메라 가져옴
                     popupCanvas.renderMode = RenderMode.ScreenSpaceCamera;
                 }
                 popupBase.transform.SetParent(transform);
@@ -91,9 +99,8 @@ namespace Assets.Scripts.UI
             observer.OnCompleted();
         }
 
-
-
         // Show 
+        #region ::::: Show
         public IObservable<T> Show<T>(PopupStyle style, params object[] data) where T : PopupBase // 외부에서 불러오는 용도의 간소화된 함수
         {
             return Observable.FromCoroutine<T>((observer, cancelltaionToken) => Show(observer, cancelltaionToken, style, data));
@@ -102,9 +109,23 @@ namespace Assets.Scripts.UI
         {
             PopupBase popupBase = null;
             yield return Observable.FromCoroutineValue<T>(() => Get<T>(cancelltaionToken, style)).Where(popup => popup != null).StartAsCoroutine(popup => popupBase = popup);
-
         }
+        public bool IsShow(PopupStyle style) // 파라미터로 들어오는 팝업이 활성화 되어있는지 반환하기
+        {
+            var popup = PopupList.Find(pop => pop.name.Equals(GetPopupName(style))); // 현재 팝업스타일 가져오기
+            return popup != null && popup.gameObject.activeSelf;
+        }
+        #endregion
 
+
+        #region ::::: Hide
+        public void Hide(PopupStyle style)
+        {
+            var popup = PopupList.Find(child => child.PopupStyle.Equals(style));
+            if (popup != null && popup.gameObject.activeSelf)
+                popup.Hide();
+        }
+        #endregion
 
         // = Method
         private string GetPopupName(PopupStyle style) // 팝업 이름 가져오기

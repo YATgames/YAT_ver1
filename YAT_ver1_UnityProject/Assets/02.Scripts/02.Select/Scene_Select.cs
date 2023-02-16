@@ -63,10 +63,10 @@ public class Scene_Select : MonoBehaviour
             btn_Business.onClick.AddListener(btnFunc_Business);
             btn_Request.onClick.AddListener(btnFunc_Request);
 
-            if (DataManager.instance != null)
+            if (CSVDataManager.instance != null)
             {
-                txt_Imtimate.text = DataManager.instance.p_Imtimate.ToString();
-                txt_FriendShip.text = DataManager.instance.p_friendShip.ToString();
+                txt_Imtimate.text = CSVDataManager.instance.p_Imtimate.ToString();
+                txt_FriendShip.text = CSVDataManager.instance.p_friendShip.ToString();
                 //txt_FriendShip.text = GameManager.instance.p_friendShip.ToString();    
             }
             //businessObject = null;

@@ -1,3 +1,4 @@
+using Assets.Scripts.Common;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,9 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class DataManager : MonoBehaviour
+public class CSVDataManager : MonoBehaviour
 {
-    public static DataManager instance;
+    public static CSVDataManager instance;
     private List<Dictionary<string, object>> json_userData;
     private SaveData _saveData;
     private string _jsonName;
@@ -54,8 +55,8 @@ public class DataManager : MonoBehaviour
             Debug.Log("<color=red>json파일 없음</color>");
 
             // TODO : 초기값설정 ( 실질적으로 안씀 )
-            DataManager.instance.p_gold = 0;
-            DataManager.instance.p_friendShip = 0;
+            CSVDataManager.instance.p_gold = 0;
+            CSVDataManager.instance.p_friendShip = 0;
             //SaveJson(); // saveJson에서 새로운 파일 생성도 함.?
             return;
         }
@@ -91,9 +92,9 @@ public class DataManager : MonoBehaviour
         // 이 하단은 조건문 이후과정
         try
         {
-            _saveData.local_friendship = DataManager.instance.p_friendShip;
-            _saveData.local_gold = DataManager.instance.p_gold;
-            _saveData.local_curParty = DataManager.instance.p_curParty;
+            _saveData.local_friendship = CSVDataManager.instance.p_friendShip;
+            _saveData.local_gold = CSVDataManager.instance.p_gold;
+            _saveData.local_curParty = CSVDataManager.instance.p_curParty;
         }
         catch (FileNotFoundException e)
         {

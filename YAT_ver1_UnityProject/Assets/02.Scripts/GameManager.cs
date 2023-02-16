@@ -1,11 +1,12 @@
 using Assets.Scripts.Common;
 using Assets.Scripts.Common.DI;
+using Assets.Scripts.UI;
 using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts.Managers
+namespace Assets.Scripts.Manager
 {
     public class GameManager : UnitySingleton<GameManager>
     {
@@ -36,8 +37,13 @@ namespace Assets.Scripts.Managers
             {
                 switch (v)
                 {
+                    case SceneName.SplashScene:
+                        Debug.Log("플로우매니저 - splash 씬");
+                        break;
                     case SceneName.MainScene:
+                        Debug.Log("플로우매니저 - main 씬");
                         // 플로우매니저에서 Change 시켜줘야함
+                        //FlowManager.Instance.Change(PopupStyle.Main);
                         break;
                 }
             }).AddTo(gameObject);

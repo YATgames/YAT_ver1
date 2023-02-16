@@ -1,5 +1,5 @@
 using Assets.Scripts.Common.DI;
-using Assets.Scripts.Managers;
+using Assets.Scripts.Manager;
 using Assets.Scripts.UI.Popup.PopupView;
 using System;
 using System.Collections;
@@ -18,11 +18,11 @@ namespace Assets.Scripts.UI.Popup.Base
         
         [DependuncyInjection(typeof(SoundManager))]
         private SoundManager _soundManager;
-
+        
         [DependuncyInjection(typeof(ResourcesManager))]
         private ResourcesManager _resourcesManager;
 
-        [SerializeField] private MainView _lobbyView;
+        [SerializeField] private MainView _mainView;
 
 
         public override void Initialize()
@@ -30,12 +30,14 @@ namespace Assets.Scripts.UI.Popup.Base
             base.Initialize();
             DependuncyInjection.Inject(this);
 
-            _lobbyView.SetData(); // view 의 데이터 세팅
-            // 커넥션 매니저 검사진행
-            // 배경음 진행
-
+            _mainView.FlowManager = _flowManager;
+            _mainView.ResourcesManager = _resourcesManager;
+            _mainView.SoundManager = _soundManager;
+            _mainView.SetData(); // view 의 데이터 세팅
             // ConnectionLogin 이 제작되면 여기서 로그인 검사
-            
+            // 커넥션 매니저 검사
+
+            // BGM 동작
         }
 
         public override void Show(params object[] data)

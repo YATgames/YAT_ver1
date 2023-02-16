@@ -31,17 +31,65 @@ namespace Assets.Scripts.UI
         {
             return PopupManager.Instance.Show<T>(style, data); // 근데 궁금하네 이건 Depencuncy로 안받음? 서로 싱글톤끼리는 아닌건가
         }
+
+        #region ::::: AddPopup
         public void AddSubPopup(PopupStyle style, params object[] data) //
         {
             PopupManager.Instance.Show<PopupSub>(style, data).Subscribe();
         }
-
-        
        public void AddContentsPopup(PopupStyle style, params object[] data)
         {
             PopupManager.Instance.Show<PopupSub>(style, data).Subscribe();
         }
+        #endregion
 
+        #region ::::: Change
+        public void Change(PopupStyle style, params object[] data)
+        {
+            if (CurStyle == style && style != PopupStyle.None)
+                return;
+            var node = GetLastNode();
+            PopupManager.Instance.Hide(node != null ? node.Style : CurStyle);
+            AllHideSubPopup(true); // 활성화 시키면서 다른거 다 지우기
+            CurStyle = style;
+
+            if (style == PopupStyle.None)
+                return;
+
+            AddFlow(style, data);
+            PopupManager.Instance.Show<PopupBase>(style, data).Subscribe();
+        }
+        // 인터페이스 Observable
+        public IObservable<T> Change<T>(PopupStyle style, params object[] data) where T :PopupBase
+        {
+            if (CurStyle == style && style != PopupStyle.None)
+                return NonePopupObservable<T>(); // Change를 사용할떄 가져온 <T> 형태 그대로 반환
+            var node = GetLastNode(); // 현재 마지막(사용중인) 노드 가져akwlakr오기
+
+            // LastNode로 받아온 node가 존재한다면 style를 지우고 없다면 현재 curStyle 를 지운다.
+            PopupManager.Instance.Hide(node != null ? node.Style : CurStyle);
+            AllHideSubPopup(true);
+            CurStyle = style;
+
+            if (style == PopupStyle.None)
+                return NonePopupObservable<T>();
+
+            AddFlow(style, data); // Flow 에 추가함
+            return PopupManager.Instance.Show<T>(style, data);
+        }
+
+        #endregion
+
+        private IObservable<T> NonePopupObservable<T>() where T : PopupBase
+        {
+            var observer = new Subject<T>(); // Subject를 탬플릿 형태로 선언한 observer 선언
+            Observable.NextFrame().Subscribe(_ =>
+            {
+                observer.OnNext(null);
+                observer.OnCompleted();
+            }).AddTo(gameObject);
+            return observer;
+        }
 
         private void AllHideSubPopup(bool isForce = false)
         {

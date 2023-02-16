@@ -1,7 +1,7 @@
 using Assets.Scripts.Common;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers
+namespace Assets.Scripts.Manager
 {
     public class DialogueManager : UnitySingleton<DialogueManager>
     {

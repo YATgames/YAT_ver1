@@ -12,9 +12,6 @@ namespace Assets.Scripts.UI
         CreateUser,
         Inventory,
         Test,
-        
-
-
         // PopupSub - Alert ÇüÅÂ ÆË¾÷
         
     }

@@ -1,4 +1,4 @@
-using Assets.Scripts.Managers;
+using Assets.Scripts.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +18,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public  SoundManager SoundManager { get; set; }
         [SerializeField] private Button _testButton;
 
-        private EventExtension.OnEventTrigger<int> _oncClick = new EventExtension.OnEventTrigger<int>();
+        private OnEventTrigger<int> _oncClick = new OnEventTrigger<int>();
         // 아마 로비에서 케이스 클릭하는 부분 핟당한거 같은데 쓸일없어보임
 
         private List<int> _datas;
@@ -42,7 +42,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
     
         public void SetData()
         {
-             //var data =  datas.FirstOrDefault(v => )
+            //var data =  datas.FirstOrDefault(v => )
+            Debug.Log("데이터 설정 model -> view 로 전달할것들");
         }
     }
 }

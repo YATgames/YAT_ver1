@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 using Assets.Scripts.UI;
 using System;
-using Assets.Scripts.Managers;
+using Assets.Scripts.Manager;
 using Assets.Scripts.Common.Models;
 using System.Threading;
 
@@ -15,6 +15,7 @@ namespace Assets.Scripts.ManageObject
         private static bool _isInitialize;
         
         // 플로우매니저는 사용해야하나?
+        public static FlowManager FlowManager { get { return FlowManager.Instance; } }
         public static PopupManager PopupManager { get { return PopupManager.Instance; } }
 
         private static IDisposable _gameServerConnectorDIssposable = null; // 서버연결? 안씀
@@ -24,13 +25,14 @@ namespace Assets.Scripts.ManageObject
             if (_isInitialize)
                 return;
 
-            SoundManager.Instance.Initialize();
-
             _isInitialize = true;
+            SoundManager.Instance.Initialize();
             GameManager.Instance.Initialize();
             PlayerViewModel.Instance.Initialize();
 
-            PopupManager.Instance.Initialize();
+            FlowManager.Initialize();
+            PopupManager.Initialize();
+            CameraManager.Instance.Initialize();
 
             // 카메라 매니저 초기화
         }
@@ -48,10 +50,12 @@ namespace Assets.Scripts.ManageObject
             else
             {
                 PopupManager.UnInitialize();
+                FlowManager.UnInitialize();
                 PlayerViewModel.Instance.UnInitialize();
                 SoundManager.Instance.UnInitialize();
                 ResourcesManager.Instance.UnInitialize();
                 GameManager.Instance.UnInitialize();
+                CameraManager.Instance.UnInitialize();
                 yield return FrameCountType.FixedUpdate.GetYieldInstruction(); // 이건 또 무슨구문임? ee
 
                 _isInitialize = false;

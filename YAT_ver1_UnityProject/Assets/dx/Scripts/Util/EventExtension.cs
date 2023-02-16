@@ -9,10 +9,10 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Util
 {
-    public class EventExtension
+    public static class EventExtension // 정적 선언이 되어야 가져와짐
     {
-
         //  PopupSub에서 불러올때 사용하는듯? 
+        /*
         public  static IObservable<PointerEventData> OnPointerDownAsObservable(Component component)
         {
             if (component == null || component.gameObject == null) 
@@ -24,15 +24,11 @@ namespace Assets.Scripts.Util
                 obseraver = component.gameObject.AddComponent<ObservablePointerDownTrigger>();
 
             return obseraver.OnPointerDownAsObservable();
-        }
-
-
+        }*/
+    }    
         [Serializable]
         public class OnEventTrigger : UnityEvent { }
 
         [Serializable]
         public class OnEventTrigger<T> : UnityEvent<T> { }
-
-
-    }
 }

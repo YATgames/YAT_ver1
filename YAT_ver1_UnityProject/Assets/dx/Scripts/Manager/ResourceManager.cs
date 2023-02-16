@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEditor.TextCore.Text;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers
+namespace Assets.Scripts.Manager
 {
     public class ResourcesManager : UnitySingleton<ResourcesManager>
     {

@@ -3,7 +3,7 @@ using Assets.Scripts.Util;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers
+namespace Assets.Scripts.Manager
 {
     public class SoundManager : UnitySingleton<SoundManager>
     {
