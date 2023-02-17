@@ -35,8 +35,6 @@ namespace Assets.Scripts.Splash
             {
                 if (string.IsNullOrEmpty(_idField.text))
                     return;
-                //_soundManager.StopBGM();
-                //_soundManager.Play("")
 
                 _idField.text = "idField";
                 Debug.Log("Splash 에서 시작버튼 누름");
@@ -44,16 +42,16 @@ namespace Assets.Scripts.Splash
             }).AddTo(gameObject);
 
             //  PlayerViewModelModel 에서 인스턴스 변경이 있으면
-
             DataManager.Instance
-                .ObserveEveryValueChanged(v => v._loadCount)
-                .Where(v => v != null)
+                .ObserveEveryValueChanged(v => v._nullObject)
+                .Where(v => v != null) // 기존코드는 PlayerModel을 가져오기 때문에 null이 나올수도 있음
+                // 이조건을 만족시키려면 없다가 채워지는 방식으로 해야될듯
                 .Subscribe(player =>
                 {
-
+                    GameManager.Instance.LoadScene(SceneName.MainScene);
+                    SystemLoading.Hide(this);
                 }).AddTo(gameObject);
-            GameManager.Instance.LoadScene(SceneName.MainScene);
-            SystemLoading.Hide(this);
+            
         }
         private void SetButton() // dx의 Splash_DEV 스크립트 부분을 함수로 할당시킴
         {

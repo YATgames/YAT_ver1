@@ -46,7 +46,7 @@ namespace Assets.Scripts.Manager
             _cameras.Remove(value);
         }
         private void DestroyCamera(Camera value)
-        {
+        {   
             DestroyImmediate(value.gameObject);
         }
         private void UpdatePosition()

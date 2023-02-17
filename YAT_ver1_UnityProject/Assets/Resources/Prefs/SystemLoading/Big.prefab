@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5910179848206674100}
   - component: {fileID: 5910179848206674098}
   - component: {fileID: 5910179848206674102}
+  - component: {fileID: 184525646351656336}
   m_Layer: 5
   m_Name: Big
   m_TagString: Untagged
@@ -89,3 +90,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fa4d74eda36f14896941adce69b454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &184525646351656336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5910179848206674099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0

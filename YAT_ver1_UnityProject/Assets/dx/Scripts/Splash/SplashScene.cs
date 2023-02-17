@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UniRx;
 using Assets.Scripts.Common.DI;
 using Assets.Scripts.Manager;
-using UnityEditor.Rendering;
 using Assets.Scripts.Common.Models;
 using Assets.Scripts.ManageObject;
 using Assets.Scripts.Common;
