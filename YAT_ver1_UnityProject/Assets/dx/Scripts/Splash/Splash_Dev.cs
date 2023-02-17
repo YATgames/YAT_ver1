@@ -44,6 +44,14 @@ namespace Assets.Scripts.Splash
             }).AddTo(gameObject);
 
             //  PlayerViewModelModel 에서 인스턴스 변경이 있으면
+
+            DataManager.Instance
+                .ObserveEveryValueChanged(v => v._loadCount)
+                .Where(v => v != null)
+                .Subscribe(player =>
+                {
+
+                }).AddTo(gameObject);
             GameManager.Instance.LoadScene(SceneName.MainScene);
             SystemLoading.Hide(this);
         }

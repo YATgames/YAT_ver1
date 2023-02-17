@@ -16,14 +16,19 @@ namespace Assets.Scripts.Manager
         {
             base.UnInitialize();
         }
+        public int _loadCount;
 
-        public void Reset()
+        private void Update()
         {
-            
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log("로드카운트 변경");
+                _loadCount++;
+            }
         }
 
         #region ::::: SetDatas
-        
+
         #endregion
     }
 }
