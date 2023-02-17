@@ -26,7 +26,7 @@ namespace Assets.Scripts.UI.Util
 			{
 				sizeMultiple = canvasRect.sizeDelta.x / canvasScaler.referenceResolution.x;
 			}
-			transform.localScale = new Vector3(keepScale.x * sizeMultiple, keepScale.y * sizeMultiple, transform.localScale.z);
+			transform.localScale = new Vector3(keepScale.x * sizeMultiple, keepScale.y * sizeMultiple, keepScale.z * sizeMultiple);
 		}
 	}
 }

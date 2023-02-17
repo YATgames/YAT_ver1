@@ -35,7 +35,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
             PlaySE(_seContents2[2]); //
             yield return new WaitForSeconds(1f);
             
-            ModelingMotion(Anim.BACKSIDE, 0.3f); // 뒤돌기
+            ModelingMotion(Anim.BACKSIDE); // 뒤돌기
             _ghostHalf.GetComponent<RectTransform>().DOAnchorPosY(0f, 0.2f)
                 .SetEase(Ease.Linear);
             PlaySE(_seContents1[1]); // SE : 휙 도는 소리
@@ -45,16 +45,12 @@ namespace Assets.Scripts.UI.Popup.PopupView
             //PlaySE(_seContents2[2]); //
             yield return new WaitForSeconds(1.5f);
 
-            ModelingMotion(Anim.FRONTSIDE, 0.3f); // 앞보기  
+            ModelingMotion(Anim.FRONTSIDE); // 앞보기  
             PlaySE(_seContents1[1]); // SE : 휙 도는 소리
             yield return new WaitForSeconds(2f);
 
             _ghostHair.gameObject.SetActive(true);
-            _ghostHair.DOFillAmount(1f, 0.3f).From(0f).SetEase(Ease.Linear);
-            //_ghostHair.DOFade(1f, 0.5f).SetEase(Ease.Linear);
-            
-            //_ghostHair.rectTransform.DOAnchorPosY(0f, 0.8f).SetEase(Ease.InQuad);
-            //_ghostHair.transform.DOLocalMoveY(0f, 0.8f).SetEase(Ease.InQuad);
+            _ghostHair.rectTransform.DOAnchorPosY(0, 0.3f);
             PlaySE(_seContents1[0]); // SE :노려보는 공포효과음
             PlayExclamationMark();
             yield return new WaitForSeconds(0.6f);
@@ -65,12 +61,9 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private IEnumerator SurpriseRoutine2()
         {
-            //ModelingMotion(Anim.BACKSIDE, 0.3f);
-
-            // _ghostHair.rectTransform.DOAnchorPosY(_ghostHair.rectTransform.rect.height, 1f).SetEase(Ease.Linear); 
-            _ghostHair.DOFade(0f, 1f).SetEase(Ease.Linear);
+            //_ghostHair.DOFade(0f, 1f).SetEase(Ease.Linear);
             _ghostHair.raycastTarget = false;
-
+            _ghostHair.rectTransform.DOAnchorPosY(1024, 0.2f).SetEase(Ease.Linear);
             yield return new WaitForSeconds(0.5f);
             // SE : 부들들 떨기
             ModelingMotion(Anim.SHUDDER);
@@ -87,9 +80,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     _ghostFullscreen.rectTransform.DOShakeAnchorPos(1.2f, 100, 30, 90, false, false);
                 });
 
-            yield return new WaitForSeconds(1.5f);
-            _modelObject.SetActive(false);
-            _ghostFullscreen.DOFade(0f, 0.5f).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(1f);
+            CustomView.ContentsExit(1f, 2f);
             yield break;
         }
         private void GhostShow()
@@ -115,10 +107,6 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _blackBG.color = Color.clear;
 
             _ghostHalf.rectTransform.anchoredPosition = Vector2.zero;
-            /*
-            _ghostHair.rectTransform.anchoredPosition =
-                new Vector3(Random.Range(-200, 200), 0, -200f);
-            */
             _ghostHair.raycastTarget = false;
             _ghostFullscreen.rectTransform.anchoredPosition = new Vector2(0, -1024);
 
@@ -184,16 +172,16 @@ namespace Assets.Scripts.UI.Popup.PopupView
             }
             else
                 _seqQuestionMark.Restart();
-
         }
         private IEnumerator ColorChangeRoutine()
         {
+            float time = 0.5f;
             while (_isColorChanged)
             {
-                _ghostHair.DOColor(new Color(1, 0.6f, 0.6f, 1), 0.3f);
-                yield return new WaitForSeconds(0.3f);
-                _ghostHair.DOColor(new Color(1, 1f, 1f, 1), 0.3f);
-                yield return new WaitForSeconds(0.3f);
+                _ghostHair.DOColor(new Color(1, 0.6f, 0.6f, 1), time);
+                yield return new WaitForSeconds(time);
+                _ghostHair.DOColor(new Color(1, 1f, 1f, 1), time);
+                yield return new WaitForSeconds(time);
             }
             yield break;
         }

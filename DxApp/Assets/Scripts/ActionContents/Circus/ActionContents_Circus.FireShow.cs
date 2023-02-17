@@ -64,6 +64,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 StartCoroutine(ExtinguisherSprayCoroutine());
                 yield return new WaitForSeconds(3f);
             }
+            _customView.ContentsExit(1.5f, 1.5f);
         }
 
         private IEnumerator ExtinguisherSprayCoroutine()

@@ -34,8 +34,6 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _inputRangeHappyEnd.gameObject.SetActive(true);
             _ghostFullscreen_3.gameObject.SetActive(true);
 
-            //_bathroomImage.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -300f);
-            //_bathroomImage.transform.localPosition = new Vector3(0, 0, -300f);
             _dialogueText[0].color = Color.red;
             _dialogueText[1].color = Color.red;
             _dialogueText[2].color = Color.green;
@@ -105,26 +103,27 @@ namespace Assets.Scripts.UI.Popup.PopupView
                      _rightHand.image.rectTransform.DOAnchorPos(_rightZeroPos, 1f).SetEase(Ease.Linear);
                      _rightHand.image.DOFade(0f, 1f).SetEase(Ease.Linear);
 
-                     //int ranNum = 1;
+                     //int ranNum = 0;
                      int ranNum = UnityEngine.Random.Range(0, 2);
                      if (ranNum == 0)
                          HeartEventRoutine().ToObservable().Subscribe();
                      else
                          ScaryEventRoutine().ToObservable().Subscribe();
                  });
-                 
              });
         }
         // Event1
         private IEnumerator HeartEventRoutine()
         {
             yield return new WaitForSeconds(1f); // 손 사라지기까지 조금 기다리기
+
             _fxFlares.Play();
             PlaySE(_seContents3[0]);
             _inputRangeHappyEnd.gameObject.SetActive(true);
             DialoguePlay(2);
 
             _fxLight.SetActive(true);
+            CustomView.ContentsExit(3.5f, 1.5f);
             yield break;
         }
         
@@ -146,11 +145,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     _ghostFullscreen_3.rectTransform.DOScale(1.4f, 0.15f).SetEase(Ease.OutBack);
                     _ghostFullscreen_3.rectTransform.DOShakeAnchorPos(1.2f, 100, 30, 90, false, false);
                 });
-            yield return new WaitForSeconds(1.5f);
-            Debug.Log("왜 안댐?");
-            _ghostFullscreen_3.DOFade(0f, 0.5f).SetEase(Ease.Linear);
-            _modelObject.SetActive(false);
-            //yield break;
+
+            yield return new WaitForSeconds(1f);
+            CustomView.ContentsExit(1f, 2f);
+            yield break;
+
         }
         private void HeartClick()
         {

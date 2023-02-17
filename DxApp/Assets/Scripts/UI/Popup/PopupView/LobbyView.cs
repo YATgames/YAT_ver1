@@ -9,6 +9,7 @@ using UniRx;
 using UnityEngine;
 
 using Assets.Scripts.Managers; // ResourcesManager 가져오기 위해서 추가함
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
@@ -19,6 +20,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public ResourcesManager ResourcesManager { get; set; }
 
         [SerializeField] private ItemDisplay[] _itemDisplays;
+
+		[SerializeField] private Button _explainButton;
 
         [SerializeField] private GameObject _sinbiOBJ;
         [SerializeField] private GameObject _geumbiOBJ;
@@ -36,8 +39,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
 			var sinbi = PlayerViewModel.Inventory.Doggabis.FirstOrDefault(v => v.ID == "70001");
             var geumbi = PlayerViewModel.Inventory.Doggabis.FirstOrDefault(v => v.ID == "70002");
 
-			if(sinbi != null) _sinbiOBJ.SetActive(true);
-			if (geumbi != null) _geumbiOBJ.SetActive(true);
+			if (sinbi != null) _sinbiOBJ.SetActive(true);
+			else _sinbiOBJ.SetActive(false);
+
+            if (geumbi != null) _geumbiOBJ.SetActive(true);
+			else _geumbiOBJ.SetActive(false);
 
             AddEvent();
             DependuncyInjection.Inject(this);
@@ -50,7 +56,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
 				SoundManager.Instance.Play("Button_Click");
 				FlowManager.Change(PopupStyle.Custom, caseNumber);
 			}).AddTo(gameObject);
-		}
+
+			_explainButton.OnClickAsObservable().Subscribe(v => FlowManager.AddSubPopup(PopupStyle.LobbyExplain)).AddTo(gameObject);
+
+        }
 
 		public void SetData(List<CaseInfo> datas)
 		{

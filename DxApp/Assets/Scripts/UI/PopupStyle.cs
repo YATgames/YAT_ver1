@@ -27,5 +27,6 @@
         CaseInven,
         CombineExplain,
         DailyCheck,
+        LobbyExplain,
     }
 }

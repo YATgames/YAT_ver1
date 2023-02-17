@@ -16,7 +16,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         // 의존성으로 인해서 Model 에서 받아올 것들
         public FlowManager FlowManager { get; set; }
         public OnEventTrigger Hide { get; set; }
-
+        private CustomView CustomView;
 
         private GameObject[] _contentObjects;
 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private bool _isBackGhostShow = false;
         private bool _isColorChanged;
 
-        private int _farCreateCount = 25;
+        private int _farCreateCount = 5; // 방귀 생성 개수(터치 해야하는 수) default: 25
         private float _gasCreateRange;
 
         private Image _redTissue;
@@ -48,6 +48,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private GameObject _tissueObject= null;
        
+        [SerializeField] private Sprite _bathroomOutsideImage;
         [SerializeField] private Sprite _bathroomInsideImage;
         private Button _leftHand;
         private Button _rightHand;
@@ -55,8 +56,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private Text[] _dialogueText;
         private int _heartTouchCount =0;
         // 테마 이미지 변경을 위해서 가져옴 ( 화장실 컨텐츠에서만 변경사항 있음 )
-        [SerializeField] private string _caseName = "Button_Case"; 
-           
+        [SerializeField] private string _caseName = "Button_Case";
         [Header("Surprise")]
         [SerializeField] private Image _exclamationMark;
         [SerializeField] private Image _questionMark;
@@ -120,7 +120,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private void Init()
         {
-            int count = 4;
+            int count = 3;
             _contentObjects = new GameObject[count];
             for (int i = 0; i <count; i++)
             {
@@ -129,18 +129,19 @@ namespace Assets.Scripts.UI.Popup.PopupView
             }
             RandomContents();            
         }
-
+        public void GetCustomView(CustomView customView)
+        {
+            CustomView = customView;
+        }
         public void GetFigure(GameObject figure)
         {
-            Debug.Log("겟 피규어! : " + figure.name);
             _modelObject = figure;
-            _animator = _modelObject.GetComponent<Animator>();
-            
+            _animator = _modelObject.GetComponent<Animator>();   
         }
         private void RandomContents()
         {
             int num = UnityEngine.Random.Range(0, 3);
-            //int num = 0;
+            //int num = 1;
             _contentObjects[num].gameObject.SetActive(true);
             switch (num)
             {
@@ -154,17 +155,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     Init_Surprise(); break;
             }
         }
-        // 케이스 이미지 바꾸기
+        
+        // 케이스 이미지 바꾸기(화장실에서만 다른 이미지가 사용됨)
         private void ChangeCaseImage()
         {
-            Image theme = ObjectFinder.Find(_caseName).GetComponent<Image>();
-            if (theme == null)
-            {
-                Debug.LogError("<color=red>테마케이스 정보를 가져오지 못했습니다. _caseName 값을 확인해주세요</color>");
-                return;
-            }
-
-            theme.sprite = _bathroomInsideImage;
+            CustomView.temmaImage.sprite = _bathroomInsideImage;
         }
 
         enum Anim
@@ -190,7 +185,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
        /// </summary>
        /// <param name="anim"> 재생할 애니메이션 및 모션 </param>
        /// <param name="turnSpeed"> FRONTSIDE or BACKSIDE 모션에서 도는 속도 </param>
-        private void ModelingMotion(Anim anim, float turnSpeed = 0f)
+        private void ModelingMotion(Anim anim)
         {
             // 0 0 0 상태가 귀신 바라보기(BACKSIDE가 되어야함)
             switch (anim)
@@ -198,10 +193,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 case Anim.IDLE:
                     _animator.SetTrigger("Idle"); break;
                 case Anim.FRONTSIDE:
-                    _modelObject.transform.DOLocalRotate(new Vector3(0, 180, 0), turnSpeed).SetEase(Ease.Linear);
+                    _modelObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 0.3f).SetEase(Ease.Linear);
                     break;
                 case Anim.BACKSIDE:
-                    _modelObject.transform.DOLocalRotate(new Vector3(0, 0, 0), turnSpeed).SetEase(Ease.Linear);
+                    _modelObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f).SetEase(Ease.Linear);
                     break;
                 case Anim.COLLAPSE:
                     _animator.SetTrigger("Collapse"); break;
@@ -233,15 +228,5 @@ namespace Assets.Scripts.UI.Popup.PopupView
         {
             // 데이터 설정?
         }
-
-        // 컨텐츠 종료하기
-        public void CloseContents()
-        {
-            if (_isBackGhostShow)
-                Destroy(_ghostHalf.gameObject);
-            // 이 오브젝트 삭제
-            // CustomView의 ButtonAni.gameobject 활성화 해줘야함
-        }
-
     }
 }

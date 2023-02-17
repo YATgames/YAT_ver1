@@ -76,9 +76,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _anim.speed = 1f;
             _anim.SetTrigger("Startling");
             _aSource.PlayOneShot(_ballClip[3]);
-            yield return new WaitForSeconds(2.5f);
-            _brokenScreen.GetComponent<Image>().DOColor(Color.clear, 0.75f);
-            yield return new WaitForSeconds(1f);
+            _customView.ContentsExit(3.5f, 1.5f);
+            yield return new WaitForSeconds(4.5f);
             _brokenScreen.gameObject.SetActive(false);
         }
 

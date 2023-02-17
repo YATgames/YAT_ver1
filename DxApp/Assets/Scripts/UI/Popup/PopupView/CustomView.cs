@@ -14,65 +14,78 @@ using Assets.Scripts.PrefabModel;
 using Assets.Scripts.Util;
 using DG.Tweening;
 using UnityEngine.Rendering;
+using Assets.Scripts.UI.Common;
+using System;
+using System.Linq.Expressions;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
-	public class CustomView : MonoBehaviour
-	{
-		public FlowManager FlowManager { get; set; }
-		public PlayerViewModel PlayerViewModel { get; set; }
-		public PopupManager PopupManager { get; set; }
+    public class CustomView : MonoBehaviour
+    {
+        public FlowManager FlowManager { get; set; }
+        public PlayerViewModel PlayerViewModel { get; set; }
+        public PopupManager PopupManager { get; set; }
+        public ConnectionManager ConnectionManager { get; set; }
 
-		public int CaseNumber { get; set; }
+        public int CaseNumber { get; set; }
 
-		[SerializeField] private Animator _buttonsAni;
+        [SerializeField] DragAndRotateCharacter _dragAndRotateCharacter;
 
-		//[SerializeField] private Button _buttonsButton;
+        [SerializeField] private Animator _buttonsAni;
 
-		[SerializeField] private Button _figureActionButton;
-		[SerializeField] private Button _temmaButton;
-		[SerializeField] private Button _figureInvenButton;
+        [SerializeField] private Button _teminateGhost;
+        [SerializeField] private Button _teminateTemma;
+
+        [SerializeField] private Button _figureActionButton;
+        [SerializeField] private Button _temmaButton;
+        [SerializeField] private Button _figureInvenButton;
 
         [SerializeField] private RectTransform _inputRange;
-		//[SerializeField] private Text _themaNameText;
-		[SerializeField] private Image _temmaImage;
-		[SerializeField] private GameObject _figureParent;
 
-		//[SerializeField] private GameObject _caseImage; // testFigureParent -> _caseImage
-		//[SerializeField] private Text _testFigureText; // 임시 (피규어 정보 가지고있음)
+        [SerializeField] private Image _caseImage; // 케이스 이미지
+        [SerializeField] private Image _temmaImage; // 테마 이미지
+        [SerializeField] private GameObject _figureParent;
 
-		[SerializeField] private DropItem _dropItem;
-
-		private int _caseNumber;
-		private bool _isOpen = false;
-
+        [SerializeField] private DropItem _dropItem;
+        private bool _isOpen = false;
+        public Image temmaImage
+        {
+            get
+            {
+                return _temmaImage;
+            }
+        }
         [Space(10)]
         [Header("ActionFigure")]
-		[SerializeField] private Transform _actionContentParents;
-		[SerializeField] private GameObject _partyContnets;
-		[SerializeField] private GameObject _circusContnets;
-		[SerializeField] private GameObject _bathroomContnets;
-		[SerializeField] private Transform _characterTransform;
+        [SerializeField] private Transform _actionContentParents;
+        [SerializeField] private GameObject _partyContnets;
+        [SerializeField] private GameObject _circusContnets;
+        [SerializeField] private GameObject _bathroomContnets;
+        [SerializeField] private Transform _characterTransform;
+
+        [SerializeField] private Image _contentsExitImage; // 컨텐츠 자동종료 FadeOut을 위해서 생성
         private float _figureScale = 700f;
         private GameObject _actionFigure;
+        private GameObject _contents; // 플레이중인 액션컨텐츠
 
-		private enum ActionContents
-		{
-			PARTY,
-			CIRCUS,
-			BATHROOM,
-			NONE,
-		}
-		private ActionContents _actionContents;
+
+        private enum ActionContents
+        {
+            PARTY,
+            CIRCUS,
+            BATHROOM,
+            NONE,
+        }
+        private ActionContents _actionContents;
         public ResourcesManager ResourcesManager { get; set; }
-
         public void Initialize()
-		{
+        {
             AddEvent();
             IntroButotnAni();
         }
-        private void IntroButotnAni()
+        public void IntroButotnAni()
         {
+            _contentsExitImage.gameObject.SetActive(false);
             _inputRange.sizeDelta = new Vector2(Screen.width, Screen.height);
             _isOpen = true;
             _buttonsAni.SetBool("Open", true);
@@ -87,6 +100,34 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 _buttonsAni.SetBool("Open", _isOpen);
             }).AddTo(gameObject);
             */
+            _teminateGhost.OnClickAsObservable().Subscribe(_ =>
+            {
+                var caseinfo = PlayerViewModel.Player.CaseList.FirstOrDefault(v => v.Number == CaseNumber);
+                if (string.IsNullOrEmpty(caseinfo.FigureInstanceID)) return;
+                else
+                {
+                    caseinfo.FigureInstanceID = string.Empty;
+                    ConnectionManager.RegistCase(caseinfo);
+                    SystemLoading.Show(SystemLoading.LoadingSize.Big, this);
+                }
+            }).AddTo(gameObject);
+
+            _teminateTemma.OnClickAsObservable().Subscribe(_ =>
+            {
+                var caseinfo = PlayerViewModel.Player.CaseList.FirstOrDefault(v => v.Number == CaseNumber);
+                if (string.IsNullOrEmpty(caseinfo.ThemeID)) return;
+                else
+                {
+                    caseinfo.ThemeID = string.Empty;
+                    ConnectionManager.RegistCase(caseinfo);
+                    SystemLoading.Show(SystemLoading.LoadingSize.Big, this);
+                }
+            }).AddTo(gameObject);
+
+            PlayerViewModel.ServerRespones.AsObservable().Subscribe(_ =>
+            {
+                SystemLoading.Hide(this);
+            }).AddTo(gameObject);
 
             _temmaButton.OnClickAsObservable().Subscribe(_ =>
             {
@@ -106,43 +147,55 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _figureActionButton.OnClickAsObservable().Subscribe(_ =>
             {
                 // 검사 후 정보에 맞는 컨텐츠 재생
+                
                 AddActionContents();
             }).AddTo(gameObject);
 
             ResourcesManager.ModelingSetting(_characterTransform);
         }
         public void SetData(CaseInfo data)
-		{
-			// 테마 확인
-			if (string.IsNullOrEmpty(data.ThemeID))
-			{
-				//_themaNameText.text = string.Empty;
-				_temmaImage.sprite = ResourcesManager.GetCaseColor(data.CaseColor);
+        {
+            // 테마 확인
+            if (string.IsNullOrEmpty(data.ThemeID))
+            {
+                //_themaNameText.text = string.Empty;
+                _teminateTemma.gameObject.SetActive(false);
+                _temmaImage.gameObject.SetActive(false);
+                _caseImage.sprite = ResourcesManager.GetCaseColor(data.CaseColor); // 추가
             }
             else
-			{
-				var thema = PlayerViewModel.Inventory.Themes.FirstOrDefault(v => v.ID == data.ThemeID);
-				if(thema != null)
-				{
-					//_themaNameText.text = thema.Name.FromStringTable();
-				}
-				_temmaImage.sprite = ResourcesManager.GetTheme(data.ThemeID);
+            {
+                var thema = PlayerViewModel.Inventory.Themes.FirstOrDefault(v => v.ID == data.ThemeID);
+                if (thema != null)
+                {
+                    //_themaNameText.text = thema.Name.FromStringTable();
+
+                    _teminateTemma.gameObject.SetActive(true);
+                    _temmaImage.gameObject.SetActive(true);
+                    _temmaImage.sprite = ResourcesManager.GetTheme(data.ThemeID);
+                    _caseImage.sprite = ResourcesManager.GetCaseColor(data.CaseColor); // 추가
+                }
+
             }
 
             // 피규어 확인
             if (string.IsNullOrEmpty(data.FigureInstanceID))
-			{
-				//_caseImage.SetActive(false);
-			}
-			else
-			{
-				//_caseImage.SetActive(true);
-				var customFigure = PlayerViewModel.Inventory.CustomFigures.FirstOrDefault(v => v.InstanceID == data.FigureInstanceID);
-				var originFigure = PlayerViewModel.Inventory.OriginFigures.FirstOrDefault(v => v.InstanceID == data.FigureInstanceID);
+            {
+                //_caseImage.SetActive(false);
+                _teminateGhost.gameObject.SetActive(false);
+                if (_actionFigure != null) _actionFigure.SetActive(false);
+            }
+            else
+            {
+                _teminateGhost.gameObject.SetActive(true);
+                _dragAndRotateCharacter.enabled = true;
+                //_caseImage.SetActive(true);
+                var customFigure = PlayerViewModel.Inventory.CustomFigures.FirstOrDefault(v => v.InstanceID == data.FigureInstanceID);
+                var originFigure = PlayerViewModel.Inventory.OriginFigures.FirstOrDefault(v => v.InstanceID == data.FigureInstanceID);
 
                 if (customFigure != null)
-				{
-					//_testFigureText.text = string.Format("CustomFigure \n\n ID : {0} \n\n InstanceID : {1}", customFigure.ID, customFigure.InstanceID);
+                {
+                    //_testFigureText.text = string.Format("CustomFigure \n\n ID : {0} \n\n InstanceID : {1}", customFigure.ID, customFigure.InstanceID);
                     #region LoadCustomFigure
                     ResetModels();
                     var items = customFigure.CustomData.Parts;
@@ -166,7 +219,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     Model_Body _body = body?.GetComponent<Model_Body>();
                     Model_Head _head = head?.GetComponent<Model_Head>();
                     Model_Deco _deco = deco?.GetComponent<Model_Deco>();
-
+                    _actionFigure = body.gameObject;
 
                     try
                     {
@@ -190,7 +243,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                         }
 
                         _deco.ResetTransform();
-                        GetFigure();
+
                     }
                     catch
                     {
@@ -200,8 +253,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
                 }
                 else if (originFigure != null)
-				{
-					//_testFigureText.text = string.Format("OriginFigure \n\n ID : {0} \n\n InstanceID : {1}", originFigure.ID, originFigure.InstanceID);
+                {
+                    //_testFigureText.text = string.Format("OriginFigure \n\n ID : {0} \n\n InstanceID : {1}", originFigure.ID, originFigure.InstanceID);
                     #region LoadOriginFigure
                     ResetModels();
 
@@ -227,7 +280,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     Model_Body _body = body?.GetComponent<Model_Body>();
                     Model_Head _head = head?.GetComponent<Model_Head>();
                     Model_Deco _deco = deco?.GetComponent<Model_Deco>();
-                    GetFigure();
+
                     //UnityEngine.Debug.Log("Body : " + body.name);
                     _actionFigure = body.gameObject;
                     try
@@ -259,11 +312,12 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     #endregion
                 }
                 //else
-					//_caseImage.SetActive(false);
+                //_caseImage.SetActive(false);
 
             }
+
             CheckContents(data);
-		}
+        }
         private void ResetModels()
         {
             for (int i = 0; i < ItemManager.Instance.PartsList.Count; i++)
@@ -271,13 +325,9 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 ResourcesManager.ResetModels(ItemManager.Instance.PartsList[i].ID);
             }
         }
-        private void GetFigure()
-        {
-                
-        }
         private void CheckContents(CaseInfo data)
         {
-			// 케이스 유무 검사
+            // 케이스 유무 검사
             if (string.IsNullOrEmpty(data.ThemeID))
             {
                 _actionContents = ActionContents.NONE;
@@ -312,26 +362,29 @@ namespace Assets.Scripts.UI.Popup.PopupView
             }
             else
             {
+                _teminateGhost.gameObject.SetActive(false);
+                _teminateTemma.gameObject.SetActive(false);
                 _buttonsAni.SetBool("Open", false);
-                //_buttonsButton.image.raycastTarget = false;
-                //_themaNameText.gameObject.SetActive(false);
-                GameObject contents = null;
                 switch (_actionContents)
                 {
                     case ActionContents.PARTY:
                         FigureScaleSetting();
-                        contents = Instantiate(_partyContnets, _actionContentParents.transform);
+                        _contents = Instantiate(_partyContnets, _actionContentParents.transform);
                         break;
                     case ActionContents.CIRCUS:
                         FigureScaleSetting();
-                        contents = Instantiate(_circusContnets, _actionContentParents.transform); break;
+                        _contents = Instantiate(_circusContnets, _actionContentParents.transform); 
+                        _contents.GetComponent<ActionContents_Circus>().GetFigure(_actionFigure);
+                        _contents.GetComponent<ActionContents_Circus>().GetCustomView(this);
+                        break;
                     case ActionContents.BATHROOM:
                         FigureScaleSetting();
-                        contents = Instantiate(_bathroomContnets, _actionContentParents.transform);
-                        contents.GetComponent<ActionContents_Bathroom>().GetFigure(_actionFigure);
+                        _contents = Instantiate(_bathroomContnets, _actionContentParents.transform);
+                        _contents.GetComponent<ActionContents_Bathroom>().GetFigure(_actionFigure);
+                        _contents.GetComponent<ActionContents_Bathroom>().GetCustomView(this);
                         break;
                     default:
-                        contents = Instantiate(_partyContnets, _actionContentParents.transform);
+                        _contents = Instantiate(_partyContnets, _actionContentParents.transform);
                         UnityEngine.Debug.LogError("<color=red> CaseInfo.ThemeID 를 제대로 가져오지 못했다</color>");
                         break;
                 }
@@ -346,5 +399,30 @@ namespace Assets.Scripts.UI.Popup.PopupView
             this.GetComponent<PinchObject>().enabled = false;
         }
 
+        /// <summary>
+        /// 액션컨텐츠 끝내기
+        /// </summary>
+        /// <param name="delayTime">검정 배경 나오기까지 딜레이시간</param>
+        /// <param name="delayTime2">검정 배경 사라지기까지 딜레이시간</param>
+        public void ContentsExit(float delayTime, float delayTime2)
+        {
+            Observable.Timer(TimeSpan.FromSeconds((double)delayTime))
+                .Subscribe(_ =>
+                {
+                    _contentsExitImage.gameObject.SetActive(true);
+                    _contentsExitImage.DOFade(1f, 1f).From(0f).SetEase(Ease.Linear).OnComplete(()=>
+                    {
+                        _actionFigure.GetComponent<Animator>().SetTrigger("Idle");
+                        Destroy(_contents);
+                    });
+                    _contentsExitImage.DOFade(0f, 1f).SetEase(Ease.Linear).SetDelay(delayTime2)
+                        .OnComplete(() =>
+                        {
+                            IntroButotnAni();
+                            this.GetComponent<DragAndRotateCharacter>().enabled = true;
+                            this.GetComponent<PinchObject>().enabled = true;
+                        });
+                });
+        }
     }
 }

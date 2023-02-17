@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using Assets.Scripts.Common.DI;
 using Assets.Scripts.Managers;
+using UniRx;
 
 namespace Assets.Scripts.Splash
 {
@@ -13,8 +14,10 @@ namespace Assets.Scripts.Splash
         [SerializeField] private Image _splashCase;
         [SerializeField] private Image _splashFigure;
         [SerializeField] private Image _splashFigureOne;
+        [SerializeField] private Image _splashXLigth;
         [SerializeField] private Image _splashX;
         [SerializeField] private Image _shinbiLogo;
+        [SerializeField] private Image _figureLogoLight;
         [SerializeField] private Transform _figureLogo;
 
         [SerializeField] private float _firstTime = 1f;
@@ -47,6 +50,9 @@ namespace Assets.Scripts.Splash
             yield return new WaitForSeconds(1f);
 
             _shinbiLogo.DOColor(Color.white, 0.5f);
+
+            _splashXLigth.gameObject.SetActive(true);
+            _figureLogoLight.gameObject.SetActive(true);
 
             yield return new WaitForSeconds(0.5f);
 

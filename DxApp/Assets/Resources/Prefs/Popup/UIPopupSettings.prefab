@@ -67,6 +67,7 @@ MonoBehaviour:
   _preDecoImage: {fileID: 703507937}
   _postDecoImage: {fileID: 245056239}
   _selectedImage: {fileID: 997938955072619962}
+  _alreadyDisplayImage: {fileID: 997938955072619962}
   _frameSprites:
   - {fileID: 21300000, guid: b7dfed11d18f8e34ba3d88bd09ad4dd6, type: 3}
   - {fileID: 21300000, guid: b7dfed11d18f8e34ba3d88bd09ad4dd6, type: 3}
@@ -1640,7 +1641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4172844705905194563}
   - component: {fileID: 3057824988659351659}
-  - component: {fileID: 8273073128785499819}
+  - component: {fileID: 7104950923026714717}
   m_Layer: 5
   m_Name: SettingsView
   m_TagString: Untagged
@@ -1693,7 +1694,7 @@ MonoBehaviour:
   _rankingText: {fileID: 4717536701649635618}
   _figureCountText: {fileID: 1995151953288358141}
   _favoriteFigure: {fileID: 128726705}
---- !u!114 &8273073128785499819
+--- !u!114 &7104950923026714717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1717,7 +1718,6 @@ GameObject:
   - component: {fileID: 8045172256155354941}
   - component: {fileID: 9024198329920374780}
   - component: {fileID: 3554204325787733849}
-  - component: {fileID: 6196844707218755988}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1827,18 +1827,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6196844707218755988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5093071853095764576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11ef733b39374624cacf0c050b652536, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5116932089836191018
 GameObject:
   m_ObjectHideFlags: 0

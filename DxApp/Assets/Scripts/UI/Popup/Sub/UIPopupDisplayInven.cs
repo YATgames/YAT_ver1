@@ -19,6 +19,7 @@ namespace Assets.Scripts.UI.Popup.Sub
 		private ConnectionManager _connectionManager;
 
 		[SerializeField] private Transform _blank;
+		[SerializeField] private GameObject _alarmText;
 		[SerializeField] private UIPopupDisplayInvenView _inventoryView;
 
 		private OnEventTrigger<PlayfabItemInstance> _onClick = new OnEventTrigger<PlayfabItemInstance>();
@@ -35,7 +36,10 @@ namespace Assets.Scripts.UI.Popup.Sub
 			_inventoryView.OnClick = _onClick;
 			_inventoryView.Initialize();
 
-			_playerViewModel.ObserveEveryValueChanged(v => v.Player).Skip(1).Subscribe(p =>
+			if (_playerViewModel.Inventory.CustomFigures.Count == 0 && _playerViewModel.Inventory.OriginFigures.Count == 0) _alarmText.SetActive(true);
+			else _alarmText.SetActive(false);
+
+            _playerViewModel.ObserveEveryValueChanged(v => v.Player).Skip(1).Subscribe(p =>
 			{
 				SystemLoading.Hide(this);
 				Hide();

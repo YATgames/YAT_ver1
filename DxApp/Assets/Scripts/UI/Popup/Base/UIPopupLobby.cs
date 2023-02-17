@@ -37,9 +37,16 @@ namespace Assets.Scripts.UI.Popup.Base
 			_lobbyView.ResourcesManager = _resourcesManager; // 리소스매니저 추가
 			_lobbyView.SetData(_playerViewModel.Player.CaseList);
 
+			if(_connectionManager.FirstLogin)
+			{
+				_flowManager.AddSubPopup(PopupStyle.LobbyExplain);
+				_connectionManager.FirstLogin = false;
+            }
+
             _playerViewModel.ServerRespones.AsObservable().Subscribe(v => SystemLoading.Hide(this)).AddTo(gameObject);
 
-			_soundManager.PlayBGM("Main_BGM");
+
+            _soundManager.PlayBGM("Main_BGM");
 
             DailyCheck();
         }

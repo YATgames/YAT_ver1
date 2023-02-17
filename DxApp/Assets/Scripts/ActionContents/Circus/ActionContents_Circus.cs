@@ -20,10 +20,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private float _width;
         private float _height;
         private Vector3 _figureInitPos;
+        private CustomView _customView;
 
         private void Start()
         {
-            // 아직 기본 피규어 pos rot 애매함
+            //_customView = transform.parent.parent.GetComponent<CustomView>();
             _aSource = GetComponent<AudioSource>();
             _figureModel = transform.parent.parent.GetComponentInChildren<PrefabModel.Model_Body>(false).gameObject;
             _figureInitPos = _figureModel.transform.parent.position;
@@ -43,7 +44,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             // 만약 서버에서 콘텐츠의 갯수가 명시되면 3을 해당 콘텐츠 갯수로 변경할 수 있음
             int randomContent = Random.Range(0, 3);
-            // randomContent = 0; // DebugInt
+            // randomContent = 2; // DebugInt
             _ContentsParent.GetChild(randomContent).gameObject.SetActive(true);
 
             switch (randomContent)
@@ -62,7 +63,15 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     break;
             }
         }
-
+        public void GetCustomView(CustomView customView)
+        {
+            _customView = customView;
+        }
+        public void GetFigure(GameObject figure)
+        {
+            _figureModel = figure;
+            _anim = _figureModel.GetComponent<Animator>();
+        }
         private IEnumerator TextBoxAppear(string shownText)
         {
             Text textBoxText = _textBox.GetChild(0).GetComponent<Text>();

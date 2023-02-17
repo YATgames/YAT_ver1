@@ -60,16 +60,18 @@ namespace Assets.Scripts.Managers
 			{
 				LogManager.Server("Response_CustomLogin : UserReadOnlyData : NULL");
 				UserInit();
-			}
-			else
+                FirstLogin = true;
+            }
+            else
 			{
 				PlayerModel player = new PlayerModel();
 				player = JsonConvert.DeserializeObject<PlayerModel>(readData[player.Code].Value);
-
+				FirstLogin = false;
                 _playerViewModel.Player = player;
 			}
 			#endregion
 		}
+		public bool FirstLogin { get; set; } = false;
 
 		private void Response_GetItemConfig(GetCatalogItemsResult response)
 		{
@@ -153,7 +155,7 @@ namespace Assets.Scripts.Managers
         private void Response_RegistCase(Res_RegistCase response)
         {
             _playerViewModel.Player = response.Player;
-
+            _playerViewModel.ServerRespones.Invoke();
         }
         private void Response_ChangeFavoriteFigure(Res_ChagneFavoriteFigure response)
         {

@@ -56,16 +56,23 @@ namespace Assets.Scripts.UI.Popup.PopupView
         {
             AddEvent();
 
-            // favorite이 CustomFigure면 CustomFigure 인벤토리를 먼저 켠다
-            if ((null != PlayerViewModel.FigureArchive && PlayerViewModel.FigureArchive is CustomFigureInstance))
+            if (null != PlayerViewModel.FigureArchive)
             {
-                _combineToggle.isOn = true;
-                PlayerViewModel.OnFigureArchive.Invoke(true);
+                // favorite이 CustomFigure면 CustomFigure 인벤토리를 먼저 켠다
+                if (PlayerViewModel.FigureArchive is CustomFigureInstance)
+                {
+                    _combineToggle.isOn = true;
+                    PlayerViewModel.OnFigureArchive.Invoke(true);
+                }
+                else
+                {
+                    _originToggle.isOn = true;
+                    PlayerViewModel.OnFigureArchive.Invoke(false);
+                }
             }
             else
             {
-                _originToggle.isOn = true;
-                PlayerViewModel.OnFigureArchive.Invoke(false);
+                _dragAndRotateCharacter.enabled = false;
             }
 
             _originReuseComponent.UpdateItem += Origin_UpdateItem;
@@ -157,6 +164,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
             OnClick.AsObservable().Subscribe(data =>
             {
                 PlayerViewModel.SetData(data);
+                _dragAndRotateCharacter.enabled = true;
             }).AddTo(gameObject);
             #endregion
 

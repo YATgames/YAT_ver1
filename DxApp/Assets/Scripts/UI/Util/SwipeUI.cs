@@ -51,6 +51,8 @@ public class SwipeUI : MonoBehaviour
     {
         UpdateInput();
 
+
+        if (_circleContents.Length == 0) return;
         UpdateCircleContent();
     }
 
@@ -101,10 +103,14 @@ public class SwipeUI : MonoBehaviour
         if (isLeft == true)
         {
             if (_currentPage == 0) return;
+
+            _currentPage--;
         }
         else
         {
             if (_currentPage == _maxpage - 1) return;
+
+            _currentPage++;
         }
 
         StartCoroutine(OnSwipreOneStep(_currentPage));
@@ -138,11 +144,9 @@ public class SwipeUI : MonoBehaviour
             _circleContents[i].localScale = Vector3.one;
             _circleContents[i].GetComponent<Image>().color = Color.white;
 
-
             if(_scrollbar.value < _scrollPageValues[i] + (_valueDistance/2) &&
                 _scrollbar.value > _scrollPageValues[i] - (_valueDistance / 2))
             {
-                _currentPage = i;
                 _circleContents[i].localScale = Vector3.one * _circleContentScale;
                 _circleContents[i].GetComponent<Image>().color = Color.black;
             }

@@ -20,9 +20,10 @@ namespace Assets.Scripts.UI.Popup.Sub
 		private ItemManager _itemManager;
 
 		[SerializeField] private Transform _blank;
+		[SerializeField] private GameObject _alarmText;
 		[SerializeField] private CaseInvenView _caseInventoryView;
 
-		private OnEventTrigger<string> _onClick = new OnEventTrigger<string>();
+        private OnEventTrigger<string> _onClick = new OnEventTrigger<string>();
 		private int _caseNumber;
 
 		public override void Initialize()
@@ -35,6 +36,9 @@ namespace Assets.Scripts.UI.Popup.Sub
 			_caseInventoryView.OnClick = _onClick;
 			_caseInventoryView.Initialize();
             _caseInventoryView.PlayerViewModel = _playerViewModel;
+
+            if (_playerViewModel.Inventory.Themes.Count == 0) _alarmText.SetActive(true);
+            else _alarmText.SetActive(false);
 
             _playerViewModel.ObserveEveryValueChanged(v => v.Player).Skip(1).Subscribe(p =>
 			{

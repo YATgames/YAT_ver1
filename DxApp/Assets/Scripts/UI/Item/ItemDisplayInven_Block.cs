@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Common.Models;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
 using DXApp_AppData.Item;
 using System.Linq;
@@ -19,8 +20,9 @@ namespace Assets.Scripts.UI.Item
 		[SerializeField] private Image _postDecoImage;
 
 		[SerializeField] private Image _selectedImage;
+        [SerializeField] private Image _alreadyDisplayImage;
 
-		[SerializeField] private Sprite[] _frameSprites;
+        [SerializeField] private Sprite[] _frameSprites;
 
 		public OnEventTrigger<PlayfabItemInstance> OnClick { get; set; }
 		private PlayfabItemInstance _data;
@@ -67,6 +69,11 @@ namespace Assets.Scripts.UI.Item
 					case "4": _preDecoImage.sprite = ResourcesManager.GetImages(p); break;
 				}
 			}
+
+			var usedCase = PlayerViewModel.Instance.Player.CaseList.FirstOrDefault(v => v.FigureInstanceID.Equals(data.InstanceID));
+            if (!isSelected && usedCase != null) _alreadyDisplayImage.gameObject.SetActive(true);
+            else _alreadyDisplayImage.gameObject.SetActive(false);
+
             _frameImage.sprite = _frameSprites[1];
 			_selectedImage.gameObject.SetActive(isSelected);
             _data = data;
@@ -89,7 +96,12 @@ namespace Assets.Scripts.UI.Item
 					case "4": _preDecoImage.sprite = ResourcesManager.GetImages(p); break;
 				}
 			}
-			_frameImage.sprite = _frameSprites[1];
+
+            var usedCase = PlayerViewModel.Instance.Player.CaseList.FirstOrDefault(v => v.FigureInstanceID.Equals(data.InstanceID));
+			if (!isSelected && usedCase != null) _alreadyDisplayImage.gameObject.SetActive(true);
+			else _alreadyDisplayImage.gameObject.SetActive(false);
+
+            _frameImage.sprite = _frameSprites[1];
             _selectedImage.gameObject.SetActive(isSelected);
 
             _data = data;

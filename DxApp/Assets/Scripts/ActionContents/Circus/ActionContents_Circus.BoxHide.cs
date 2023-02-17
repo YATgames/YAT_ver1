@@ -36,7 +36,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _aSource.PlayOneShot(_boxClip[0]);
             yield return new WaitForSeconds(1.5f);
 
-            _figureModel.SetActive(false);
+            _figureModel.transform.localScale = Vector3.zero;
             _aSource.PlayOneShot(_boxClip[1]);
             yield return new WaitForSeconds(6f);
 
@@ -80,6 +80,9 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     scareObject.transform.DOScaleY(1f, 0.15f).SetEase(Ease.OutQuart);
                     yield return new WaitForSeconds(0.1f);
                     scareObject.transform.DOShakePosition(0.1f, 0.1f, 60, 90, false, false);
+                    _customView.ContentsExit(2f, 1.5f);
+                    yield return new WaitForSeconds(3f);
+                    _figureModel.transform.localScale = Vector3.one;
                 }
 
                 else
@@ -92,6 +95,9 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     mockObject.transform.DOScaleY(25f, 1.5f).SetEase(Ease.OutElastic);
                     yield return new WaitForSeconds(0.25f);
                     _aSource.PlayOneShot(_boxClip[1]);
+                    _customView.ContentsExit(2f, 1.5f);
+                    yield return new WaitForSeconds(3f);
+                    _figureModel.transform.localScale = Vector3.one;
                 }
             }
             else
@@ -103,12 +109,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
                 boxTF.GetChild(1).GetComponent<ParticleSystem>().Play();
                 _figureModel.transform.position = boxTF.position;
-                _figureModel.transform.localScale = Vector3.zero;
-                _figureModel.SetActive(true);
                 _figureModel.transform.localEulerAngles = new Vector2(-360f, 180f);
 
                 _anim.SetTrigger("LowJump");
-                _figureModel.transform.DOJump(_figureInitPos - Vector3.forward * 5, 3.5f, 1, 0.8f);
+                _figureModel.transform.DOJump(_figureInitPos, 3.5f, 1, 0.8f);
                 _figureModel.transform.DOLocalRotate(new Vector3(360f, 0f, 0f), 0.65f, RotateMode.LocalAxisAdd);
                 _figureModel.transform.DOScale(1f, 0.65f).SetEase(Ease.OutCubic);
                 yield return new WaitForSeconds(1f);
@@ -117,6 +121,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
                 yield return new WaitForSeconds(1.5f);
                 _anim.SetTrigger("Dance");
+
+                _customView.ContentsExit(5f, 1.5f);
+                yield return new WaitForSeconds(6f);
+                _figureModel.transform.localPosition = Vector3.zero;
             }
         }
     }

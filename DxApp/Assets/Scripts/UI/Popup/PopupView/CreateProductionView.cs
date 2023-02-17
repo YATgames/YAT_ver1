@@ -15,8 +15,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
     public class CreateProductionView : MonoBehaviour
     {
         public ResourcesManager ResourcesManager { get; set; }
+        public PlayerViewModel PlayerViewModel { get; set; }
         public ItemManager ItemManager { get; set; }
         public UIPopupCreateProduction UIPopupCreateProduction { get; set; }
+
+        [SerializeField] private DragAndRotateCharacter _dragAndRotateCharacter;
 
         [SerializeField] private Image MaskImage;
 
@@ -24,10 +27,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         [SerializeField] private Text _nameText;
 
+        [SerializeField] private Text _doggabiExplainText1;
+        [SerializeField] private Text _doggabiExplainText2;
+
         [SerializeField] private Transform _parent;
 
         [SerializeField] private GameObject[] BGParticles;
 
+        private bool isDoggabi = false;
         private void Start()
         {
             AddEvent();
@@ -41,8 +48,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
         {
             yield return new WaitForSeconds(1f);
 
+            _dragAndRotateCharacter.enabled = true;
             _okButton.gameObject.SetActive(true);
             _nameText.gameObject.SetActive(true);
+            if(isDoggabi)
+            {
+                if (PlayerViewModel.Inventory.Doggabis.Count == 1) _doggabiExplainText1.gameObject.SetActive(true);
+                else if (PlayerViewModel.Inventory.Doggabis.Count == 2) _doggabiExplainText2.gameObject.SetActive(true);
+            }
         }
 
         public void SetData(string name, string id, bool isSkip)
@@ -57,8 +70,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
             {
                 MaskImage.DOColor(new Color(1, 1, 1, 0), 0f).SetEase(Ease.InExpo);
                 _parent.DOLocalMoveZ(-3.5f, 0f);
+                _dragAndRotateCharacter.enabled = true;
                 _okButton.gameObject.SetActive(true);
                 _nameText.gameObject.SetActive(true);
+               
             }
 
             // ÇÇ±Ô¾î
@@ -81,8 +96,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 var doggabi = ItemManager.Doggabies.FirstOrDefault(v => v.ID == id);
                 items = new List<string>();
                 items.Add(doggabi.ID);
+                isDoggabi = true;
+                if(isSkip)
+                {
+                    if (PlayerViewModel.Inventory.Doggabis.Count == 1) _doggabiExplainText1.gameObject.SetActive(true);
+                    else if (PlayerViewModel.Inventory.Doggabis.Count == 2) _doggabiExplainText2.gameObject.SetActive(true);
+                }
             }
-            
+
             GameObject body = null;
             GameObject head = null;
             GameObject deco = null;

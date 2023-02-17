@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UniRx;
-using UniRx.Triggers;
+using PlayFab.GroupsModels;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
@@ -34,17 +34,24 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             PlaySE(_seContents1[4]);
             ModelingMotion(Anim.IDLE);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             ModelingMotion(Anim.SHUDDER); // 방방 뛰는 부분
             // SE : 파티 - 케익/음료 부분 효과
             yield return new WaitForSeconds(2f);
            
             _yellowBG.gameObject.SetActive(true);
             _yellowBG.DOFade(0.6f, 1f).From(0f).SetEase(Ease.Linear);
-            yield return new WaitForSeconds(0.3f);
+            ModelingMotion(Anim.IDLE);
+            yield return new WaitForSeconds(0.1f);
             ModelingMotion(Anim.LIEFLAT);
-            yield return new WaitForSeconds(0.45f);
+            yield return new WaitForSeconds(0.55f);
             PlaySE(_seContents2[4]); // 쓰러짐
+            yield return new WaitForSeconds(1f);
+
+            CustomView.ContentsExit(1f,1.5f);
+            yield return new WaitForSeconds(2f);
+            CustomView.temmaImage.sprite = _bathroomOutsideImage; // 
+            yield break;
         }
 
         private void Init_Farting()

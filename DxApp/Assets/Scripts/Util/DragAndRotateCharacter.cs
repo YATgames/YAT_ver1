@@ -8,12 +8,23 @@ using UnityEngine.EventSystems;
 
 public class DragAndRotateCharacter : MonoBehaviour, IDragHandler
 {
+    [SerializeField] private GameObject _canRotateImage;
 
     [SerializeField] private GameObject _character;
     [SerializeField] private float _speed = 5f;
-    
+
     private Vector3 _rot = Vector3.zero;
     Vector3 originAngle;
+
+    private void OnEnable()
+    {
+        if (_canRotateImage) _canRotateImage.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        if (_canRotateImage) _canRotateImage.SetActive(false);
+    }
 
     void Start()
     {

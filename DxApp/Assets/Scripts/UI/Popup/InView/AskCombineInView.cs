@@ -16,9 +16,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
         [SerializeField] private Button _combineButton;
         [SerializeField] private Button _returnButton;
 
-        [SerializeField] private GameObject[] _inventoryObjs;
+        [SerializeField] private Image _popupBGImage;
 
+        [SerializeField] private Text _TicketX;
         [SerializeField] private Text _TicketCountTex;
+
+        [SerializeField] private Sprite[] _bgSprites;
+
+        [SerializeField] private GameObject[] _inventoryObjs;
 
         private string title = string.Empty;
         private void Start()
@@ -59,12 +64,17 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             if (inventory.Doggabis.Count == 0 || player.CombineTicketCount == 0)
             {
-                _TicketCountTex.text = "0";
+                _popupBGImage.sprite = _bgSprites[0];
+                _TicketX.gameObject.SetActive(false);
+                _TicketCountTex.gameObject.SetActive(false);
                 _combineButton.interactable = false;
             }
             else
             {
+                _popupBGImage.sprite = _bgSprites[1];
                 _combineButton.interactable = true;
+                _TicketX.gameObject.SetActive(true);
+                _TicketCountTex.gameObject.SetActive(true);
                 if (player.CombineTicketCount > 0) _TicketCountTex.text = player.CombineTicketCount.ToString();
                 else if (player.CombineTicketCount < 0) _TicketCountTex.text = "¡Ä";
             }

@@ -3,6 +3,7 @@ using UnityEngine;
 using Assets.Scripts.UI.Popup.PopupView;
 using Assets.Scripts.Managers;
 using System;
+using Assets.Scripts.Common.Models;
 
 namespace Assets.Scripts.UI.Popup.Sup
 {
@@ -12,9 +13,10 @@ namespace Assets.Scripts.UI.Popup.Sup
         private ItemManager _itemManager;
         [DependuncyInjection(typeof(ResourcesManager))]
         private ResourcesManager _resourcesManager;
+        [DependuncyInjection(typeof(PlayerViewModel))]
+        private PlayerViewModel _playerViewModel;
 
         [SerializeField] private CreateProductionView _createProductionView;
-
         public override void Initialize()
         {
             base.Initialize();
@@ -23,6 +25,7 @@ namespace Assets.Scripts.UI.Popup.Sup
             _createProductionView.UIPopupCreateProduction = this;
             _createProductionView.ItemManager = _itemManager;
             _createProductionView.ResourcesManager = _resourcesManager;
+            _createProductionView.PlayerViewModel = _playerViewModel;
         }
 
         public override void Show(params object[] data)
