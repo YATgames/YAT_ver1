@@ -24,6 +24,8 @@ namespace Assets.Scripts.Splash
         [DependuncyInjection(typeof(PopupManager))]
         private PopupManager _popupManager;
 
+
+
         [SerializeField] private InputField _idField;
         [SerializeField] private Button _loginButton;
 
@@ -39,6 +41,7 @@ namespace Assets.Scripts.Splash
                 _idField.text = "idField";
                 Debug.Log("Splash 에서 시작버튼 누름");
                 SystemLoading.Show(SystemLoading.LoadingSize.Big, this); // 씬 객체에 생성되는 큰 로딩
+                DataManager.Instance.ChagneValue();
             }).AddTo(gameObject);
 
             //  PlayerViewModelModel 에서 인스턴스 변경이 있으면
@@ -50,6 +53,8 @@ namespace Assets.Scripts.Splash
                 {
                     GameManager.Instance.LoadScene(SceneName.MainScene);
                     SystemLoading.Hide(this);
+                    FlowManager.Instance.AddSubPopup(PopupStyle.Main, null);
+
                 }).AddTo(gameObject);
             
         }

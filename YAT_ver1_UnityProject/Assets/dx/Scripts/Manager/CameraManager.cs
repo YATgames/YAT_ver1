@@ -12,12 +12,15 @@ namespace Assets.Scripts.Manager
     public class CameraManager : UnitySingleton<CameraManager>
     {
         public Camera Camera { get; set; }
-        public Camera LastDepthCamera 
+        public Camera LastDepthCamera
         {
-            get { return _cameras.Count > 0 ?
+            get
+            {
+                return _cameras.Count > 0 ?
                     // OrderByDescending : 리스트 정렬하기(카메라의 depth 순서대로)
                     _cameras.OrderByDescending(camera1 => camera1.depth).First()  // _cameras 리스트가 0 이상일 때
-                    : null; }  // 없을 때
+                    : null;
+            }  // 없을 때
         }
         private readonly List<Camera> _cameras = new List<Camera>();
         private IDisposable _disposable; // 관리되지 않은 리소스 해제를 위한 메커니즘 제공
@@ -25,7 +28,7 @@ namespace Assets.Scripts.Manager
         public void SetMainCamera(Camera value)
         {
 
-            if(Camera != null) // 기존에 설정되어있는 카메라가 있었다면 지우고 새로 설정한다
+            if (Camera != null) // 기존에 설정되어있는 카메라가 있었다면 지우고 새로 설정한다
             {
                 DestroyCamera(Camera);
                 _cameras.Remove(Camera);
@@ -46,16 +49,19 @@ namespace Assets.Scripts.Manager
             _cameras.Remove(value);
         }
         private void DestroyCamera(Camera value)
-        {   
+        {
             DestroyImmediate(value.gameObject);
         }
         private void UpdatePosition()
         {
             if (Camera == null) // 설정된 카메라가 없다면 할 필요 없는 동작
                 return;
-            Debug.Log("ChangeResolution 동작");
-            //Camera.transform.localPosition= new Vector3()
-           
+            //Debug.Log("ChangeResolution 동작");
+            Camera.transform.localPosition = new Vector3(
+                (int)(ChangeResolution.Instance.ScreenSize.x / 2),
+                (int)(ChangeResolution.Instance.ScreenSize.y / 2), 0);
+            var screenAspectRation = ChangeResolution.Instance.ScreenSize.x / ChangeResolution.Instance.ScreenSize.y;
+            Camera.fieldOfView = screenAspectRation > 1.5f ? 149 : 156;
         }
 
         public override void Initialize()
@@ -63,12 +69,17 @@ namespace Assets.Scripts.Manager
             base.Initialize();
 
             SetMainCamera(ObjectFinder.Find("Main Camera").GetComponent<Camera>()); // 메인 카메라 설정
+
+            // CM 초기화 과정에서 ScreenSize도 정의시킴
+            ChangeResolution.Instance.ObserveEveryValueChanged(v => v.ScreenSize)
+                .Subscribe(_ => UpdatePosition())
+                .AddTo(gameObject);
         }
         public override void UnInitialize()
         {
             base.UnInitialize();
 
-            foreach (var camera1 in _cameras)   
+            foreach (var camera1 in _cameras)
             {
                 DestroyCamera(camera1);
             }

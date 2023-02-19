@@ -17,8 +17,6 @@ namespace Assets.Scripts.Manager
         [DependuncyInjection(typeof(ResourcesManager))]
         private ResourcesManager resourcesManager;
 
-
-
         public override void Initialize()
         {
             base.Initialize();

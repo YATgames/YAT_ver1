@@ -1,5 +1,4 @@
 using System;
-using System.Security.Authentication.ExtendedProtection;
 using UniRx;
 using UnityEngine;
 
@@ -36,6 +35,7 @@ namespace Assets.Scripts.UI
         protected CompositeDisposable CancelerObject; // 어따씀이거 UniRx 멤버인데
         // 여러 이벤트를 한번에 이 클래스를 통해 한번에 UnSubscribe(Destory) 한다
         // Observable을 안드로이드 라이프 사이클에 맞춰서 한번에 모두 메모리를 해제할 수 있다.
+       
 
         public bool IsActive
         {
@@ -94,8 +94,9 @@ namespace Assets.Scripts.UI
                 PopupManager.Instance.PopupList.Remove(this); // 활성화된 팝업이 있다면 지우고
             Destroy(gameObject);
         }
-        protected virtual void OnDestroy()
+        protected virtual void OnDestroy() // 파괴가 필요할때 이런 과정이 필요함.
         {
+            Hide();
             UnInitialzie();
             Resources.UnloadUnusedAssets();
         }

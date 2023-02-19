@@ -15,7 +15,5 @@ namespace Assets.Scripts.Common.Models
         {
             base.UnInitialize();
         }
-
-
     }
 }

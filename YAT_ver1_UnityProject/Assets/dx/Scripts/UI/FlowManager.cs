@@ -9,8 +9,7 @@ namespace Assets.Scripts.UI
 {
     public class FlowManager : UnitySingleton<FlowManager>
     {
-        // 팝업들 불러오는 역할을 하는 스크립트같음
-
+        // 팝업들 불러오는 역할을 하는 스크립트
         private readonly List<FlowNode> _listNode = new List<FlowNode>();
         public PopupStyle CurStyle { get; private set; } = PopupStyle.None;
 
@@ -29,7 +28,7 @@ namespace Assets.Scripts.UI
 
         public IObservable<T> AddsubPopup<T>(PopupStyle style, params object[] data) where T : PopupSub // AddSubPopup인데 IObservable를 반환함
         {
-            return PopupManager.Instance.Show<T>(style, data); // 근데 궁금하네 이건 Depencuncy로 안받음? 서로 싱글톤끼리는 아닌건가
+            return PopupManager.Instance.Show<T>(style, data);
         }
 
         #region ::::: AddPopup

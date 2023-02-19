@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Util;
-using System.Security.Policy;
+
 using Assets.Scripts.Common.DI;
+using UnityEditor.Rendering;
 
 namespace Assets.Scripts.Manager
 {
@@ -12,8 +13,8 @@ namespace Assets.Scripts.Manager
     {
         public override void Initialize()
         {
-            DependuncyInjection.Inject(this);
             base.Initialize();
+            DependuncyInjection.Inject(this);
         }
 
         public override void UnInitialize()
@@ -23,15 +24,20 @@ namespace Assets.Scripts.Manager
         //public int _loadCount;
         public GameObject _nullObject;
         public GameObject _callPrefab;
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Q))
-            {
-                Debug.Log("로드카운트 변경");
-                _nullObject = _callPrefab;  
-            }
-        }
 
+        private void Awake()
+        {
+            _callPrefab = Resources.Load<GameObject>("Prefs/Test");
+            Debug.Log(_callPrefab.name);
+        }
+        public void ChagneValue()
+        {
+            _nullObject = _callPrefab;
+            if (_nullObject == null)
+                Debug.Log("<color=red> null 반환함 다시해야함</color>");
+            else
+                Debug.Log("<color=blue> 일단 받긴함</color>");
+        }
         #region ::::: SetDatas
 
         #endregion

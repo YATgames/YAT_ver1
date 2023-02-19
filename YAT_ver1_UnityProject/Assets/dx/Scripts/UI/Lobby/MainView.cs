@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.Util;
 using Assets.Scripts.Common.DI; // DependuncyInjection
-using System.Runtime.InteropServices;
-using System.Linq;
 using UniRx;
 
 namespace Assets.Scripts.UI.Popup.PopupView
@@ -16,28 +14,38 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public FlowManager FlowManager { get; set; }
         public ResourcesManager ResourcesManager { get; set; }
         public  SoundManager SoundManager { get; set; }
-        [SerializeField] private Button _testButton;
+        [SerializeField] private Button _socialButton;
+        [SerializeField] private Button _battleButton;
 
-        private OnEventTrigger<int> _oncClick = new OnEventTrigger<int>();
+        //private OnEventTrigger<int> _oncClick = new OnEventTrigger<int>();
         // 아마 로비에서 케이스 클릭하는 부분 핟당한거 같은데 쓸일없어보임
 
-        private List<int> _datas;
+        //private List<int> _datas;
         private void Start()
         {
             AddEvent();
             DependuncyInjection.Inject(this);
         }
-
         private void AddEvent()
         {
-            _testButton.onClick.AsObservable().Subscribe(_ =>
+            if(_socialButton != null)
             {
-                Debug.Log("테스트 버튼 누름");
-                // FlowManager. 여기서 Change 함수가 들어감
+                _socialButton.onClick.AsObservable().Subscribe(_ =>
+                {
+                    Debug.Log("Social Buttoin click");
+                    FlowManager.AddSubPopup(PopupStyle.Social);
+                }).AddTo(gameObject);
+            }
+
+            _battleButton.onClick.AsObservable().Subscribe(_ =>
+            {
+                FlowManager.AddContentsPopup(PopupStyle.Battle);
             }).AddTo(gameObject);
 
-            _testButton.OnClickAsObservable().Subscribe(v_ => FlowManager.AddSubPopup(PopupStyle.Test))
-                .AddTo(gameObject);
+
+            /*
+            _socialButton.OnClickAsObservable().Subscribe(v_ => FlowManager.AddSubPopup(PopupStyle.Social))
+                .AddTo(gameObject);*/
         }
     
         public void SetData()
