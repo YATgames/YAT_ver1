@@ -8,6 +8,7 @@ using Assets.Scripts.UI;
 using System.Threading;
 using System.Collections;
 using Assets.Scripts.Common.Models;
+using UnityEditor.Build;
 
 namespace Assets.Scripts.Splash
 {
@@ -53,8 +54,8 @@ namespace Assets.Scripts.Splash
                 {
                     GameManager.Instance.LoadScene(SceneName.MainScene);
                     SystemLoading.Hide(this);
-                    FlowManager.Instance.AddSubPopup(PopupStyle.Main, null);
-
+                    //FlowManager.Instance.AddSubPopup(PopupStyle.Main,null); // 이게 맞지만 null 파라미터 지우고 한번 해보기
+                    FlowManager.Instance.AddSubPopup(PopupStyle.Main); 
                 }).AddTo(gameObject);
             
         }

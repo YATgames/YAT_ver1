@@ -20,8 +20,6 @@ namespace Assets.Scripts.UI.Popup.Base
         [DependuncyInjection(typeof(ResourcesManager))]
         private ResourcesManager _resourcesManager;
 
-        //[SerializeField] private 
-
         public override void Initialize()
         {
             base.Initialize();

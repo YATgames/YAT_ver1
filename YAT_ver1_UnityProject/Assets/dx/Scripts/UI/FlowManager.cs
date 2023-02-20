@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System.Runtime.CompilerServices;
 
 namespace Assets.Scripts.UI
 {
@@ -34,10 +35,12 @@ namespace Assets.Scripts.UI
         #region ::::: AddPopup
         public void AddSubPopup(PopupStyle style, params object[] data) //
         {
+            Debug.Log("<color=black>AddSubPopup</color>");
             PopupManager.Instance.Show<PopupSub>(style, data).Subscribe();
         }
        public void AddContentsPopup(PopupStyle style, params object[] data)
         {
+            Debug.Log("<color=black>AddContentsPopup</color>");
             PopupManager.Instance.Show<PopupSub>(style, data).Subscribe();
         }
         #endregion
@@ -47,6 +50,7 @@ namespace Assets.Scripts.UI
         {
             if (CurStyle == style && style != PopupStyle.None)
                 return;
+
             var node = GetLastNode();
             PopupManager.Instance.Hide(node != null ? node.Style : CurStyle);
             AllHideSubPopup(true); // 활성화 시키면서 다른거 다 지우기
@@ -55,6 +59,7 @@ namespace Assets.Scripts.UI
             if (style == PopupStyle.None)
                 return;
 
+            Debug.Log("AddFlow :" + style+ "+ " + data);
             AddFlow(style, data);
             PopupManager.Instance.Show<PopupBase>(style, data).Subscribe();
         }
@@ -90,26 +95,41 @@ namespace Assets.Scripts.UI
             return observer;
         }
 
-        private void AllHideSubPopup(bool isForce = false)
+        private void AllHideSubPopup(bool isForce)
         {
-            //var popupList =PopupManager.Instance.getshowingsu
+            var popupList = PopupManager.Instance.GetShowingPopupList();
+            foreach (var subPopup in popupList)
+            {
+                if(isForce)
+                {
+                    subPopup.Hide(); // 보조 팝업들 지우기
+                }
+                else
+                {
+                    if(!subPopup.IsIgnoreEscapeHide)
+                    {
+                        subPopup.Hide();
+                    }
+                }
+            }
         }
 
         // = Method
         private void Push(FlowNode nextNode)
         {
-            if (nextNode == null)
+            if (nextNode == null) // 파라미터로 넣는 nextNode가 null이다 = Prefs 에 해당UI 프리팹이 없음
             {
                 _listNode.Clear();
                 return;
-            
             }
             int index = _listNode.FindIndex(node => node.Style.Equals(nextNode.Style)); // FindIndex 함수의 인자 : startindex, count ,predicatd 
 
             if(index != 1) // 중복된 노드가 있을 경우 그 노드부터 이후로 제거
             {
+                Debug.Log("현재 리스트 노드의 개수" + _listNode.Count);
                 _listNode.RemoveRange(index, (_listNode.Count - index));
             }
+            Debug.Log("Add이전");
             _listNode.Add(nextNode);
         }
 
@@ -122,7 +142,7 @@ namespace Assets.Scripts.UI
             public FlowNode(PopupStyle style, params object[] data)
             {
                 Style = style;
-                if (data != null && data.Length > 0) // object인 data 가 있을때만 동작
+                if (data != null && data.Length > 0) // object인 data 가 이미 있는 상황이라면
                 {
                     if (data[0] != null)
                     {

@@ -37,9 +37,13 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 }).AddTo(gameObject);
             }
 
-            _battleButton.onClick.AsObservable().Subscribe(_ =>
+
+            // Battle 활성화 Change 해야함
+            // 내가 할수있는 방안 : dx의 Lobby-> CUstom의 방식 찾아보기
+            _battleButton.OnClickAsObservable().Subscribe(_ =>
             {
-                FlowManager.AddContentsPopup(PopupStyle.Battle);
+                FlowManager.Change(PopupStyle.Battle);
+                //FlowManager.AddContentsPopup(PopupStyle.Battle);
             }).AddTo(gameObject);
 
 
@@ -51,7 +55,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public void SetData()
         {
             //var data =  datas.FirstOrDefault(v => )
-            Debug.Log("데이터 설정 model -> view 로 전달할것들");
+            Debug.Log("[MainView] 데이터 설정 model -> view 로 전달할것들");
         }
     }
 }
