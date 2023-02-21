@@ -33,17 +33,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 _socialButton.onClick.AsObservable().Subscribe(_ =>
                 {
                     Debug.Log("Social Buttoin click");
-                    FlowManager.AddSubPopup(PopupStyle.Social);
+                    FlowManager.AddSubPopup(PopupStyle.Social); // SubPop추가
                 }).AddTo(gameObject);
             }
 
 
-            // Battle 활성화 Change 해야함
-            // 내가 할수있는 방안 : dx의 Lobby-> CUstom의 방식 찾아보기
             _battleButton.OnClickAsObservable().Subscribe(_ =>
             {
-                FlowManager.Change(PopupStyle.Battle);
-                //FlowManager.AddContentsPopup(PopupStyle.Battle);
+                FlowManager.Change(PopupStyle.Battle); // Change
             }).AddTo(gameObject);
 
 

@@ -124,10 +124,11 @@ namespace Assets.Scripts.UI
             }
             int index = _listNode.FindIndex(node => node.Style.Equals(nextNode.Style)); // FindIndex 함수의 인자 : startindex, count ,predicatd 
 
-            if(index != 1) // 중복된 노드가 있을 경우 그 노드부터 이후로 제거
+            if(index != -1) // 중복된 노드가 있을 경우 그 노드부터 이후로 제거 // -1인 이유 몰루
             {
                 Debug.Log("현재 리스트 노드의 개수" + _listNode.Count);
-                _listNode.RemoveRange(index, (_listNode.Count - index));
+                // 기존에 있던 노드 지우기인데 노드가 비어있음
+                _listNode.RemoveRange(index, (_listNode.Count - index)); 
             }
             Debug.Log("Add이전");
             _listNode.Add(nextNode);

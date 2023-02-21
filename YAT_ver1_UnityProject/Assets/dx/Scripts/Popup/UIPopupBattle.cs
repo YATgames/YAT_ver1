@@ -35,7 +35,7 @@ namespace Assets.Scripts.UI.Popup.Base
             base.Show(data);
             if(data.Length == 0 || data[0] is int == false)
             {
-                Hide();
+                //Hide();
                 Debug.Log("BattlePopup이 활성화 되었지만" +
                     "data가 비어있어서 반환 함");
                 return;

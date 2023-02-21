@@ -9,7 +9,7 @@ using System.Threading;
 using System;
 using Assets.Scripts.Manager;
 using System.Linq;
-using static UnityEngine.Rendering.DebugUI;
+using System.Runtime;
 
 namespace Assets.Scripts.UI
 {
@@ -22,13 +22,13 @@ namespace Assets.Scripts.UI
 
         // = Field
         public readonly List<PopupBase> PopupList = new List<PopupBase>();
-
+        public readonly OnEventTrigger<PopupBase> LoadCompletePopup = new OnEventTrigger<PopupBase>();
 
         [DependuncyInjection(typeof(CameraManager))]
         private CameraManager _cameraManager;
-
+        /*
         public readonly OnEventTrigger<PopupBase> LoadCompletePopup
-            = new OnEventTrigger<PopupBase>();
+            = new OnEventTrigger<PopupBase>();*/
 
         public override void Initialize()
         {
@@ -57,7 +57,7 @@ namespace Assets.Scripts.UI
             Debug.Log("PopupManger : Style : " + style);
             var popupName = GetPopupName(style); // 팝업 이름으로 UIPopu(Style) 
             var popupBase = PopupList.Find(child => child.PopupStyle.Equals(style)); // popupBase 는 생성된 객체가 됨;
-            Debug.Log("popupBaseType :" + popupBase.GetType().ToString());
+            //Debug.Log("popupBaseType :" + popupBase.GetType().ToString());
             if (popupBase == null) // 리스트에 해당하는 PopupStyle이 없음)
             {
                 // 그럼 추가해줘야지
@@ -70,7 +70,7 @@ namespace Assets.Scripts.UI
                     yield return FrameCountType.FixedUpdate.GetYieldInstruction();
                 }
 
-                popupBase = Instantiate((GameObject)resource.asset).GetComponent<PopupBase>(); // 생성시킬 위치
+                popupBase = Instantiate((GameObject)resource.asset).GetComponent<PopupBase>(); // 캔버스 생성
 
                 var popupCanvas = popupBase.GetComponentInChildren<Canvas>(); // poupBase의 자식객체의 canvas
                 if (popupBase as PopupSub) // SubPopup이라면 카메라가 필요없음
@@ -86,15 +86,11 @@ namespace Assets.Scripts.UI
                     popupCanvas.renderMode = RenderMode.ScreenSpaceCamera;
                 }
                 popupBase.transform.SetParent(transform);
-                //Debug.Log("1");
                 popupBase.transform.localScale = Vector3.one;
                 popupBase.transform.localPosition = Vector3.zero;
-                //popupBase.gameObject.SetActive(false);
-                popupBase.gameObject.SetActive(true);
+                popupBase.gameObject.SetActive(false);
                 PopupList.Add(popupBase);
-                //Debug.Log("2");
             }
-            //Debug.Log("poupBase이름 : " + popupBase.gameObject.name);
             // InvalidCastException: Specified cast is not valid.발생하게 됨       
             yield return popupBase;
         }
@@ -103,6 +99,7 @@ namespace Assets.Scripts.UI
             Debug.Log("Get부분");
             PopupBase popupBase = null;
             yield return Observable.FromCoroutineValue<T>(() => Get<T>(cancelltationToken, style)).Where(popup => popup != null).StartAsCoroutine(popup => popupBase = popup);
+
             observer.OnNext(popupBase.GetComponent<T>());
             observer.OnCompleted();
         }
@@ -117,15 +114,18 @@ namespace Assets.Scripts.UI
         {
             Debug.Log("Show부분 : UIPopupMain이 이 부분을 호출한다");
 
-            PopupBase popupBase = null; // null 로 만든 뒤 아래 Observable에서 할당이 완료 되면 반환하도록 함
+            //PopupBase getPopupBase = null; // null 로 만든 뒤 아래 Observable에서 할당이 완료 되면 반환하도록 함
             // UIPopupMain에서 PopupBase접근이 안되나?
-
+            /*
             yield return Observable.FromCoroutineValue<T>(()
                 => Get<T>(cancelltaionToken, style))
                 .Where(popup => popup != null)
-                .StartAsCoroutine(popup => popupBase = popup);
+                .StartAsCoroutine(popup => getPopupBase = popup);*/
+            // 위의 방식이 안되서 이거 이렇게 해야겠음;
 
-
+            
+            yield return Get<T>(cancelltaionToken, style);
+            PopupBase  popupBase = PopupList[0];
             //yield return Get<T>(cancelltaionToken, style);
 
             // 반환하는 과정에서 문제가 생김

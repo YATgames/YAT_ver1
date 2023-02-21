@@ -7,21 +7,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using Assets.Scripts.Common;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.UI.Popup.Base
 {
     public class UIPopupMain : PopupBase
     {
         [DependuncyInjection(typeof(FlowManager))]
-        private FlowManager _flowManager;
-        
+        private FlowManager _flowManager;        
         [DependuncyInjection(typeof(SoundManager))]
         private SoundManager _soundManager;
-        
         [DependuncyInjection(typeof(ResourcesManager))]
         private ResourcesManager _resourcesManager;
-
         [SerializeField] private MainView _mainView;
+
+        public readonly OnEventTrigger<PopupBase> LoadCompletePopup = new OnEventTrigger<PopupBase>();
 
         public override void Initialize()
         {
