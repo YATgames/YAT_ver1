@@ -22,6 +22,9 @@ namespace Assets.Scripts.UI.Popup.Base
         private ConfigManager _configManager;
         [DependuncyInjection(typeof(ConnectionManager))]
         private ConnectionManager _connectionManager;
+        [DependuncyInjection(typeof(SoundManager))]
+        private SoundManager _soundManager;
+
 
         [SerializeField] private CombineView _combineView;
         public override void Initialize()
@@ -33,6 +36,7 @@ namespace Assets.Scripts.UI.Popup.Base
             _combineView.ResourcesManager = _resourceManager;
             _combineView.PlayerViewModel = _playerViewModel;
             _combineView.ConfigManager = _configManager;
+            _combineView.SoundManager = _soundManager;
 
             _combineView.Initialize();
 
@@ -42,6 +46,9 @@ namespace Assets.Scripts.UI.Popup.Base
                AsObservable().
                Subscribe(_ => _combineView.SetData(_playerViewModel.Inventory)).
                AddTo(gameObject);
+
+            _soundManager.PlayBGM("Combine_BGM");
+            _soundManager.Play("Combine_SFX", true);
 
             DailyCheck();
         }
@@ -54,6 +61,7 @@ namespace Assets.Scripts.UI.Popup.Base
         public override void Hide()
         {
             base.Hide();
+            _soundManager.Stop();
             _playerViewModel.Reset();
         }
 

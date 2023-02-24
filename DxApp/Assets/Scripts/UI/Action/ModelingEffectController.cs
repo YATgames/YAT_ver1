@@ -32,9 +32,12 @@ public class ModelingEffectController : MonoBehaviour
                 if (model != null)
                 {
                     model.transform.SetParent(_body.transform);
+                    model.GetComponent<BoxCollider>().enabled = false;
                     _body.ModelObj = model.transform;
                     _body.SetTransform(model.OriginPos, model.OriginScale);
                     _body.PlayPartsEffect(isActive);
+                    var animator = model.GetComponent<Animator>();
+                    animator.SetTrigger("Empty");
                 }
                 break;
 

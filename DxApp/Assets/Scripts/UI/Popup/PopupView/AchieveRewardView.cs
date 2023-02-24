@@ -34,9 +34,9 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private void AddEvent()
         {
-            _closeButton.OnClickAsObservable().Subscribe(_ => UIPopupAchieveReward.Hide()).AddTo(gameObject);
+            _closeButton.OnClickAsObservable("Button_Click").Subscribe(_ => UIPopupAchieveReward.Hide()).AddTo(gameObject);
 
-            _rewardButton.OnClickAsObservable().Subscribe(_ =>
+            _rewardButton.OnClickAsObservable("Button_Touch").Subscribe(_ =>
             {
                 //리워드 아이템 지급
                 ConnectionManager.ClearedQuest(_questInfo);

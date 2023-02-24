@@ -183,5 +183,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             if (_figure != null) _customToggle.isOn = true;
         }
+
+		public void ToggleOn()
+		{
+			SoundManager.Instance.Play("Button_Touch");
+		}
     }
 }

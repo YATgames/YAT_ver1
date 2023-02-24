@@ -101,7 +101,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 		{
 			string subject = EscapeURL("버그 리포트 / 기타 문의사항");
 			string body = EscapeURL(
-				"<문의사항>" + "\n\n\n\n" +
+				"<FigureX 문의사항>" + "\n\n\n\n" +
 				"___________" + "\n\n" +
 				//"Account ID : " + PlayerModel.Account.PlayFabId + "\n" +
 				//"Account Nick : " + PlayerModel.Account.NickName + "\n" +

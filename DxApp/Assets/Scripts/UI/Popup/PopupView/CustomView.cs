@@ -26,6 +26,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public PlayerViewModel PlayerViewModel { get; set; }
         public PopupManager PopupManager { get; set; }
         public ConnectionManager ConnectionManager { get; set; }
+        public SoundManager SoundManager { get; set; }
 
         public int CaseNumber { get; set; }
 
@@ -100,7 +101,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 _buttonsAni.SetBool("Open", _isOpen);
             }).AddTo(gameObject);
             */
-            _teminateGhost.OnClickAsObservable().Subscribe(_ =>
+            _teminateGhost.OnClickAsObservable("Button_Touch").Subscribe(_ =>
             {
                 var caseinfo = PlayerViewModel.Player.CaseList.FirstOrDefault(v => v.Number == CaseNumber);
                 if (string.IsNullOrEmpty(caseinfo.FigureInstanceID)) return;
@@ -112,7 +113,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 }
             }).AddTo(gameObject);
 
-            _teminateTemma.OnClickAsObservable().Subscribe(_ =>
+            _teminateTemma.OnClickAsObservable("Button_Touch").Subscribe(_ =>
             {
                 var caseinfo = PlayerViewModel.Player.CaseList.FirstOrDefault(v => v.Number == CaseNumber);
                 if (string.IsNullOrEmpty(caseinfo.ThemeID)) return;
@@ -129,12 +130,12 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 SystemLoading.Hide(this);
             }).AddTo(gameObject);
 
-            _temmaButton.OnClickAsObservable().Subscribe(_ =>
+            _temmaButton.OnClickAsObservable("Button_Touch").Subscribe(_ =>
             {
                 FlowManager.AddSubPopup(PopupStyle.CaseInven, CaseNumber);
             }).AddTo(gameObject);
 
-            _figureInvenButton.OnClickAsObservable().Subscribe(_ =>
+            _figureInvenButton.OnClickAsObservable("Button_Touch").Subscribe(_ =>
             {
                 FlowManager.AddSubPopup(PopupStyle.DisplayInven, CaseNumber);
             }).AddTo(gameObject);
@@ -250,7 +251,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
                     }
                     #endregion
-
+                    _actionFigure.GetComponent<Animator>().SetTrigger("Idle");
                 }
                 else if (originFigure != null)
                 {
@@ -310,6 +311,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
                     }
                     #endregion
+                    _actionFigure.GetComponent<Animator>().SetTrigger("Idle"); 
                 }
                 //else
                 //_caseImage.SetActive(false);
@@ -355,13 +357,16 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private void AddActionContents()
         {
-            // 케이스가 없다면 동작하지 않는다
-            if (_actionContents == ActionContents.NONE)
+            // 케이스가 없다 or 피규어가 없다 면 재생하지 않는다.
+            if (_actionContents == ActionContents.NONE || _actionFigure == null)
             {
+                UnityEngine.Debug.Log("케이스나 피규어가 없다");
+                SoundManager.Play("ButtonFail_SFX");
                 return;
             }
             else
             {
+                SoundManager.StopBGM();
                 _teminateGhost.gameObject.SetActive(false);
                 _teminateTemma.gameObject.SetActive(false);
                 _buttonsAni.SetBool("Open", false);
@@ -406,6 +411,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         /// <param name="delayTime2">검정 배경 사라지기까지 딜레이시간</param>
         public void ContentsExit(float delayTime, float delayTime2)
         {
+            
             Observable.Timer(TimeSpan.FromSeconds((double)delayTime))
                 .Subscribe(_ =>
                 {
@@ -419,8 +425,10 @@ namespace Assets.Scripts.UI.Popup.PopupView
                         .OnComplete(() =>
                         {
                             IntroButotnAni();
+                            SoundManager.Instance.PlayBGM("Case_BGM");
                             this.GetComponent<DragAndRotateCharacter>().enabled = true;
                             this.GetComponent<PinchObject>().enabled = true;
+                            SoundManager.PlayBGM("Case_BGM");
                         });
                 });
         }

@@ -4,6 +4,7 @@ using Assets.Scripts.Common.Models;
 using Assets.Scripts.Managers;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Common;
+using GooglePlayGames;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,6 @@ namespace Assets.Scripts.Splash
         private SoundManager _soundManager;
         [SerializeField] private InputField _idField;
 		[SerializeField] private Button _loginButton;
-        //[SerializeField] private Button _testCharacterCreate;
 
         private void Start()
 		{
@@ -31,8 +31,8 @@ namespace Assets.Scripts.Splash
 				_soundManager.StopBGM();
 				_soundManager.Play("Button_Click");
                 PlayerPrefs.SetString("DEV_ID", _idField.text);
-				ConnectionManager.Instance.CustomLogin(_idField.text);
-				SystemLoading.Show(SystemLoading.LoadingSize.Big, this);
+				ConnectionManager.Instance.CustomLogin(_idField.text, _idField.text);
+				SystemLoading.Show(SystemLoading.LoadingSize.Big, GameManager.Instance);
 			}).AddTo(gameObject);
 
 			PlayerViewModel.Instance
@@ -41,9 +41,7 @@ namespace Assets.Scripts.Splash
 				.Subscribe(player =>
 				{
 					GameManager.Instance.LoadScene(SceneName.MainScene);
-					SystemLoading.Hide(this);
-				}).AddTo(gameObject);
+                }).AddTo(gameObject);
 		}
-
     }
 }

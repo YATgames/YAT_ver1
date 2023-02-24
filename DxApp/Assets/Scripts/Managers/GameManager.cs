@@ -2,6 +2,7 @@
 using Assets.Scripts.Common.DI;
 using Assets.Scripts.ManageObject;
 using Assets.Scripts.UI;
+using Assets.Scripts.UI.Common;
 using Assets.Scripts.Util;
 using UniRx;
 using UnityEngine;
@@ -60,6 +61,16 @@ namespace Assets.Scripts.Managers
 			{
 				CurrentScene.Value = name;
 			});
+		}
+
+		private bool firstLoad = false;
+		public void LoadComplete()
+		{
+			if(!firstLoad)
+			{
+                SystemLoading.Hide(this);
+                firstLoad = true;
+			}
 		}
 
 		public void SetSound(float volum)

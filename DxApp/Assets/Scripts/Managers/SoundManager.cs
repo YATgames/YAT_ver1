@@ -133,19 +133,35 @@ namespace Assets.Scripts.Managers
 			_bgmPool.Stop();
 		}
 
-		public void Play(string key)
+		public void Play(string key, bool loop = false)
 		{
 			var source = GetSFXPool();
 			source.clip = GetSfxClip(key);
+			source.loop = loop;
 			source.Play();
 		}
 		public void Stop(string key)
 		{
-			foreach (var sound in _sfxPool)
+            try
+            {
+                foreach (var sound in _sfxPool)
+                {
+                    if (sound.clip.name == _sfxs[key].name && sound.isPlaying == true)
+                        sound.Stop();
+                }
+            }
+			catch
 			{
-				if (sound.clip.name == _sfxs[key].name && sound.isPlaying == true)
-					sound.Stop();
+
 			}
-		}
-	}
+
+        }
+        public void Stop()
+        {
+            foreach (var sound in _sfxPool)
+            {
+                sound.Stop();
+            }
+        }
+    }
 }

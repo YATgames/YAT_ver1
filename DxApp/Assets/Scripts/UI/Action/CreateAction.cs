@@ -49,6 +49,8 @@ public class CreateAction : MonoBehaviour
     private void Start()
     {
         AddEvent();
+        _caseRenderer = _caseObj.GetComponent<Renderer>();
+        _caseRenderer.material.color = new Color((float)70 / 255, (float)70 / 255, (float)70 / 255, 1);
     }
 
     private void AddEvent()
@@ -62,7 +64,7 @@ public class CreateAction : MonoBehaviour
         _title = title;
         _id = id;
         _selectedWord = _createTextWords[UnityEngine.Random.Range(0, _createTextWords.Length)];
-        SoundManager.Instance.PlayBGM("Tagging_BGM");
+        SoundManager.Instance.PlayBGM("AfterTagging_BGM");
         StartCoroutine(TaggingRoutine());
     }
 
@@ -80,6 +82,7 @@ public class CreateAction : MonoBehaviour
             yield return null;
         }
         SoundManager.Instance.Play("Tagging_Touch");
+        SoundManager.Instance.StopBGM();
 
         Debug.Log("CompleteShake");
         StopCoroutine(shakeRoutine);
@@ -90,8 +93,8 @@ public class CreateAction : MonoBehaviour
 
         Debug.Log("ºû ÀÌÆåÆ® ¹ß»ý");
         ActiveSunrise();
-
-        yield return new WaitForSeconds(2.4f);
+        SoundManager.Instance.Play("CircleEffect_SFX");
+        yield return new WaitForSeconds(4.5f);
 
         _sunShineEffect.DOComplete();
 
@@ -104,7 +107,7 @@ public class CreateAction : MonoBehaviour
 
     private IEnumerator PrintTextRoutine()
     {
-        while (true)
+        while (_textCount <= _selectedWord.Length)
         {
             PrintFigureText();
             yield return new WaitForSeconds(_textDelay);
@@ -151,8 +154,9 @@ public class CreateAction : MonoBehaviour
     }
     private IEnumerator Skip()
     {
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.StopBGM();
         CreateFigure(_title, _id, true);
-
         yield return new WaitForSeconds(0.1f);
 
         StopAllCoroutines();
@@ -207,7 +211,7 @@ public class CreateAction : MonoBehaviour
     {
         _sunShineEffect.gameObject.SetActive(true);
 
-        _sunShineEffect.DOScale(new Vector3(0.2f, 0.2f, 0.2f), 4.5f).SetEase(Ease.InOutCirc);
+        _sunShineEffect.DOScale(new Vector3(8f, 8f, 8f), 1.5f).SetEase(Ease.InOutCirc);
     }
 
     private void ActiveOBJ(bool active)
@@ -226,7 +230,7 @@ public class CreateAction : MonoBehaviour
 
         _figureText.text = text;
 
-        if (_textCount < _selectedWord.Length) _textCount++;
+        if (_textCount <= _selectedWord.Length) _textCount++;
         else _textCount = 1;
     }
     #endregion

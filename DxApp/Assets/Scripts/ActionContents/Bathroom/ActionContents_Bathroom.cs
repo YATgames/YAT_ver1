@@ -1,67 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Assets.Scripts.Util;
 
 using DG.Tweening;
-using UniRx;
-using Assets.Scripts.Common;
-using Newtonsoft.Json.Bson;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
     public partial class ActionContents_Bathroom : MonoBehaviour
     {
-        // 의존성으로 인해서 Model 에서 받아올 것들
         public FlowManager FlowManager { get; set; }
-        public OnEventTrigger Hide { get; set; }
         private CustomView CustomView;
-
         private GameObject[] _contentObjects;
-
         private Color _alphaNone = new Color(1, 1, 1, 0);
-        // [컨텐츠 관련 오브젝트
-        
         private GameObject _modelObject;
         private Animator _animator;
-        private float _zValue = -200f; // 이미지가 피규어 위에 보이기 위한 z값 설정
 
-        private bool _isBackGhostShow = false;
-        private bool _isColorChanged;
+        private bool _isColorChanged; // Surprise에서 터치 했는지 검사
 
-        private int _farCreateCount = 5; // 방귀 생성 개수(터치 해야하는 수) default: 25
-        private float _gasCreateRange;
+        private int _farCreateCount = 20; // 방귀 생성 개수(터치 해야하는 수) default: 25
+        private float _gasCreateRange; // 방귀 생성 범위
 
         private Image _redTissue;
         private Image _blueTissue;
         
         private string[] _dialogue = { "빨간 휴지줄까...", "파란 휴지줄까...", "오~ 시원하다" };
 
-        private float _xValue = 140f;
-        private Vector2 _leftZeroPos = new Vector2(-300, -300);
-        private Vector2 _rightZeroPos = new Vector2(300, -300);
-
-        private Vector2 _leftMovePos = new Vector2(-250, -180);
-        private Vector2 _rightMovePos = new Vector2(250, -180);
-
-
-        private GameObject _tissueObject= null;
-       
         [SerializeField] private Sprite _bathroomOutsideImage;
         [SerializeField] private Sprite _bathroomInsideImage;
-        private Button _leftHand;
-        private Button _rightHand;
         private Image[] _dialogueImage;
         private Text[] _dialogueText;
-        private int _heartTouchCount =0;
+
         // 테마 이미지 변경을 위해서 가져옴 ( 화장실 컨텐츠에서만 변경사항 있음 )
         [SerializeField] private string _caseName = "Button_Case";
+
         [Header("Surprise")]
         [SerializeField] private Image _exclamationMark;
-        [SerializeField] private Image _questionMark;
+        [SerializeField] private Image[] _questionMark;
         [SerializeField] private Image _ghostHalf;
         [SerializeField] private Image _ghostHair;
+        [SerializeField] private GameObject _shudderEffect;
         [SerializeField] private Image _ghostFullscreen;
         [SerializeField] private Image _blackBG;
 
@@ -74,13 +50,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
         [SerializeField] Sprite[] _gasImage;
         [SerializeField] private Button _inputRange;
         [SerializeField] private Image _yellowBG;
+        [SerializeField] private Image _redBG;
 
         [Space(5)]
         [Header("Wastepaper")]
-        [SerializeField] private Transform _bathroomImage;
-
+        [SerializeField] private Button _leftHand;
+        [SerializeField] private Button _rightHand;
         [SerializeField] private Transform _dialogueObject;
-        [SerializeField] private Button _inputRangeHappyEnd;
+        [SerializeField] private GameObject _shudderEffect_3;
         [SerializeField] private Image _blackBG_3;
         [SerializeField] private Image _ghostFullscreen_3;
 
@@ -89,35 +66,16 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         WaitForSeconds perSec = new WaitForSeconds(0.15f);
         WaitForSeconds perSec_2 = new WaitForSeconds(0.3f);
-        WaitForSeconds colorTimer = new WaitForSeconds(0.3f);
 
         [Space(5)]
-        [Header("AudioClip")]
-        [SerializeField] private AudioSource _SE;
-        [SerializeField] private AudioSource _BGM;
-        [SerializeField] private AudioClip[] _seContents1;
-        [SerializeField] private AudioClip[] _seContents2;
-        [SerializeField] private AudioClip[] _seContents3;
-        [SerializeField] private AudioClip _s01,_s02,_s03;
-
         [Header("Particle")]
         [SerializeField] private ParticleSystem _fxHeartTouch; // 3. 엔딩 터치시
         [SerializeField] private ParticleSystem _fxFlares; // 3. 슥삭슥삭
-        [SerializeField] private ParticleSystem _fxTouchIntend; // 3. 슥삭슥삭
-
+        [SerializeField] private ParticleSystem _fxShudder; // 오들오들 떨기
         private void Start()
         {
             Init();
-            AddEvent();
         }
-        private void AddEvent()
-        {
-            if (Hide == null)
-                Debug.Log("hide = null");
-            else
-                Debug.Log("hide != null");
-        }
-
         private void Init()
         {
             int count = 3;
@@ -141,7 +99,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private void RandomContents()
         {
             int num = UnityEngine.Random.Range(0, 3);
-            //int num = 1;
+            //int num = 2;
             _contentObjects[num].gameObject.SetActive(true);
             switch (num)
             {
@@ -156,10 +114,17 @@ namespace Assets.Scripts.UI.Popup.PopupView
             }
         }
         
-        // 케이스 이미지 바꾸기(화장실에서만 다른 이미지가 사용됨)
-        private void ChangeCaseImage()
+        private enum Side
         {
-            CustomView.temmaImage.sprite = _bathroomInsideImage;
+            Inside,Outside,
+        }
+        // 케이스 이미지 바꾸기(화장실에서만 다른 이미지가 사용됨)
+        private void ChangeCaseImage(Side side)
+        {
+            if (side == Side.Inside)
+                CustomView.temmaImage.sprite = _bathroomInsideImage;
+            else if (side == Side.Outside)
+                CustomView.temmaImage.sprite = _bathroomOutsideImage;
         }
 
         enum Anim
@@ -223,10 +188,6 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 default:
                     Debug.LogError("<color=red> 없는 애니메이션 입니다.에니메이터를 확인해주세요</color>"); break;
             }
-        }
-        public void SetData()
-        {
-            // 데이터 설정?
         }
     }
 }

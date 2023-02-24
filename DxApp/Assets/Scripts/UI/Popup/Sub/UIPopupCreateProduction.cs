@@ -15,6 +15,9 @@ namespace Assets.Scripts.UI.Popup.Sup
         private ResourcesManager _resourcesManager;
         [DependuncyInjection(typeof(PlayerViewModel))]
         private PlayerViewModel _playerViewModel;
+        [DependuncyInjection(typeof(SoundManager))]
+        private SoundManager _soundManager;
+
 
         [SerializeField] private CreateProductionView _createProductionView;
         public override void Initialize()
@@ -26,6 +29,9 @@ namespace Assets.Scripts.UI.Popup.Sup
             _createProductionView.ItemManager = _itemManager;
             _createProductionView.ResourcesManager = _resourcesManager;
             _createProductionView.PlayerViewModel = _playerViewModel;
+
+            _soundManager.PlayBGM("CreateProduction_BGM");
+            _soundManager.Play("Figure_Appear");
         }
 
         public override void Show(params object[] data)

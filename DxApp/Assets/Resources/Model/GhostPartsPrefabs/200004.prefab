@@ -725,7 +725,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f9878b33679de9242890a569e5976961, type: 2}
+  - {fileID: 2100000, guid: 1126daefa5d9c9e489b89e96fdf4a5d7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -770,6 +770,7 @@ GameObject:
   - component: {fileID: 4396831438770259349}
   - component: {fileID: 4396831438779787871}
   - component: {fileID: 904594199573277101}
+  - component: {fileID: 3358073992286587975}
   m_Layer: 0
   m_Name: 200004
   m_TagString: Untagged
@@ -805,7 +806,7 @@ Animator:
   m_GameObject: {fileID: 4396831438770297333}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 315726d7c5d2b504882760a36f9ba424, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 26446cd2230016d4d837b256dc45b782, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -832,6 +833,20 @@ MonoBehaviour:
   _headPosition: {fileID: 5554164940176015195}
   _wingPos: {fileID: 5571454932390836905}
   _tailPos: {fileID: 1287838775546113787}
+  _boxCollider: {fileID: 3358073992286587975}
+--- !u!65 &3358073992286587975
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4396831438770297333}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 0.75, z: 0.75}
+  m_Center: {x: 0, y: 0.375, z: 0}
 --- !u!1 &4396831438770297335
 GameObject:
   m_ObjectHideFlags: 0

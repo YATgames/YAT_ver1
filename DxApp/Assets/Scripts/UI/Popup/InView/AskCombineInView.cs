@@ -1,6 +1,7 @@
 using Assets.Scripts.Common.Models;
 using Assets.Scripts.Managers;
 using Assets.Scripts.UI.Common;
+using Assets.Scripts.Util;
 using DXApp_AppData.Enum;
 using DXApp_AppData.Model;
 using UniRx;
@@ -25,15 +26,25 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         [SerializeField] private GameObject[] _inventoryObjs;
 
+        [SerializeField] private GameObject[] _lightningPrefabs;
+
         private string title = string.Empty;
         private void Start()
         {
             AddEvent();
         }
 
+        private void OnEnable()
+        {
+            for (int i = 0; i < _lightningPrefabs.Length; i++)
+            {
+                _lightningPrefabs[i].gameObject.SetActive(false);
+            }
+        }
+
         private void AddEvent()
         {
-            _combineButton.OnClickAsObservable().Subscribe(_ =>
+            _combineButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
             {
                 var figureTypeTable = PlayerViewModel.Instance.FigureTypeTable;
                 FigureType figureType = FigureType.None;
@@ -50,10 +61,21 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 {
                     _inventoryObjs[i].SetActive(true);
                 }
+                for (int i = 0; i < _lightningPrefabs.Length; i++)
+                {
+                    _lightningPrefabs[i].gameObject.SetActive(true);
+                }
                 _combineAction.ClickCombineButton(title);
                 gameObject.SetActive(false);
             }).AddTo(gameObject);
-            _returnButton.OnClickAsObservable().Subscribe(_ => gameObject.SetActive(false)).AddTo(gameObject);
+            _returnButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
+            {
+                gameObject.SetActive(false);
+                for (int i = 0; i < _lightningPrefabs.Length; i++)
+                {
+                    _lightningPrefabs[i].gameObject.SetActive(true);
+                }
+            }).AddTo(gameObject);
         }
 
         public void SetData(string name)

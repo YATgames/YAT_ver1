@@ -42,7 +42,12 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private void AddEvent()
         {
-            _okButton.OnClickAsObservable().Subscribe(_ => UIPopupCreateProduction.Hide()).AddTo(gameObject);
+            _okButton.OnClickAsObservable().Subscribe(_ =>
+            {
+                SoundManager.Instance.PlayBGM("Combine_BGM");
+
+                UIPopupCreateProduction.Hide();
+            }).AddTo(gameObject);
         }
         private IEnumerator TimeCheck()
         {

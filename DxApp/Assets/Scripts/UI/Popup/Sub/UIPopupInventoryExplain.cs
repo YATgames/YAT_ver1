@@ -37,7 +37,11 @@ namespace Assets.Scripts.UI.Popup.Sup
         }
         private void AddEvent()
         {
-            _closeButton.OnPointerDownAsObservable().Subscribe(_ => Hide()).AddTo(gameObject);
+            _closeButton.OnPointerDownAsObservable().Subscribe(_ =>
+            {
+                SoundManager.Instance.Play("Button_Click");
+                Hide();
+            }).AddTo(gameObject);
         }
         public override void Show(params object[] data)
         {

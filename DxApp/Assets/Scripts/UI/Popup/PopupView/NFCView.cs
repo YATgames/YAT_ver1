@@ -18,6 +18,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
 	{
 		public ConnectionManager ConnectionManager { get; set; }
         public PlayerViewModel PlayerViewModel { get; set; }
+        public SoundManager SoundManager { get; set; }
+
 
         [SerializeField] private CreateAction _createAction;
 
@@ -46,7 +48,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         {
             _startReadButton.OnClickAsObservable().Subscribe(_ => OnStartNFCReadClick()).AddTo(gameObject);
 
-            _createButton.OnClickAsObservable().Subscribe(_ =>
+            _createButton.OnClickAsObservable("NFCTagging_Now").Subscribe(_ =>
             {
                 var index = _originFigureDropDown.value;
 

@@ -23,7 +23,7 @@ namespace Assets.Scripts.UI.Item
 
 		private void Start()
 		{
-			_button.OnClickAsObservable().Subscribe(_ =>
+			_button.OnClickAsObservable("Button_Touch").Subscribe(_ =>
 			{
 				OnClick.Invoke(_theme.ID);
 			}).AddTo(gameObject);

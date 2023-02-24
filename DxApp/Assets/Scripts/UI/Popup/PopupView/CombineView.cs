@@ -15,6 +15,7 @@ using Assets.Scripts.Util;
 using Unity.VisualScripting;
 using Assets.Scripts.PrefabModel;
 using Assets.Scripts.UI.Common;
+using System.Collections;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
@@ -25,6 +26,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public ResourcesManager ResourcesManager { get; set; }
         public PlayerViewModel PlayerViewModel { get; set; }
         public ConfigManager ConfigManager { get; set; }
+        public SoundManager SoundManager { get; set; }
 
         #region ::::::SerializeFields
 
@@ -78,15 +80,15 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private void AddEvent()
         {
             #region ::::::ButtonSettings
-            _homeButton.OnClickAsObservable().Subscribe(_ => FlowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
-            _explainButton.OnClickAsObservable().Subscribe(_ => FlowManager.AddSubPopup(PopupStyle.CombineExplain)).AddTo(gameObject);
+            _homeButton.OnClickAsObservable("Button_Click").Subscribe(_ => FlowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
+            _explainButton.OnClickAsObservable("Button_Click").Subscribe(_ => FlowManager.AddSubPopup(PopupStyle.CombineExplain)).AddTo(gameObject);
 
-            _combineButton.OnClickAsObservable().Subscribe(_ =>
+            _combineButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
             {
                 ActiveInventories(false, true);
                 PlayerViewModel.OnPartArchive.Invoke(false);
             }).AddTo(gameObject);
-            _cancelNickNameButton.OnClickAsObservable().Subscribe(_ =>
+            _cancelNickNameButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
             {
                 ActiveInventories(true, false);
                 PlayerViewModel.OnPartArchive.Invoke(true);
@@ -98,6 +100,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             PartsOnClick.AsObservable().Subscribe(data =>
             {
+                SoundManager.Play("Touch_Parts");
                 PlayerViewModel.SetData(data);
                 var model = ResourcesManager.GetModel(data.ID)?.GetComponent<ModelPrefabBase>();
                 var itemPartsType = ItemManager.GetPartsCustomData(data).PartsType;
@@ -321,6 +324,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         {
             _headToggle.OnValueChangedAsObservable().Skip(1).Subscribe(isOn =>
             {
+                SoundManager.Play("Button_Touch");
                 if (isOn == true)
                 {
                     _headReuseComponent.gameObject.SetActive(true);
@@ -332,6 +336,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             _bodyToggle.OnValueChangedAsObservable().Skip(1).Subscribe(isOn =>
             {
+                SoundManager.Play("Button_Touch");
                 if (isOn == true)
                 {
                     _headReuseComponent.gameObject.SetActive(false);
@@ -343,6 +348,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             _decorationToggle.OnValueChangedAsObservable().Skip(1).Subscribe(isOn =>
             {
+                SoundManager.Play("Button_Touch");
                 if (isOn == true)
                 {
                     _headReuseComponent.gameObject.SetActive(false);
@@ -354,6 +360,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             _propertyToggle.OnValueChangedAsObservable().Skip(1).Subscribe(isOn =>
             {
+                SoundManager.Play("Button_Touch");
                 if (isOn == true)
                 {
                     _headReuseComponent.gameObject.SetActive(false);

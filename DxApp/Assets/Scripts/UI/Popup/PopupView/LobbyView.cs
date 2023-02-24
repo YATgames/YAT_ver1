@@ -10,6 +10,8 @@ using UnityEngine;
 
 using Assets.Scripts.Managers; // ResourcesManager 가져오기 위해서 추가함
 using UnityEngine.UI;
+using System;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
@@ -18,6 +20,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
 		public PlayerViewModel PlayerViewModel { get; set; }
 		public FlowManager FlowManager { get; set; }
         public ResourcesManager ResourcesManager { get; set; }
+
+        [SerializeField] private float _intervalTime = 8f;
 
         [SerializeField] private ItemDisplay[] _itemDisplays;
 
@@ -52,14 +56,13 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private void AddEvent()
 		{
 			_onClick.AsObservable().Subscribe(caseNumber =>
-			{
-				SoundManager.Instance.Play("Button_Click");
-				FlowManager.Change(PopupStyle.Custom, caseNumber);
-			}).AddTo(gameObject);
+            {
+                SoundManager.Instance.Play("Button_Click");
+                FlowManager.Change(PopupStyle.Custom, caseNumber);
+            }).AddTo(gameObject);
 
-			_explainButton.OnClickAsObservable().Subscribe(v => FlowManager.AddSubPopup(PopupStyle.LobbyExplain)).AddTo(gameObject);
-
-        }
+            _explainButton.OnClickAsObservable("Button_Touch").Subscribe(v => FlowManager.AddSubPopup(PopupStyle.LobbyExplain)).AddTo(gameObject);
+		}
 
 		public void SetData(List<CaseInfo> datas)
 		{

@@ -14,6 +14,7 @@ namespace Assets.Scripts.Splash
 
 		[SerializeField] private SplashMain _main;
 		[SerializeField] private Splash_DEV _dev;
+		[SerializeField] private Splash_Live _live;
 
 		private IEnumerator Start()
 		{
@@ -35,8 +36,8 @@ namespace Assets.Scripts.Splash
 		private IEnumerator PlayAni()
 		{
 #if LIVE
-			yield return StartCoroutine(_xosoftLogo.Co_FadeInOut(2f));
-			yield return StartCoroutine(_titletLogo.Co_FadeInOut(2f));
+			yield return StartCoroutine(_xosoftLogo.Co_FadeInOut(1f));
+			yield return StartCoroutine(_titletLogo.Co_FadeInOut(1f));
 #endif
 
 			_main.gameObject.SetActive(true);
@@ -48,13 +49,14 @@ namespace Assets.Scripts.Splash
 		private void ServiceSetting_Start()
 		{
 			_dev.gameObject.SetActive(false);
-		}
+            _live.gameObject.SetActive(false);
+        }
 		private void ServiceSetting_End()
 		{
 #if LIVE
-			_dev.gameObject.SetActive(true);
+			_live.gameObject.SetActive(true);
 #elif DEV
-			_dev.gameObject.SetActive(true);
+            _dev.gameObject.SetActive(true);
 #elif QA
 			_dev.gameObject.SetActive(true);
 #endif

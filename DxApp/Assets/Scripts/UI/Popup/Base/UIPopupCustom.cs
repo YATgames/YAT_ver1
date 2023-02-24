@@ -20,6 +20,8 @@ namespace Assets.Scripts.UI.Popup.Base
         private ResourcesManager _resourceManager;
         [DependuncyInjection(typeof(ConnectionManager))]
         private ConnectionManager _connectionManager;
+        [DependuncyInjection(typeof(SoundManager))]
+        private SoundManager _soundManager;
 
         [SerializeField] private CustomView _customView;
 		[SerializeField] private Button _closeButton;
@@ -32,8 +34,10 @@ namespace Assets.Scripts.UI.Popup.Base
 			_customView.PlayerViewModel = _playerViewModel;
             _customView.ResourcesManager = _resourceManager;
             _customView.ConnectionManager = _connectionManager;
+            _customView.SoundManager = _soundManager;
 
-            _closeButton.OnClickAsObservable().Subscribe(_ => _flowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
+            _soundManager.PlayBGM("Case_BGM");
+            _closeButton.OnClickAsObservable("Button_Touch").Subscribe(_ => _flowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
 		}
 
 		public override void Show(params object[] data)

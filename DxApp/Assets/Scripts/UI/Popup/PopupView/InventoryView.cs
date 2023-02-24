@@ -21,6 +21,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public ResourcesManager ResourcesManager { get; set; }
         public PlayerViewModel PlayerViewModel { get; set; }
         public ConnectionManager ConnectionManager { get; set; }
+        public SoundManager SoundManager { get; set; }
+
 
         #region :::::::SerializeFields
         [SerializeField] private AskBreakInView _askBreakInView;
@@ -72,6 +74,9 @@ namespace Assets.Scripts.UI.Popup.PopupView
             }
             else
             {
+                _originToggle.isOn = true;
+                PlayerViewModel.OnFigureArchive.Invoke(false);
+
                 _dragAndRotateCharacter.enabled = false;
             }
 
@@ -84,21 +89,42 @@ namespace Assets.Scripts.UI.Popup.PopupView
         private void AddEvent()
         {
             #region ::::::ButtonSettings
-            _homeButton.OnClickAsObservable().Subscribe(_ => FlowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
-            _explainButton.OnClickAsObservable().Subscribe(_ => {if (PlayerViewModel.FigureArchive != null) FlowManager.AddSubPopup(PopupStyle.InventoryExplain);}).AddTo(gameObject);
+            _homeButton.OnClickAsObservable("Button_Click").Subscribe(_ => FlowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
+            _explainButton.OnClickAsObservable().Subscribe(_ => 
+            {
+                if (PlayerViewModel.FigureArchive != null)
+                {
+                    SoundManager.Play("Button_Click");
+                    FlowManager.AddSubPopup(PopupStyle.InventoryExplain);
+                }
+                else SoundManager.Play("ButtonFail_SFX");
+            }).AddTo(gameObject);
 
-            _favoriteButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
+            _favoriteButton.OnClickAsObservable().Subscribe(_ =>
             {
                 if(null != PlayerViewModel.FigureArchive && PlayerViewModel.Player.FavoriteInstanceID != PlayerViewModel.FigureArchive.InstanceID)
                 {
                     ConnectionManager.ChangeFavoriteFigure(PlayerViewModel.FigureArchive.InstanceID);
                     SystemLoading.Show(SystemLoading.LoadingSize.Big,this);
+                    SoundManager.Play("Button_Click");
+                }
+                else
+                {
+                    SoundManager.Play("ButtonFail_SFX");
                 }
             }).AddTo(gameObject);
 
             PlayerViewModel.ServerRespones.AsObservable().Subscribe(_ =>
             {
-                SetData();
+                if (null != PlayerViewModel.FigureArchive && PlayerViewModel.Player.FavoriteInstanceID == PlayerViewModel.FigureArchive.InstanceID)
+                {
+                    _favoriteButton.GetComponent<Image>().color = Color.white;
+                }
+                else
+                {
+                    _favoriteButton.GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f, 1);
+                }
+
                 SystemLoading.Hide(this);
             }).AddTo(gameObject);
 
@@ -110,7 +136,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     _breakButton.gameObject.SetActive(false);
             }).AddTo(gameObject);
 
-            _breakButton.OnClickAsObservable().Subscribe(_ =>
+            _breakButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
             {
                 _askBreakInView.gameObject.SetActive(true);
                 _askBreakInView.SetData(_titleText.text);
@@ -120,6 +146,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
             #region ::::::Toggles
             _originToggle.OnValueChangedAsObservable().Subscribe(isOn =>
             {
+                SoundManager.Play("Button_Touch");
                 if (isOn == true)
                 {
                     _originReuseComponent.gameObject.SetActive(true);
@@ -129,6 +156,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             _combineToggle.OnValueChangedAsObservable().Subscribe(isOn =>
             {
+                SoundManager.Play("Button_Touch");
                 if (isOn == true)
                 {
                     _originReuseComponent.gameObject.SetActive(false);

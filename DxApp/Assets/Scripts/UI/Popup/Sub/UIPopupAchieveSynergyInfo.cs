@@ -6,7 +6,7 @@ using UniRx;
 using Assets.Scripts.UI.Popup.PopupView;
 using Assets.Scripts.Managers;
 using System.Collections.Generic;
-
+using Assets.Scripts.Util;
 namespace Assets.Scripts.UI.Popup.Sup
 {
     public class UIPopupAchieveSynergyInfo : PopupSub
@@ -26,7 +26,7 @@ namespace Assets.Scripts.UI.Popup.Sup
         }
         private void AddEvent()
         {
-            _closeButton.OnClickAsObservable().Subscribe(_ => Hide()).AddTo(gameObject);
+            _closeButton.OnClickAsObservable("Button_Click").Subscribe(_ => Hide()).AddTo(gameObject);
         }
         public override void Show(params object[] data)
         {

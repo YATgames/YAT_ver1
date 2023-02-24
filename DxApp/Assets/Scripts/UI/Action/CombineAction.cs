@@ -14,10 +14,12 @@ using System.Collections.Generic;
 using DXApp_AppData.Item;
 using Random = UnityEngine.Random;
 using Assets.Scripts.UI;
+using Assets.Scripts.Util;
 
 public class CombineAction : MonoBehaviour
 {
     [SerializeField] private DragAndRotateCharacter _dragAndRotateCharacter;
+    [SerializeField] private GameObject _askInView;
 
     [SerializeField] private Button _okayButton;
     [SerializeField] private Button _goInventoryButton;
@@ -29,6 +31,8 @@ public class CombineAction : MonoBehaviour
     [SerializeField] private GameObject _dustParticle;
     [SerializeField] private GameObject[] _notActionObjs;
     [SerializeField] private GameObject[] _sparks;
+    [SerializeField] private GameObject[] _lightning;
+    [SerializeField] private ParticleSystem[] _bgLightningParticle;
 
     [SerializeField] private Toggle _headToggle;
 
@@ -37,6 +41,7 @@ public class CombineAction : MonoBehaviour
     [SerializeField] private Animator _pressAnimator;
 
     [SerializeField] private float _textDelay = 0.05f;
+    [SerializeField] private float _intervalTime = 5f;
 
     private string[] _breakTextWords = new string[5]
     {
@@ -51,6 +56,7 @@ public class CombineAction : MonoBehaviour
 
     private int _textCount = 1;
     private bool _isClickButton = false;
+    private bool _isActionning = false;
 
     [SerializeField] private Transform _changeScaleTransform;
     private Vector3 _originScale;
@@ -64,13 +70,30 @@ public class CombineAction : MonoBehaviour
 
     private void AddEvent()
     {
-        _okayButton.OnClickAsObservable().Subscribe(v => _isClickButton = true).AddTo(gameObject);
-        _goInventoryButton.OnClickAsObservable().Subscribe(v =>
+        Observable.Interval(TimeSpan.FromSeconds(_intervalTime)).Subscribe(_ =>
+        {
+            if (!_isActionning && !_askInView.activeSelf)
+            {
+                SoundManager.Instance.Play("LightningSmall_SFX");
+                var lightning = _bgLightningParticle[Random.Range(0, _bgLightningParticle.Length)];
+                if (lightning.gameObject.activeSelf == false)
+                {
+                    lightning.gameObject.SetActive(true);
+                }
+                else
+                {
+                    lightning.Play();
+                }
+            }
+        }).AddTo(gameObject);
+
+        _okayButton.OnClickAsObservable("Button_Touch").Subscribe(v => _isClickButton = true).AddTo(gameObject);
+        _goInventoryButton.OnClickAsObservable("Button_Touch").Subscribe(v =>
         {
             PlayerViewModel.Instance.Reset();
             FlowManager.Instance.Change(PopupStyle.Inventory, true, _title);
         }).AddTo(gameObject);
-        _skipButton.OnClickAsObservable().Subscribe(v => Skip()).AddTo(gameObject);
+        _skipButton.OnClickAsObservable("Button_Touch").Subscribe(v => Skip()).AddTo(gameObject);
     }
 
     public void ClickCombineButton(string title)
@@ -85,15 +108,36 @@ public class CombineAction : MonoBehaviour
     {
         // 시작시 세팅
         Init();
-
+        SoundManager.Instance.Play("Lightning_SFX");
+        for (int i = 0; i < _bgLightningParticle.Length; i++)
+        {
+            var lightning = _bgLightningParticle[i];
+            if (lightning.gameObject.activeSelf == false)
+            {
+                lightning.gameObject.SetActive(true);
+            }
+            else
+            {
+                lightning.Play();
+            }
+        }
         yield return new WaitForSeconds(1f);
         Debug.Log("우웅~ 칙! 문이 닫힌다");
         SetCloseAnim();
+        SoundManager.Instance.Stop("CombineSFX");
+        SoundManager.Instance.Play("Close_Press");
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < _lightning.Length; i++)
+        {
+            _lightning[i].SetActive(false);
+        }
+
+        yield return new WaitForSeconds(0.1f);
         Debug.Log("effect 실행");
         IEnumerator textRoutine = PrintTextRoutine();
         StartCoroutine(textRoutine);
+
         yield return StartCoroutine(ActiveSparks(true));
 
         Debug.Log("캐릭터 완성체로 교체");
@@ -111,19 +155,32 @@ public class CombineAction : MonoBehaviour
         Debug.Log("문양 이펙트 실행");
 
         yield return new WaitForSeconds(2f);
+       
         StopCoroutine(textRoutine);
         _combineText.text = string.Empty;
         SetOpenAnim();
+
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < _lightning.Length; i++)
+        {
+            _lightning[i].SetActive(true);
+        }
         Debug.Log("위잉 문이 열린다");
+        SoundManager.Instance.Play("Close_Press");
 
         yield return new WaitForSeconds(1.5f);
+        SoundManager.Instance.Play("Figure_Appear");
         Debug.Log("새로운 피규어 완성~");
         SetWhiteCharacterRender(character);
 
         yield return new WaitForSeconds(0.3f);
         _dustParticle.SetActive(true);
+        SoundManager.Instance.Play("ClapSound_SFX", true);
 
         yield return new WaitForSeconds(0.7f);
+        SoundManager.Instance.Play("Tagging_Touch");
+        character.GetComponent<BoxCollider>().enabled = true;
+
         _combineText.text = "새로운\n 피규어 \n \"<color=yellow>" + _title + "</color>\"\n획득!!";
         _dragAndRotateCharacter.enabled = true;
         _okayButton.gameObject.SetActive(true);
@@ -150,9 +207,9 @@ public class CombineAction : MonoBehaviour
 
         ActiveOBJ(false);
         _skipButton.gameObject.SetActive(true);
+        _isActionning = true;
         _isClickButton = false;
         _textBoard.gameObject.SetActive(true);
-        transform.localPosition = new Vector3(0, 0, -500);
         _combineText.text = string.Empty;
         _textCount = 1;
     }
@@ -160,24 +217,32 @@ public class CombineAction : MonoBehaviour
     {
         ActiveOBJ(true);
 
+        if(character != null) character.GetComponent<BoxCollider>().enabled = false;
         for (int i = 0; i < _partsArchive.Count; i++)
         {
             // 리소스 리셋
             ResourcesManager.ResetModels(_partsArchive[i].ID);
         }
 
+        _isActionning = false;
+        _isClickButton = false;
         _parent.localScale = _originScale;
         _dragAndRotateCharacter.DragResetAndPause();
         _goInventoryButton.gameObject.SetActive(false);
         _okayButton.gameObject.SetActive(false);
         _textBoard.gameObject.SetActive(false);
         _dustParticle.SetActive(false);
-        transform.localPosition = Vector3.zero;
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.Play("Combine_SFX", true);
         PlayerViewModel.Instance.Reset();
     }
     private void Skip()
     {
         Debug.Log("Skip is called!!!");
+
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.Play("Combine_SFX", true);
+        SoundManager.Instance.Play("Tagging_Touch");
 
         StopAllCoroutines();
 
@@ -188,6 +253,10 @@ public class CombineAction : MonoBehaviour
 
         ActiveOBJ(true);
 
+        for (int i = 0; i < _lightning.Length; i++)
+        {
+            _lightning[i].SetActive(true);
+        }
         for (int i = 0; i < _sparks.Length; i++)
         {
             _sparks[i].gameObject.SetActive(false);
@@ -201,6 +270,9 @@ public class CombineAction : MonoBehaviour
                 if (renders[i] != null)
                     renders[i].material.color = Color.white;
             }
+
+            character.GetComponent<BoxCollider>().enabled = false;
+
             character.SetActive(false);
         }
 
@@ -209,6 +281,7 @@ public class CombineAction : MonoBehaviour
             ResourcesManager.ResetModels(_partsArchive[i].ID);
         }
 
+        _isActionning = false;
         _parent.localScale = _originScale;
         _dragAndRotateCharacter.DragResetAndPause();
         _skipButton.gameObject.SetActive(false);
@@ -216,7 +289,7 @@ public class CombineAction : MonoBehaviour
         _okayButton.gameObject.SetActive(false);
         _textBoard.gameObject.SetActive(false);
         _dustParticle.SetActive(false);
-        transform.localPosition = Vector3.zero;
+        //transform.localPosition = Vector3.zero;
         PlayerViewModel.Instance.Reset();
     }
     #endregion
@@ -246,7 +319,7 @@ public class CombineAction : MonoBehaviour
     #region::::::::::Texts
     private IEnumerator PrintTextRoutine()
     {
-        while (true)
+        while (_textCount <= _selectedWord.Length)
         {
             PrintFigureText();
             yield return new WaitForSeconds(_textDelay);
@@ -258,7 +331,7 @@ public class CombineAction : MonoBehaviour
 
         _combineText.text = text;
 
-        if (_textCount < _selectedWord.Length) _textCount++;
+        if (_textCount <= _selectedWord.Length) _textCount++;
         else _textCount = 1;
     }
     #endregion
@@ -266,11 +339,15 @@ public class CombineAction : MonoBehaviour
     #region ::::::::::Actives
     private IEnumerator ActiveSparks(bool active)
     {
+        if(active) SoundManager.Instance.Play("Spark_SFX", true);
+
         for (int i = 0; i < _sparks.Length; i++)
         {
             _sparks[i].gameObject.SetActive(active);
             yield return new WaitForSeconds(0.2f);
         }
+
+        if (!active) SoundManager.Instance.Stop("SparkSFX");
     }
 
     private void ActiveOBJ(bool active)

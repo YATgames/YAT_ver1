@@ -32,7 +32,9 @@ namespace Assets.Scripts.UI.Popup.Base
 			base.Initialize();
 			DependuncyInjection.Inject(this);
 
-			_lobbyView.FlowManager = _flowManager;
+            GameManager.Instance.LoadComplete();
+
+            _lobbyView.FlowManager = _flowManager;
 			_lobbyView.PlayerViewModel = _playerViewModel;
 			_lobbyView.ResourcesManager = _resourcesManager; // 리소스매니저 추가
 			_lobbyView.SetData(_playerViewModel.Player.CaseList);

@@ -16,6 +16,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
         public FlowManager FlowManager { get; set; }
         public PlayerViewModel PlayerViewModel { get; set; }
         public ItemManager ItemManager { get; set; }
+        public SoundManager SoundManager { get; set; }
+
 
         [SerializeField] private ReuseComponent _reuseComponenet;
 
@@ -36,16 +38,19 @@ namespace Assets.Scripts.UI.Popup.PopupView
             #region :::::: ClickEvent
             _onClickSynergy.AsObservable().Subscribe(data =>
             {
+                SoundManager.Play("Button_Touch");
                 FlowManager.AddSubPopup(PopupStyle.AchieveSynergyInfo, data);
             }).AddTo(gameObject);
 
             _onClickReward.AsObservable().Subscribe(data =>
             {
+                SoundManager.Play("Tagging_Touch");
                 FlowManager.AddSubPopup(PopupStyle.AchieveReward, data);
             }).AddTo(gameObject);
 
             _homeButton.OnClickAsObservable().Subscribe(_ =>
             {
+                SoundManager.Play("Button_Click");
                 FlowManager.Change(PopupStyle.Lobby);
             }).AddTo(gameObject);
             #endregion

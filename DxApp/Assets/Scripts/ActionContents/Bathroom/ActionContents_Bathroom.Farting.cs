@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UniRx;
-using PlayFab.GroupsModels;
+using Assets.Scripts.Managers;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
@@ -14,8 +14,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private IEnumerator FartingRoutine()
         {
-            Debug.Log("방귀 엔딩부분");
-            PlaySE(_seContents2[3]); // SE : 느낌표
+            // 방귀 엔딩부분
+            //PlaySE(_seContents2[3]); // SE : 느낌표
+            SoundManager.Instance.Play("Bathroom2E04_SFX");
+            _yellowBG.gameObject.SetActive(true);
+            _yellowBG.DOFade(0.6f, 1.4f).From(0f).SetEase(Ease.Linear);
 
             _exclamationMark_2.DOFade(1f, 0.1f);
             _exclamationMark_2.transform.DOLocalRotate(new Vector3(0, 0, 10), 0.1f).SetEase(Ease.InQuad);
@@ -31,45 +34,56 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _exclamationMark_2.DOFade(0f, 0.1f).SetEase(Ease.Linear);
             yield return new WaitForSeconds(0.6f);
 
+            //PlaySE(_seContents1[4]);
+            SoundManager.Instance.Play("Bathroom1E05_SFX");
 
-            PlaySE(_seContents1[4]);
-            ModelingMotion(Anim.IDLE);
-            yield return new WaitForSeconds(0.1f);
-            ModelingMotion(Anim.SHUDDER); // 방방 뛰는 부분
+            ModelingMotion(Anim.SHUDDER); // 달달달 떨기
             // SE : 파티 - 케익/음료 부분 효과
-            yield return new WaitForSeconds(2f);
-           
-            _yellowBG.gameObject.SetActive(true);
-            _yellowBG.DOFade(0.6f, 1f).From(0f).SetEase(Ease.Linear);
-            ModelingMotion(Anim.IDLE);
-            yield return new WaitForSeconds(0.1f);
-            ModelingMotion(Anim.LIEFLAT);
+            //yield return new WaitForSeconds(0.5f);
+
+            // 빨간배경(경고효과)
+            _redBG.gameObject.SetActive(true);
+            int count = 0;
+            float delayTime = 0.4f;
+            while (count <= 3)
+            {
+                _redBG.DOFade(0.4f, delayTime).SetEase(Ease.Linear);
+                yield return new WaitForSeconds(delayTime);
+                _redBG.DOFade(0.1f, delayTime).SetEase(Ease.Linear);
+                yield return new WaitForSeconds(delayTime);
+                count++;
+            }
             yield return new WaitForSeconds(0.55f);
-            PlaySE(_seContents2[4]); // 쓰러짐
+            ModelingMotion(Anim.LIEFLAT);
+            yield return new WaitForSeconds(0.65f);
+            //PlaySE(_seContents2[4]); // 쓰러짐
+            SoundManager.Instance.Play("Bathroom2E05_SFX");
             yield return new WaitForSeconds(1f);
 
+            SoundManager.Instance.StopBGM();
             CustomView.ContentsExit(1f,1.5f);
-            yield return new WaitForSeconds(2f);
-            CustomView.temmaImage.sprite = _bathroomOutsideImage; // 
+            yield return new WaitForSeconds(1.8f);
+            ChangeCaseImage(Side.Outside);
             yield break;
         }
 
         private void Init_Farting()
         {
-            ChangeCaseImage();
+            ChangeCaseImage(Side.Inside);
 
             _inputRange.gameObject.SetActive(true);
             _gasParents.gameObject.SetActive(true);
             _gasEffect.gameObject.SetActive(true);
             _exclamationMark_2.gameObject.SetActive(true);
             _yellowBG.gameObject.SetActive(false);
-
+            _redBG.gameObject.SetActive(false);
             _gasCreateRange = (int)_gas.rectTransform.rect.width >> 1;           
 
             _gasEffect.color = _alphaNone;
             _exclamationMark_2.color = _alphaNone;
-
+            _redBG.color = new Color(1, 0, 0, 0);
             _inputRange.image.color = Color.clear;
+
             _inputRange.onClick.
                AsObservable().Subscribe(_ =>
                {
@@ -77,13 +91,13 @@ namespace Assets.Scripts.UI.Popup.PopupView
                });
 
             Pooling_Init();
-            PlayBGM(_s02);
+            //PlayBGM(_s02);
+            SoundManager.Instance.PlayBGM("Bathroom2_BGM");
         }
 
         private void GasEffect()
         {
             // p03 이미지 랜덤 방향으로 퍼지도록
-
             _gasEffect.rectTransform.localEulerAngles = new Vector3(0, 0,
                 Random.Range(0 ,360f));
             _gasEffect.rectTransform.localPosition = Vector3.zero;
@@ -92,9 +106,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _gasEffect.transform.DOLocalMoveY(50f, 0.3f).SetEase(Ease.InQuad);
         }
 
-        /// <summary>
-        /// 터치하기 : 방귀 생성
-        /// </summary>
+        /// <summary> 터치하기 : 방귀 생성 </summary>
         private void InputAction()
         {
             if(_poolingObjectQueue.Count> 0)
@@ -116,9 +128,11 @@ namespace Assets.Scripts.UI.Popup.PopupView
             
             int num = UnityEngine.Random.Range(0, 2);
             if (num == 0)
-                PlaySE(_seContents2[0]);
-            else 
-                PlaySE(_seContents2[1]);
+                //PlaySE(_seContents2[0]);
+                SoundManager.Instance.Play("Bathroom2E01_SFX");
+            else
+                //PlaySE(_seContents2[1]);
+                SoundManager.Instance.Play("Bathroom2E02_SFX");
         }
         #region ### GasPooling ###
         [SerializeField] private Queue<Image> _poolingObjectQueue = new Queue<Image>();

@@ -1,57 +1,86 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using Assets.Scripts.Managers;
-using Assets.Scripts.Util;
-
 using DG.Tweening;
 using UniRx;
 using Assets.Scripts.Common;
+using Assets.Scripts.Managers;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
     public partial class ActionContents_Bathroom : MonoBehaviour
     {
         // [AcionContents-Bathroom-Surprise]
-
-        private float _showdelay = 0.15f;
         private IEnumerator SurpriseRoutine()
-        {
-            // 1. 귀신 보이기
-            // 2. 느낌표 및 모델링 회전
-            // 3. 모델링 회전및 물음표
-            // 4. 머리카락 내려오기 및 느낌표 
-            // 4(터치시). 머리카락 올라가기 및 캐릭터 부들부들(Shudder)
-            // 5. 화면 검정색으로
-            // 6. 무서운 귀신 화면 아래에서 & 진동 & 피규어 비명소리
-
-            GhostShow();            
-            PlaySE(_seContents1[0]); // SE :노려보는 공포효과음
+        { 
+            // 등장1
+            GhostShow();
+            //PlaySE(_seContents1[0]); // SE :노려보는 공포효과음
+            SoundManager.Instance.Play("Bathroom1E01_SFX");
             yield return new WaitForSeconds(1f);
 
             PlayExclamationMark();
-            PlaySE(_seContents2[2]); //
+            //PlaySE(_seContents2[2]);
+            SoundManager.Instance.Play("Bathroom1E03_SFX");
+
             yield return new WaitForSeconds(1f);
-            
+
             ModelingMotion(Anim.BACKSIDE); // 뒤돌기
             _ghostHalf.GetComponent<RectTransform>().DOAnchorPosY(0f, 0.2f)
                 .SetEase(Ease.Linear);
-            PlaySE(_seContents1[1]); // SE : 휙 도는 소리
+            //PlaySE(_seContents1[1]); // SE : 휙 도는 소리
+            SoundManager.Instance.Play("Bathroom1E02_SFX");
             yield return new WaitForSeconds(1f);
 
-            PlayQuestionMark();
-            //PlaySE(_seContents2[2]); //
+            PlayQuestionMark(0);
+            yield return new WaitForSeconds(0.1f);
+            PlayQuestionMark(1);
+            yield return new WaitForSeconds(1.5f);
+
+
+            ModelingMotion(Anim.FRONTSIDE); // 앞보기  
+            //PlaySE(_seContents1[1]); // SE : 휙 도는 소리
+            SoundManager.Instance.Play("Bathroom1E02_SFX");
+            yield return new WaitForSeconds(2f);
+
+            // 등장2
+            GhostShow();
+            //PlaySE(_seContents1[0]); // SE :노려보는 공포효과음
+            SoundManager.Instance.Play("Bathroom1E01_SFX");
+            yield return new WaitForSeconds(1f);
+
+            PlayExclamationMark();
+            //PlaySE(_seContents2[2]);
+            SoundManager.Instance.Play("Bathroom2E03_SFX");
+            yield return new WaitForSeconds(1f);
+            ModelingMotion(Anim.BACKSIDE); // 뒤돌기
+            _ghostHalf.GetComponent<RectTransform>().DOAnchorPosY(0f, 0.2f)
+                .SetEase(Ease.Linear);
+            //PlaySE(_seContents1[1]); // SE : 휙 도는 소리
+            SoundManager.Instance.Play("Bathroom1E02_SFX");
             yield return new WaitForSeconds(1.5f);
 
             ModelingMotion(Anim.FRONTSIDE); // 앞보기  
-            PlaySE(_seContents1[1]); // SE : 휙 도는 소리
-            yield return new WaitForSeconds(2f);
+            //PlaySE(_seContents1[1]); // SE : 휙 도는 소리
+            SoundManager.Instance.Play("Bathroom1E02_SFX");
+            yield return new WaitForSeconds(1f);
+
+
+            // 달달떨기
+            ModelingMotion(Anim.SHUDDER);
+            _shudderEffect.SetActive(true);
+            //PlaySE(_seContents1[4]);
+            SoundManager.Instance.Play("Bathroom1E05_SFX", true);
+            _fxShudder.Play();
+            // 이펙트 추가해야함
+            yield return new WaitForSeconds(1f);
+
 
             _ghostHair.gameObject.SetActive(true);
             _ghostHair.rectTransform.DOAnchorPosY(0, 0.3f);
-            PlaySE(_seContents1[0]); // SE :노려보는 공포효과음
+            //PlaySE(_seContents1[0]); // SE :노려보는 공포효과음
+            SoundManager.Instance.Play("Bathroom1E01_SFX");
             PlayExclamationMark();
             yield return new WaitForSeconds(0.6f);
             _ghostHair.raycastTarget = true;
@@ -61,47 +90,55 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
         private IEnumerator SurpriseRoutine2()
         {
-            //_ghostHair.DOFade(0f, 1f).SetEase(Ease.Linear);
             _ghostHair.raycastTarget = false;
             _ghostHair.rectTransform.DOAnchorPosY(1024, 0.2f).SetEase(Ease.Linear);
             yield return new WaitForSeconds(0.5f);
             // SE : 부들들 떨기
-            ModelingMotion(Anim.SHUDDER);
-            PlaySE(_seContents1[4]);
+            //ModelingMotion(Anim.SHUDDER);
+            _fxShudder.Stop();
+            _shudderEffect.gameObject.SetActive(false);
+            //PlaySE(_seContents1[4]);
+            //SoundManager.Instance.Play("Bathroom1E05_SFX");
             yield return new WaitForSeconds(0.5f);
             _blackBG.DOFade(1f, 1.5f).SetEase(Ease.Linear);
             yield return new WaitForSeconds(1.5f);
+            SoundManager.Instance.Stop("Bathroom1E05SFX");
             _ghostFullscreen.DOFade(1f, 0.2f);
             _ghostFullscreen.rectTransform.DOAnchorPosY(0, 0.1f)
                 .OnComplete(() =>
                 {
-                    PlaySE(_seContents1[3]);
+                    //PlaySE(_seContents1[3]);
+                    SoundManager.Instance.Play("Bathroom1E04_SFX");
                     _ghostFullscreen.rectTransform.DOScale(1.4f, 0.15f).SetEase(Ease.OutBack);
-                    _ghostFullscreen.rectTransform.DOShakeAnchorPos(1.2f, 100, 30, 90, false, false);
+                    _ghostFullscreen.rectTransform.DOShakeAnchorPos(1.5f, 100, 30, 90, false, false);
                 });
-
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.4f);
+            SoundManager.Instance.StopBGM();
             CustomView.ContentsExit(1f, 2f);
             yield break;
         }
         private void GhostShow()
         {
             _ghostHalf.DOFade(1f, 0.2f).SetEase(Ease.Linear);
-            _ghostHalf.DOFillAmount(1f, 0.6f).From(0f).SetEase(Ease.Linear);
-            _ghostHalf.rectTransform.DOAnchorPosY(400f, 0.6f)
+            //_ghostHalf.DOFillAmount(1f, 0.6f).From(0f).SetEase(Ease.Linear);
+            _ghostHalf.rectTransform.DOAnchorPosY(400f, 1f)
                 .SetEase(Ease.OutBack);
         }
         private void Init_Surprise()
         {
             _exclamationMark.gameObject.SetActive(true);
-            _questionMark.gameObject.SetActive(true);
+            _questionMark[0].gameObject.SetActive(true);
+            _questionMark[1].gameObject.SetActive(true);
             _ghostHair.gameObject.SetActive(false);
             _ghostHalf.gameObject.SetActive(true);
+            _shudderEffect.gameObject.SetActive(false);
             _ghostFullscreen.gameObject.SetActive(true);
             _blackBG.gameObject.SetActive(true);
+            
 
             _exclamationMark.color = new Color(1, 1, 1, 0);
-            _questionMark.color = new Color(1, 1, 1, 0);
+            _questionMark[0].color = new Color(1, 1, 1, 0);
+            _questionMark[1].color = new Color(1, 1, 1, 0);
             _ghostHalf.color = new Color(1, 1, 1, 0);
             _ghostFullscreen.color = new Color(1, 1, 1, 0);
             _blackBG.color = Color.clear;
@@ -113,7 +150,6 @@ namespace Assets.Scripts.UI.Popup.PopupView
             Transform tf = ObjectFinder.Find("CustomView").transform;
             _ghostHalf.transform.SetParent(tf);
             _ghostHalf.transform.SetAsFirstSibling();
-            _isBackGhostShow = true;
 
             _ghostHair.GetComponent<Button>().onClick.
                 AsObservable().Subscribe(_ =>
@@ -121,13 +157,14 @@ namespace Assets.Scripts.UI.Popup.PopupView
                 _isColorChanged = false;
                 StartCoroutine(SurpriseRoutine2());
             });
-            SurpriseRoutine()
-                .ToObservable()
-                .Subscribe(_ => Debug.Log("A"), () => Debug.Log("B"));
+            
+            StartCoroutine(SurpriseRoutine());
+            //PlayBGM(_s01);
+            SoundManager.Instance.PlayBGM("Bathroom1_BGM");
         }
 
         private Sequence _seqExclamationMark;
-        private Sequence _seqQuestionMark;
+        private Sequence[] _seqQuestionMark = new Sequence[2];
         private void PlayExclamationMark()
         {
             if (_seqExclamationMark == null)
@@ -147,31 +184,31 @@ namespace Assets.Scripts.UI.Popup.PopupView
                     .Append(_exclamationMark.rectTransform.DOAnchorPosY(-10f, 0.2f).SetRelative(true).SetEase(Ease.Linear))
                     .Join(_exclamationMark.transform.DOLocalRotate(Vector3.zero, 0.2f).SetEase(Ease.Linear))
 
-                    .Append(_exclamationMark.DOFade(0f, 0.5f).SetEase(Ease.Linear));
+                    .Append(_exclamationMark.DOFade(0f, 0.3f).SetEase(Ease.Linear));
             }
             else
                 _seqExclamationMark.Restart();
         }
-        private void PlayQuestionMark()
+        private void PlayQuestionMark(int number)
         {
-            if (_seqQuestionMark == null)
+            if (_seqQuestionMark[number] == null)
             {
-                _seqQuestionMark = DOTween.Sequence()
+                _seqQuestionMark[number] = DOTween.Sequence()
                     .OnStart(() =>
                     {
-                        _questionMark.color = new Color(1, 1, 1, 0);
-                        _questionMark.GetComponent<RectTransform>().localEulerAngles = Vector3.zero;
+                        _questionMark[number].color = new Color(1, 1, 1, 0);
+                        _questionMark[number].GetComponent<RectTransform>().localEulerAngles = Vector3.zero;
                     }).SetAutoKill(false)
 
-                    .Append(_questionMark.DOFade(1f, 0.1f).From(0f))
-                    .Join(_questionMark.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.3f).SetEase(Ease.InQuad))
+                    .Append(_questionMark[number].DOFade(1f, 0.1f).From(0f))
+                    .Join(_questionMark[number].transform.DOLocalRotate(new Vector3(0, 0, 20), 0.3f).SetEase(Ease.InQuad))
 
-                    .Append(_questionMark.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.3f).SetEase(Ease.InQuad))
-                    .Append(_questionMark.transform.DOLocalRotate(Vector3.zero, 0.5f).SetEase(Ease.Linear))
-                    .Join(_questionMark.DOFade(0f, 0.5f).SetEase(Ease.Linear));
+                    .Append(_questionMark[number].transform.DOLocalRotate(new Vector3(0, 0, -20), 0.3f).SetEase(Ease.InQuad))
+                    .Append(_questionMark[number].transform.DOLocalRotate(Vector3.zero, 0.5f).SetEase(Ease.Linear))
+                    .Join(_questionMark[number].DOFade(0f, 0.5f).SetEase(Ease.Linear));
             }
             else
-                _seqQuestionMark.Restart();
+                _seqQuestionMark[number].Restart();
         }
         private IEnumerator ColorChangeRoutine()
         {

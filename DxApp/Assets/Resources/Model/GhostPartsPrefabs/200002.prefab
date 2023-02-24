@@ -665,6 +665,7 @@ GameObject:
   - component: {fileID: 8763570832476914258}
   - component: {fileID: 8763570832469667206}
   - component: {fileID: 4877648479101250356}
+  - component: {fileID: 1231621462119603954}
   m_Layer: 0
   m_Name: 200002
   m_TagString: Untagged
@@ -699,7 +700,7 @@ Animator:
   m_GameObject: {fileID: 8763570832477085234}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1f468001267b175458e91cc2c474b051, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3ed4b04a9c160b04cb88875766efb5b6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -726,6 +727,20 @@ MonoBehaviour:
   _headPosition: {fileID: 6975973741744136270}
   _wingPos: {fileID: 5134220980148487506}
   _tailPos: {fileID: 3489623697030452154}
+  _boxCollider: {fileID: 1231621462119603954}
+--- !u!65 &1231621462119603954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8763570832477085234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 0.75, z: 0.75}
+  m_Center: {x: 0, y: 0.375, z: 0}
 --- !u!1 &8763570832477085236
 GameObject:
   m_ObjectHideFlags: 0

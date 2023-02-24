@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -92,7 +93,7 @@ public class SwipeUI : MonoBehaviour
 
     private void UpdateSwipe()
     {
-        if(Mathf.Abs(_startTouchX - _entTouchX) < _swipeDistance)
+        if (Mathf.Abs(_startTouchX - _entTouchX) < _swipeDistance)
         {
             StartCoroutine(OnSwipreOneStep(_currentPage));
             return;
@@ -102,14 +103,22 @@ public class SwipeUI : MonoBehaviour
 
         if (isLeft == true)
         {
-            if (_currentPage == 0) return;
-
+            if (_currentPage == 0)
+            {
+                SoundManager.Instance.Play("ButtonFail_SFX");
+                return;
+            }
+            SoundManager.Instance.Play("IconList_Open");
             _currentPage--;
         }
         else
         {
-            if (_currentPage == _maxpage - 1) return;
-
+            if (_currentPage == _maxpage - 1)
+            {
+                SoundManager.Instance.Play("ButtonFail_SFX");
+                return;
+            }
+            SoundManager.Instance.Play("IconList_Open");
             _currentPage++;
         }
 

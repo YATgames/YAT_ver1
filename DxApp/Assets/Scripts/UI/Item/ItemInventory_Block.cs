@@ -30,9 +30,11 @@ namespace Assets.Scripts.UI.Item
 
         public OnEventTrigger<PlayfabItemInstance> OnClick;
 
+        private Animator _animator;
         private PlayfabItemInstance _data;
 
         private bool isSelected;
+
 
         private void Start()
         {
@@ -41,7 +43,7 @@ namespace Assets.Scripts.UI.Item
 
         private void AddEvent()
         {
-            _selectButton.OnClickAsObservable().Subscribe(_ =>
+            _selectButton.OnClickAsObservable("Button_Touch").Subscribe(_ =>
             {
                 if (_data != null && !isSelected && _bgFrame.sprite != _bgSprites[(int)BgSpritesType.Off])
                 {
@@ -84,6 +86,9 @@ namespace Assets.Scripts.UI.Item
 
             if (isSelected)
             {
+                SoundManager.Instance.Play("ChangeCharacter_SFX");
+                SoundManager.Instance.Play("ChaSound02_SFX");
+
                 ResetModels();
 
                 var items = ItemManager.Instance.Figures.FirstOrDefault(v => v.ID == data.ID).Items;
@@ -108,6 +113,8 @@ namespace Assets.Scripts.UI.Item
                 Model_Body _body = body?.GetComponent<Model_Body>();
                 Model_Head _head = head?.GetComponent<Model_Head>();
                 Model_Deco _deco = deco?.GetComponent<Model_Deco>();
+                _animator = _body.GetComponent<Animator>();
+                
 
                 try
                 {
@@ -130,6 +137,7 @@ namespace Assets.Scripts.UI.Item
                     }
 
                     _deco.ResetTransform();
+
                 }
                 catch
                 {
@@ -137,6 +145,7 @@ namespace Assets.Scripts.UI.Item
                 }
             }
 
+            _animator?.SetTrigger("LowJump");
             _data = data;
         }
         public void SetData(CustomFigureInstance data, bool isSelect)
@@ -165,6 +174,9 @@ namespace Assets.Scripts.UI.Item
 
             if (isSelected)
             {
+                SoundManager.Instance.Play("ChangeCharacter_SFX");
+                SoundManager.Instance.Play("ChaSound02_SFX");
+
                 ResetModels();
 
                 var items = data.CustomData.Parts;
@@ -189,8 +201,8 @@ namespace Assets.Scripts.UI.Item
                 Model_Body _body = body?.GetComponent<Model_Body>();
                 Model_Head _head = head?.GetComponent<Model_Head>();
                 Model_Deco _deco = deco?.GetComponent<Model_Deco>();
+                _animator = _body.GetComponent<Animator>();
 
-               
                 try
                 {
                     _body.ResetTransform();
@@ -220,6 +232,7 @@ namespace Assets.Scripts.UI.Item
                 }
             }
 
+            _animator?.SetTrigger("LowJump");
             _data = data;
         }
         public void SetEmpty()

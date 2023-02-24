@@ -6,17 +6,15 @@ using UniRx;
 using Assets.Scripts.UI.Popup.PopupView;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Common.Models;
+using Assets.Scripts.Util;
+
 
 namespace Assets.Scripts.UI.Popup.Sup
 {
     public class UIPopupCombineExplain : PopupSub
     {
-        [DependuncyInjection(typeof(PlayerViewModel))]
-        private PlayerViewModel _playerViewModel;
-        [DependuncyInjection(typeof(ItemManager))]
-        private ItemManager _itemManager;
-        [DependuncyInjection(typeof(ConfigManager))]
-        private ConfigManager _configManager;
+        [DependuncyInjection(typeof(FlowManager))]
+        private FlowManager _flowManager;
 
         [SerializeField] private Button _closeButton;
 
@@ -26,6 +24,7 @@ namespace Assets.Scripts.UI.Popup.Sup
             base.Initialize();
             DependuncyInjection.Inject(this);
 
+            _combineExplainView.FlowManager = _flowManager;
         }
         public void Start()
         {
@@ -33,7 +32,7 @@ namespace Assets.Scripts.UI.Popup.Sup
         }
         private void AddEvent()
         {
-            _closeButton.OnClickAsObservable().Select(_ => _closeButton.UpdateAsObservable()).Take(1).Subscribe(_ => Hide()).AddTo(gameObject);
+            _closeButton.OnClickAsObservable("Button_Click").Select(_ => _closeButton.UpdateAsObservable()).Take(1).Subscribe(_ => Hide()).AddTo(gameObject);
         }
         public override void Show(params object[] data)
         {

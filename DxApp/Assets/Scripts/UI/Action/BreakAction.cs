@@ -11,6 +11,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Assets.Scripts.Util;
 
 public class BreakAction : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class BreakAction : MonoBehaviour
 
     private List<GameObject> character;
 
+    private Animator _animator;
     private PlayfabItemInstance _figureArchive;
     private PlayerModel _player;
     private InventoryModel _inventory;
@@ -71,6 +73,7 @@ public class BreakAction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log("위로 붕 뜬다");
         MoveUpCharacter(character);
+        SoundManager.Instance.Play("BreakFly_SFX");
 
         yield return new WaitForSeconds(1f);
         IEnumerator textRoutine = PrintTextRoutine();
@@ -79,6 +82,7 @@ public class BreakAction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log("우우웅~ 흔들린다");
         ShakingCharacter(character);
+        SoundManager.Instance.Play("Break_SFX");
 
         yield return new WaitForSeconds(1f);
         Debug.Log("파츠들이 각자 위치로 이동한다");
@@ -90,6 +94,7 @@ public class BreakAction : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
         _breakText.text = "\"<color=yellow>" + title + "</color>\"\n분해 성공!!";
+        SoundManager.Instance.Play("Tagging_Touch");
         _okayButton.gameObject.SetActive(true);
         _skipButton.gameObject.SetActive(false);
 
@@ -115,11 +120,12 @@ public class BreakAction : MonoBehaviour
 
     private void AddEvent()
     {
-        _skipButton.OnClickAsObservable().Subscribe(v => Skip()).AddTo(gameObject);
-        _okayButton.OnClickAsObservable().Subscribe(v => _isClickButton = true).AddTo(gameObject);
+        _skipButton.OnClickAsObservable("Button_Touch").Subscribe(v => Skip()).AddTo(gameObject);
+        _okayButton.OnClickAsObservable("Button_Touch").Subscribe(v => _isClickButton = true).AddTo(gameObject);
     }
     private void Init()
     {
+        SoundManager.Instance.PlayBGM("Break_BGM");
         _dragAndRotateCharacter.DragResetAndPause();
         _skipButton.gameObject.SetActive(true);
         ActiveOBJ(false);
@@ -131,6 +137,8 @@ public class BreakAction : MonoBehaviour
     private void End()
     {
         StopAllCoroutines();
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.PlayBGM("Combine_BGM");
         _dragAndRotateCharacter.enabled = true;
         PlayerViewModel.Instance.Reset();
         ActiveOBJ(true);
@@ -148,6 +156,8 @@ public class BreakAction : MonoBehaviour
     {
         StopAllCoroutines();
         DOTween.KillAll();
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.PlayBGM("Combine_BGM");
 
         for (int i = 0; i < character.Count; i++)
         {
@@ -236,8 +246,9 @@ public class BreakAction : MonoBehaviour
         for (int i = 0; i < character.Count; i++)
         {
             _clouds[i].SetActive(true);
-            yield return new WaitForSeconds(0.3f);
-            character[i].transform.DOScale(Vector3.zero, 0.1f);
+            character[i].transform.DOScale(Vector3.zero, 0.05f);
+            SoundManager.Instance.Play("Close_Press");
+            yield return new WaitForSeconds(0.2f);
         }
     }
     #endregion
@@ -245,7 +256,7 @@ public class BreakAction : MonoBehaviour
     #region :::::::::::Texts
     private IEnumerator PrintTextRoutine()
     {
-        while (true)
+        while (_textCount <= _selectedWord.Length)
         {
             PrintFigureText();
             yield return new WaitForSeconds(_textDelay);
@@ -254,10 +265,9 @@ public class BreakAction : MonoBehaviour
     private void PrintFigureText()
     {
         string text = _selectedWord.Substring(0, _textCount);
-
         _breakText.text = text;
 
-        if (_textCount < _selectedWord.Length) _textCount++;
+        if (_textCount <= _selectedWord.Length) _textCount++;
         else _textCount = 1;
     }
     #endregion
@@ -326,6 +336,8 @@ public class BreakAction : MonoBehaviour
         Model_Body _body = body?.GetComponent<Model_Body>();
         Model_Head _head = head?.GetComponent<Model_Head>();
         Model_Deco _deco = deco?.GetComponent<Model_Deco>();
+        _animator = _body?.GetComponent<Animator>();
+        _animator?.SetTrigger("Empty");
 
         List<GameObject> character = new List<GameObject>();
 

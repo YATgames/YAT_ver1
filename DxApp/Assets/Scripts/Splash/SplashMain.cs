@@ -55,7 +55,6 @@ namespace Assets.Scripts.Splash
             _figureLogoLight.gameObject.SetActive(true);
 
             yield return new WaitForSeconds(0.5f);
-
         }
     }
 }

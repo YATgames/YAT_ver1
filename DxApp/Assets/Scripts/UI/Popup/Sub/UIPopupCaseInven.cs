@@ -43,7 +43,8 @@ namespace Assets.Scripts.UI.Popup.Sub
             _playerViewModel.ObserveEveryValueChanged(v => v.Player).Skip(1).Subscribe(p =>
 			{
 				SystemLoading.Hide(this);
-				Hide();
+                SoundManager.Instance.Play("ChangeCharacter_SFX");
+                Hide();
 			}).AddTo(gameObject);
 
 			_onClick.AsObservable().Subscribe(themeID =>

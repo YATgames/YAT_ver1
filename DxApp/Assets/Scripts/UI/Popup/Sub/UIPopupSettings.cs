@@ -7,6 +7,7 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.UI.Popup.Sub
 {
@@ -53,7 +54,7 @@ namespace Assets.Scripts.UI.Popup.Sub
 			//    }
 			//}).AddTo(gameObject);
 
-			_closeButton.OnClickAsObservable().Subscribe(_ => Hide()).AddTo(gameObject);
+			_closeButton.OnClickAsObservable("Button_Click").Subscribe(_ => Hide()).AddTo(gameObject);
 		}
 
 		public override void Show(params object[] data)

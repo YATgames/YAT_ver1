@@ -5,6 +5,7 @@ using Assets.Scripts.UI.Popup.PopupView;
 using UnityEngine;
 using UniRx;
 using UnityEngine.UI;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.UI.Popup.Base
 {
@@ -18,6 +19,8 @@ namespace Assets.Scripts.UI.Popup.Base
 		private ItemManager _itemMnanager;
 		[DependuncyInjection(typeof(PlayerViewModel))]
 		private PlayerViewModel _playerViewModel;
+        [DependuncyInjection(typeof(SoundManager))]
+        private SoundManager _soundManager;
 
         [SerializeField] private Button _homeButton;
 
@@ -30,10 +33,12 @@ namespace Assets.Scripts.UI.Popup.Base
 			_nfcView.ConnectionManager = _connectionManager;
             _nfcView.PlayerViewModel = _playerViewModel;
 
-            _homeButton.OnClickAsObservable().Subscribe(_ => _flowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
+            _homeButton.OnClickAsObservable("Button_Click").Subscribe(_ => _flowManager.Change(PopupStyle.Lobby)).AddTo(gameObject);
 
             _nfcView.SetData(_itemMnanager.Figures);
             _nfcView.SetData(_itemMnanager.Doggabies);
+
+            _soundManager.PlayBGM("Combine_BGM");
         }
 
         public override void Show(params object[] data)
@@ -44,6 +49,7 @@ namespace Assets.Scripts.UI.Popup.Base
         public override void Hide()
         {
             base.Hide();
+            _soundManager.Stop();
         }
     }
 }

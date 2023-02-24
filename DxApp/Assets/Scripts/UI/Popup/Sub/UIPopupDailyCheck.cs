@@ -6,6 +6,7 @@ using Assets.Scripts.Common.Models;
 using DXApp_AppData.Table;
 using UnityEngine.UI;
 using UniRx;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.UI.Popup.Sup
 {
@@ -19,7 +20,7 @@ namespace Assets.Scripts.UI.Popup.Sup
             base.Initialize();
             DependuncyInjection.Inject(this);
 
-            _okayButton.OnClickAsObservable().Subscribe(v => Hide()).AddTo(gameObject);
+            _okayButton.OnClickAsObservable("Button_Touch").Subscribe(v => Hide()).AddTo(gameObject);
         }
 
         

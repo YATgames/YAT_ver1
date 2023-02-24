@@ -1,10 +1,13 @@
 using UnityEngine;
 using DG.Tweening;
 using DXApp_AppData.Enum;
+using Assets.Scripts.Managers;
 
 public class ModelingEffect : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particle;
+    [SerializeField] private ParticleSystem[] _propertyEffects;
+
     public Transform ModelObj { get; set; }
 
     private bool isActive = false;
@@ -46,30 +49,52 @@ public class ModelingEffect : MonoBehaviour
     {
         isActive = active;
 
-        if(!isActive)
+        if (!isActive)
         {
-            _particle.Stop();
-        }
-        else
-        {
-            var main = _particle.main;
-            switch(type)
+            switch (type)
             {
-                case FigureType.Counter:
-                    main.startColor = new Color((float)88 / 255, (float)158 / 255, (float)255 / 255, 1);
-                    break;
                 case FigureType.Strong:
-                    main.startColor = new Color((float)255 / 255, (float)255 / 255, (float)88 / 255, 1);
+                    _propertyEffects[(int)FigureType.Strong].Stop();
                     break;
                 case FigureType.Fast:
-                    main.startColor = new Color((float)255 / 255, (float)88 / 255, (float)88 / 255, 1);
+                    _propertyEffects[(int)FigureType.Fast].Stop();
+                    break;
+                case FigureType.Counter:
+                    _propertyEffects[(int)FigureType.Counter].Stop();
                     break;
                 default:
                     Debug.LogError("FigureType Error! FigureType = " + type);
                     break;
             }
 
-            _particle.Play();
+            SoundManager.Instance.Stop("PropertyEffectSFX");
+        }
+        else
+        {
+            SoundManager.Instance.Stop("PropertyEffectSFX");
+
+            switch (type)
+            {
+                case FigureType.Strong:
+                    _propertyEffects[(int)FigureType.Strong].Play();
+                    _propertyEffects[(int)FigureType.Fast].Stop();
+                    _propertyEffects[(int)FigureType.Counter].Stop();
+                    break;
+                case FigureType.Fast:
+                    _propertyEffects[(int)FigureType.Fast].Play();
+                    _propertyEffects[(int)FigureType.Strong].Stop();
+                    _propertyEffects[(int)FigureType.Counter].Stop();
+                    break;
+                case FigureType.Counter:
+                    _propertyEffects[(int)FigureType.Counter].Play();
+                    _propertyEffects[(int)FigureType.Strong].Stop();
+                    _propertyEffects[(int)FigureType.Fast].Stop();
+                    break;
+                default:
+                    Debug.LogError("FigureType Error! FigureType = " + type);
+                    break;
+            }
+            SoundManager.Instance.Play("PropertyEffect_SFX");
         }
     }
 }

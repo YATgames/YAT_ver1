@@ -1,6 +1,7 @@
 using Assets.Scripts.Common.Models;
 using Assets.Scripts.Managers;
 using Assets.Scripts.UI.Popup.PopupView;
+using Assets.Scripts.Util;
 using DXApp_AppData.Enum;
 using UniRx;
 using UnityEngine;
@@ -61,7 +62,7 @@ namespace Assets.Scripts.UI.Item
 
         private void AddEvent()
         {
-            _writeNickNameButton.OnClickAsObservable().Subscribe(_ =>
+            _writeNickNameButton.OnClickAsObservable("Button_Click").Subscribe(_ =>
             {
                 string title = (_nickNameField.text == string.Empty) ? _nickPlaceholder.text : _nickNameField.text;
                 _askCombineInView.gameObject.SetActive(true);

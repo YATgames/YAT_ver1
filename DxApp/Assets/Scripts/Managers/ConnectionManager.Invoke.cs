@@ -14,7 +14,7 @@ namespace Assets.Scripts.Managers
 {
 	public partial class ConnectionManager
 	{
-		public void CustomLogin(string id)
+		public void CustomLogin(string id, string nickName)
 		{
 			var request = new LoginWithCustomIDRequest();
 			request.TitleId = _titleID;
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Managers
 					Response_CustomLogin(r);
 
 					if (r.InfoResultPayload.AccountInfo.TitleInfo.DisplayName == null)
-						UpdateNickName(id);
+						UpdateNickName(nickName);
 				},
 				e => Error("CustomLogin", e));
 		}

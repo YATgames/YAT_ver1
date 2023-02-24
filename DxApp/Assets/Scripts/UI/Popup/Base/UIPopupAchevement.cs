@@ -17,6 +17,9 @@ namespace Assets.Scripts.UI.Popup.Base
         private ConfigManager _configManager;
         [DependuncyInjection(typeof(ItemManager))]
         private ItemManager _itemManager;
+        [DependuncyInjection(typeof(SoundManager))]
+        private SoundManager _soundManager;
+
 
         [SerializeField] private AchievemnetView _achievemnetView;
 
@@ -29,6 +32,7 @@ namespace Assets.Scripts.UI.Popup.Base
             _achievemnetView.FlowManager = _flowManager;
             _achievemnetView.PlayerViewModel = _playerViewModel;
             _achievemnetView.ItemManager = _itemManager;
+            _achievemnetView.SoundManager = _soundManager;
 
             _achievemnetView.SetData(_configManager.Quests);
 
@@ -36,6 +40,8 @@ namespace Assets.Scripts.UI.Popup.Base
             {
                 _achievemnetView.SetData(_configManager.Quests);
             }).AddTo(gameObject);
+
+            _soundManager.PlayBGM("Achievemnet_BGM");
         }
 
 
@@ -47,6 +53,7 @@ namespace Assets.Scripts.UI.Popup.Base
         public override void Hide()
         {
             base.Hide();
+            _soundManager.Stop();
         }
     }
 }

@@ -43,6 +43,8 @@ namespace Assets.Scripts.UI.Item
                 {
                     if (HasSynergy)
                         OnClickReward.Invoke(_rewardData);
+                    else
+                        SoundManager.Instance.Play("ButtonFail_SFX");
                 }
             }).AddTo(gameObject);
         }

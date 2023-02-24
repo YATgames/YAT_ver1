@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using DG.Tweening;
+using Assets.Scripts.Managers;
 
 namespace Assets.Scripts.UI.Popup.PopupView
 {
@@ -12,8 +12,7 @@ namespace Assets.Scripts.UI.Popup.PopupView
         // [AcionContents-Bathroom-Wastpaper]
         private void Init_Wastpaper()
         {
-            _leftHand = _bathroomImage.transform.GetChild(0).GetComponent<Button>();
-            _rightHand = _bathroomImage.transform.GetChild(1).GetComponent<Button>();
+            ChangeCaseImage(Side.Inside);
             _redTissue = _leftHand.transform.GetChild(0).GetComponent<Image>();
             _blueTissue = _rightHand.transform.GetChild(0).GetComponent<Image>();
 
@@ -29,9 +28,8 @@ namespace Assets.Scripts.UI.Popup.PopupView
 
             _dialogueObject.gameObject.SetActive(true);
             _dialogueObject.gameObject.SetActive(true);
-            _bathroomImage.gameObject.SetActive(true);
+            _shudderEffect_3.gameObject.SetActive(false);
             _blackBG_3.gameObject.SetActive(true);
-            _inputRangeHappyEnd.gameObject.SetActive(true);
             _ghostFullscreen_3.gameObject.SetActive(true);
 
             _dialogueText[0].color = Color.red;
@@ -47,37 +45,40 @@ namespace Assets.Scripts.UI.Popup.PopupView
             _ghostFullscreen_3.color = _alphaNone;
 
             _ghostFullscreen_3.rectTransform.anchoredPosition = new Vector3(0, -Screen.height, -300f);
-            _inputRangeHappyEnd.gameObject.SetActive(false);
-
 
             SetRayCastTarget(false);
 
             _leftHand.onClick.AsObservable().Subscribe(_ => ClickTissue(_redTissue, _blueTissue));
             _rightHand.onClick.AsObservable().Subscribe(_ => ClickTissue(_blueTissue, _redTissue));
 
-            _inputRangeHappyEnd.onClick.AsObservable().Subscribe(_ => HeartClick());
 
-            WastePaperRoutine().ToObservable()
-                .Subscribe(_ => Debug.Log("휴지 시작"));
-            PlayBGM(_s03);
+            StartCoroutine(WastePaperRoutine());
+            //PlayBGM(_s03);
+            SoundManager.Instance.PlayBGM("Bathroom3_BGM");
         }
 
         private IEnumerator WastePaperRoutine()
         {
-            _leftHand.image.DOFade(1f, 1.2f).SetEase(Ease.Linear);
-            _leftHand.image.rectTransform.DOLocalMove(_leftMovePos, 1f).From(_leftZeroPos)
-                .SetEase(Ease.Linear);
-            _redTissue.DOFade(1f, 1f);
-            DialoguePlay(0);
-            PlaySE(_seContents1[1]);
-            yield return new WaitForSeconds(2f);
-            _rightHand.image.DOFade(1f, 1.2f).SetEase(Ease.Linear);
-            _rightHand.image.rectTransform.DOLocalMove(_rightMovePos, 1f).From(_rightZeroPos)
-                .SetEase(Ease.Linear);
-            _blueTissue.DOFade(1f, 1f);
-            DialoguePlay(1);
-            PlaySE(_seContents1[1]);
             yield return new WaitForSeconds(1f);
+            _leftHand.image.DOFade(1f, 1.2f).SetEase(Ease.Linear);
+            //leftHand.image.rectTransform.DOLocalMove(_leftMovePos, 1f).From(_leftZeroPos)
+                //.SetEase(Ease.Linear);
+            _redTissue.DOFade(1f, 1f);
+            yield return new WaitForSeconds(0.2f);
+            DialoguePlay(0);
+            //PlaySE(_seContents1[1]);
+            SoundManager.Instance.Play("Bathroom1E02_SFX");
+            yield return new WaitForSeconds(2.5f);
+
+            _rightHand.image.DOFade(1f, 1.2f).SetEase(Ease.Linear);
+            //_rightHand.image.rectTransform.DOLocalMove(_rightMovePos, 1f).From(_rightZeroPos)
+                //.SetEase(Ease.Linear);
+            _blueTissue.DOFade(1f, 1f);
+            yield return new WaitForSeconds(0.2f);
+            DialoguePlay(1);
+            //PlaySE(_seContents1[1]);
+            SoundManager.Instance.Play("Bathroom1E02_SFX");
+            yield return new WaitForSeconds(1.2f);
             SetRayCastTarget(true);
         }
         private void SetRayCastTarget(bool isActive)
@@ -89,80 +90,85 @@ namespace Assets.Scripts.UI.Popup.PopupView
         {
             SetRayCastTarget(false);
             // 휴지 이동과 동시에 손 사라지기
+            /*
             if (chooseTissue == _blueTissue)
-                _xValue = -_xValue;
+                _xValue = -_xValue;*/
 
-            chooseTissue.rectTransform.DOAnchorPos(new Vector2(_xValue, 100), 1f).SetEase(Ease.Linear)
-             .OnComplete(() =>
-             {
-                 _redTissue.DOFade(0f, 0.5f).SetEase(Ease.Linear);
-                 _blueTissue.DOFade(0f, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
-                 {
-                     _leftHand.image.rectTransform.DOAnchorPos(_leftZeroPos, 1f).SetEase(Ease.Linear);
-                     _leftHand.image.DOFade(0f, 1f).SetEase(Ease.Linear);
-                     _rightHand.image.rectTransform.DOAnchorPos(_rightZeroPos, 1f).SetEase(Ease.Linear);
-                     _rightHand.image.DOFade(0f, 1f).SetEase(Ease.Linear);
-
-                     //int ranNum = 0;
-                     int ranNum = UnityEngine.Random.Range(0, 2);
-                     if (ranNum == 0)
-                         HeartEventRoutine().ToObservable().Subscribe();
-                     else
-                         ScaryEventRoutine().ToObservable().Subscribe();
-                 });
-             });
+            // 팀장님 피드백 - 선택한 휴지 떨리면서 엔딩 진행되게하기
+            chooseTissue.transform.DOShakePosition(3.0f, 8f, 20, 90f, false, false).SetDelay(1f);
+            _leftHand.image.DOFade(0f, 1f).SetEase(Ease.Linear);
+            _rightHand.image.DOFade(0f, 1f).SetEase(Ease.Linear);
+            disChooseTissue.DOFade(0f, 1f).SetEase(Ease.Linear)
+                //_leftHand.image.rectTransform.DOAnchorPos(_leftZeroPos, 1f).SetEase(Ease.Linear);
+                //_rightHand.image.rectTransform.DOAnchorPos(_rightZeroPos, 1f).SetEase(Ease.Linear);
+                .OnComplete(() =>
+                {
+                    int ranNum = UnityEngine.Random.Range(0, 2);
+                    if (ranNum == 0)
+                        HeartEventRoutine(chooseTissue).ToObservable().Subscribe();
+                    else
+                        ScaryEventRoutine(chooseTissue).ToObservable().Subscribe();
+                });    
         }
-        // Event1
-        private IEnumerator HeartEventRoutine()
-        {
-            yield return new WaitForSeconds(1f); // 손 사라지기까지 조금 기다리기
 
+        // Event1
+        private IEnumerator HeartEventRoutine(Image image)
+        {
+            
+            yield return new WaitForSeconds(1f); // 손 사라지기까지 조금 기다리기
+            image.DOFade(0f, 0.4f).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(0.5f);
             _fxFlares.Play();
-            PlaySE(_seContents3[0]);
-            _inputRangeHappyEnd.gameObject.SetActive(true);
+            //PlaySE(_seContents3[0]);
+            SoundManager.Instance.Play("Bathroom3E01_SFX");
             DialoguePlay(2);
 
             _fxLight.SetActive(true);
-            CustomView.ContentsExit(3.5f, 1.5f);
+            SoundManager.Instance.StopBGM();
+            yield return new WaitForSeconds(2f);
+            CustomView.ContentsExit(1f, 1.5f);
+            yield return new WaitForSeconds(1.7f);
+            ChangeCaseImage(Side.Outside);
             yield break;
         }
         
         // Event2
-        private IEnumerator ScaryEventRoutine()
+        private IEnumerator ScaryEventRoutine(Image image)
         {
-            yield return new WaitForSeconds(1f); // 손 사라지기까지 조금 기다리기ㄴ
+            yield return new WaitForSeconds(1f); // 손 사라지기까지 조금 기다리기
+            image.DOFade(0f, 0.4f).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(0.5f);
+
             _blackBG_3.DOFade(1f, 2f).SetEase(Ease.Linear);
-            PlaySE(_seContents3[1]); // 괴물 크아악
+            //PlaySE(_seContents3[1]); // 괴물 크아악
+            SoundManager.Instance.Play("Bathroom3E02_SFX");
             yield return new WaitForSeconds(2f);
-            PlaySE(_seContents1[4]);
+            //PlaySE(_seContents1[4]);
+            SoundManager.Instance.Play("Bathroom1E05_SFX");
             ModelingMotion(Anim.SHUDDER);
+            _fxShudder.Play();
+            _shudderEffect_3.SetActive(true);
+            
             yield return new WaitForSeconds(1.5f);
+            _fxShudder.Stop();
+            _shudderEffect_3.SetActive(false);
             _ghostFullscreen_3.DOFade(1f, 0.1f);
             _ghostFullscreen_3.rectTransform.DOAnchorPosY(0, 0.1f)
                 .OnComplete(() =>
                 {
-                    PlaySE(_seContents1[3]);
+                    //PlaySE(_seContents1[3]);
+                    SoundManager.Instance.Play("Bathroom1E04_SFX");
                     _ghostFullscreen_3.rectTransform.DOScale(1.4f, 0.15f).SetEase(Ease.OutBack);
                     _ghostFullscreen_3.rectTransform.DOShakeAnchorPos(1.2f, 100, 30, 90, false, false);
                 });
 
             yield return new WaitForSeconds(1f);
+            SoundManager.Instance.StopBGM();
             CustomView.ContentsExit(1f, 2f);
+            yield return new WaitForSeconds(2.2f);
+            ChangeCaseImage(Side.Outside);
             yield break;
 
-        }
-        private void HeartClick()
-        {
-            if(_heartTouchCount >= 25)
-            {
-                _inputRangeHappyEnd.image.raycastTarget = false;
-            }
-            else
-            {
-                PlaySE(_seContents2[2]);
-                _fxHeartTouch.Play();
-            }
-            
         }
         #region ### Dialogue
         private void DialoguePlay(int number)

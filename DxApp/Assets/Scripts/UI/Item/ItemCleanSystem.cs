@@ -1,4 +1,5 @@
 using Assets.Scripts.Common.Models;
+using Assets.Scripts.Managers;
 using Assets.Scripts.UI.Util;
 using System;
 using System.Collections;
@@ -7,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.UI.Item
 {
@@ -18,14 +20,18 @@ namespace Assets.Scripts.UI.Item
         [SerializeField] private RectTransform _CleanRange;
 
         [SerializeField] private ParticleSystem _dustParticle;
+        [SerializeField] private ParticleSystem _dustCloudParticle;
         [SerializeField] private ParticleSystem _cleanStarParticle;
 
         [SerializeField] private Vector3 addJustLocalVector = new Vector3(282.4f, 317.4f, 0); // vector3.zero로부터 떨어진 position 값
+
+        [SerializeField] private int _maxCleanCount = 100;
 
         private RectTransform _rectTransform;
 
         private int _cleanCount = 0;
         private bool _cleanComplete = false;
+        private bool _firstTouch = false;
 
         private void Start()
         {
@@ -33,9 +39,14 @@ namespace Assets.Scripts.UI.Item
             if (_offObj) _offObj.SetActive(true);
             if (_onObj) _onObj.SetActive(false);
         }
-
+        
         public void OnDrag(PointerEventData eventData)
         {
+            if(!_firstTouch)
+            {
+                SoundManager.Instance.Play("Button_Touch");
+                _firstTouch = true;
+            }
             if (_cleanComplete) return;
 
             if (_offObj) _offObj.SetActive(false);
@@ -54,15 +65,23 @@ namespace Assets.Scripts.UI.Item
              || (boxResult.y > cleanRange.y * 0.5f))
             {
                 _dustParticle.Stop();
+                _dustCloudParticle.Stop();
                 return;
             };
 
             _cleanCount++;
             _dustParticle.Play();
+            _dustCloudParticle.Play();
+            if (!_timeCheck)
+            {
+                Debug.Log("먼지털이중");
+                _timeCheck = true;
+                SoundManager.Instance.Play("FastSwipe_SFX");
+            }
             IEnumerator timeCheck = TimeCheckRoutine(_cleanCount);
             StartCoroutine(timeCheck);
 
-            if (_cleanCount >= 300)
+            if (_cleanCount >= _maxCleanCount)
             {
                 _cleanComplete = true;
                 _cleanCount = 0;
@@ -70,15 +89,14 @@ namespace Assets.Scripts.UI.Item
                 IEnumerator cleanComplete = CleanCompleteRoutine();
                 StartCoroutine(cleanComplete);
             }
-
-            Debug.Log("먼지털이 실행");
-            Debug.Log(_cleanCount);
         }
 
+        private bool _timeCheck = false;
         private IEnumerator TimeCheckRoutine(int cleanCount)
         {
             yield return new WaitForSecondsRealtime(0.2f);
-            if(cleanCount == _cleanCount) _dustParticle.Stop();
+            if(cleanCount%10 == 0) _timeCheck = false;
+            if (cleanCount == _cleanCount) _dustParticle.Stop();
         }
 
         private void AddjustPos()
@@ -93,6 +111,7 @@ namespace Assets.Scripts.UI.Item
             if (_offObj) _offObj.SetActive(true);
             if (_onObj) _onObj.SetActive(false);
 
+            _firstTouch = false;
             _cleanCount = 0;
             _rectTransform.localPosition = Vector3.zero;
         }
@@ -100,7 +119,7 @@ namespace Assets.Scripts.UI.Item
         private IEnumerator CleanCompleteRoutine()
         {
             yield return new WaitForSeconds(0.5f);
-
+            SoundManager.Instance.Play("ClearSwipe_SFX");
             _cleanStarParticle.Play();
             yield return new WaitForSeconds(1f);
             _cleanComplete = false;

@@ -26,19 +26,25 @@ namespace Assets.Scripts.UI.Item
         [SerializeField] private Button _button;
         [SerializeField] private GameObject _empty;
         [SerializeField] private Transform _testFigureParent;
-        [SerializeField] private Animator _animator;
-        //[SerializeField] private GameObject _img; // testFigureText상위객체
-        //[SerializeField] private Text _testFigureText;
+        private Animator _animator;
 
         public PlayerViewModel PlayerViewModel { get; set; }
         public OnEventTrigger<int> OnClick { get; set; }
         public ResourcesManager _ResourcesManager { get; set; }
+
+        private CaseInfo _data;
         private void Start()
         {
+            if(_animator != null)
+                RandomModelMotion();
+
             Observable.Interval(TimeSpan.FromSeconds(_intervalTime)).Where(v => _testFigureParent.gameObject.activeSelf == true).Subscribe(_ =>
             {
-                LogManager.Log("메인 화면에서 일정 주기로 피규어가 액션을 취함 ::: Interval Time {0}초 ::: {1} 케이스", _intervalTime.ToString(".##"), _caseNumber);
-
+                if(_animator != null)
+                {
+                    //LogManager.Log("메인 화면에서 일정 주기로 피규어가 액션을 취함 ::: Interval Time {0}초 ::: {1} 케이스", _intervalTime.ToString(".##"), _caseNumber);
+                    RandomModelMotion();
+                }
             }).AddTo(gameObject);
             _button.OnClickAsObservable().Subscribe(_ => OnClick?.Invoke(_caseNumber)).AddTo(gameObject);
         }
@@ -55,11 +61,15 @@ namespace Assets.Scripts.UI.Item
                 _button.image.sprite = ResourcesManager.GetTheme(data.ThemeID);
                 _empty.SetActive(false);
             }
+            _data = data;
         }
 
         public void SetEmpty()
         {
             _testFigureParent.gameObject.SetActive(false);
+
+            if (string.IsNullOrEmpty(_data.ThemeID))
+                _empty.SetActive(true);
             //_img.SetActive(false);
         }
 
@@ -68,6 +78,7 @@ namespace Assets.Scripts.UI.Item
             _testFigureParent.gameObject.SetActive(true);
             //_testFigureText.text = string.Format("CustomFigure \n\n ID : {0} \n\n InstanceID : {1}", data.ID, data.InstanceID);
 
+            _empty.SetActive(false);
             ResetModels();
             LoadModeling(data);
         }
@@ -76,65 +87,13 @@ namespace Assets.Scripts.UI.Item
         {
             _testFigureParent.gameObject.SetActive(true);
             //_testFigureText.text = string.Format("OriginFigure \n\n ID : {0} \n\n InstanceID : {1}", data.ID, data.InstanceID);
+            _empty.SetActive(false);
             ResetModels();
             LoadModeling(data);
         }
 
 
-        #region ###FigureAnimation
-        // body에 있는 애니메이터 할당하는 방법 찾아야함.
-        enum Anim
-        {
-            IDLE,
-            COLLAPSE,
-            DANCE,
-            ELATED,
-            FIRE,
-            JUMPTURN,
-            LIEFLAT,
-            LOWJUMP,
-            PANIC,
-            SHUDDER,
-            STARTLING,
-            WALK
-        }
-        /// <summary>
-        /// 모델링 애니메이션
-        /// </summary>
-        /// <param name="anim"> 재생할 애니메이션 및 모션 </param>
-        private void ModelingMotion(Anim anim)
-        {
-            switch (anim)
-            {
-                case Anim.IDLE:
-                    _animator.SetTrigger("Idle"); break;
-                case Anim.COLLAPSE:
-                    _animator.SetTrigger("Collapse"); break;
-                case Anim.DANCE:
-                    _animator.SetTrigger("Dance"); break;
-                case Anim.ELATED:
-                    _animator.SetTrigger("Elated"); break;
-                case Anim.FIRE:
-                    _animator.SetTrigger("Fire"); break;
-                case Anim.JUMPTURN:
-                    _animator.SetTrigger("JumpTurn"); break;
-                case Anim.LIEFLAT:
-                    _animator.SetTrigger("LieFlat"); break;
-                case Anim.LOWJUMP:
-                    _animator.SetTrigger("LowJump"); break;
-                case Anim.PANIC:
-                    _animator.SetTrigger("Panic"); break;
-                case Anim.SHUDDER:
-                    _animator.SetTrigger("Shudder"); break;
-                case Anim.STARTLING:
-                    _animator.SetTrigger("Startling"); break;
-                case Anim.WALK:
-                    _animator.SetTrigger("Walk"); break;
-                default:
-                    Debug.LogError("<color=red> 없는 애니메이션 입니다.에니메이터를 확인해주세요</color>"); break;
-            }
-        }
-        #endregion
+
         private void ResetModels()
         {
             for (int i = 0; i < ItemManager.Instance.PartsList.Count; i++)
@@ -172,7 +131,8 @@ namespace Assets.Scripts.UI.Item
             Model_Body _body = body?.GetComponent<Model_Body>();
             Model_Head _head = head?.GetComponent<Model_Head>();
             Model_Deco _deco = deco?.GetComponent<Model_Deco>();
-
+            _animator = _body.GetComponent<Animator>();
+            _body.BoxCollider.enabled = false;
             try
             {
                 _body.transform.localPosition = Vector3.zero;
@@ -224,7 +184,8 @@ namespace Assets.Scripts.UI.Item
             Model_Body _body = body?.GetComponent<Model_Body>();
             Model_Head _head = head?.GetComponent<Model_Head>();
             Model_Deco _deco = deco?.GetComponent<Model_Deco>();
-
+            _animator = _body.GetComponent<Animator>();
+            _body.BoxCollider.enabled = false;
             try
             {
                 _body.transform.localPosition = Vector3.zero;
@@ -251,5 +212,54 @@ namespace Assets.Scripts.UI.Item
 
             }
         }
+        #region ###FigureAnimation
+
+        void RandomModelMotion()
+        {
+            int num = UnityEngine.Random.Range(0, System.Enum.GetValues(typeof(Anim)).Length);
+            switch (num)
+            {
+                case 0:
+                    ModelingMotion(Anim.IDLE);
+                    break;
+                case 1:
+                    ModelingMotion(Anim.IDLE1);
+                    break;
+                case 2:
+                    ModelingMotion(Anim.IDLE2);
+                    break;
+                case 3:
+                    ModelingMotion(Anim.IDLE3);
+                    break;
+                default:
+                    ModelingMotion(Anim.IDLE);
+                    break;
+            }
+        }
+        private enum Anim
+        {
+            IDLE,
+            IDLE1,
+            IDLE2,
+            IDLE3,
+        }
+        private void ModelingMotion(Anim anim)
+        {
+            switch (anim)
+            {
+                case Anim.IDLE:
+                    _animator.SetTrigger("Idle"); break;
+                case Anim.IDLE1:
+                    _animator.SetTrigger("Idle1"); break;
+                case Anim.IDLE2:
+                    _animator.SetTrigger("Idle2"); break;
+                case Anim.IDLE3:
+                    _animator.SetTrigger("Idle3"); break;
+                default:
+                    Debug.LogError("<color=red> 없는 애니메이션 입니다.에니메이터를 확인해주세요</color>"); break;
+            }
+        }
+        #endregion
+
     }
 }

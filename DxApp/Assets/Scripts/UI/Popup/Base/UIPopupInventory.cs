@@ -19,6 +19,8 @@ namespace Assets.Scripts.UI.Popup.Base
         private PlayerViewModel _playerViewModel;
         [DependuncyInjection(typeof(ConnectionManager))]
         private ConnectionManager _connectionManager;
+        [DependuncyInjection(typeof(SoundManager))]
+        private SoundManager _soundManager;
 
         [SerializeField] private InventoryView _inventoryView;
 
@@ -31,11 +33,14 @@ namespace Assets.Scripts.UI.Popup.Base
             _inventoryView.ResourcesManager = _resourceManager;
             _inventoryView.PlayerViewModel = _playerViewModel;
             _inventoryView.ConnectionManager = _connectionManager;
+            _inventoryView.SoundManager = _soundManager;
 
             _playerViewModel.UpdateItem.
                 AsObservable().
                 Subscribe(_ => _inventoryView.SetData()).
                 AddTo(gameObject);
+
+            _soundManager.PlayBGM("Combine_BGM");
         }
 
         public override void Show(params object[] data)
@@ -66,6 +71,7 @@ namespace Assets.Scripts.UI.Popup.Base
         {
             base.Hide();
             _playerViewModel.Reset();
+            _soundManager.Stop();
         }
 
         private void FindFavoriteFigure()
